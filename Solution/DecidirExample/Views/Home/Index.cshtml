@@ -1,0 +1,509 @@
+﻿
+@{
+    ViewBag.Title = "Decidir 2";
+}
+
+<div class="container">
+    <div class="panel-group">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Decidir v2</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row col-sm-12 col-md-12 col-lg-12">
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Ambiente</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <select class="form-control valid" id="AmbienteId" name="AmbienteId">
+                                <option value="0"> Developers</option>
+                                <option value="1"> Production</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Private Api Key</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="privateApiKey" name="privateApiKey" value="92b71cf711ca41f78362a7134f87ff65" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Public Api Key</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="publicApiKey" name="publicApiKey" value="e9cdb99fff374b5f91da4480c8dca741" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel-group">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Pago</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row col-sm-12 col-md-12 col-lg-12">
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Token de Tarjeta</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="token" name="token" value="" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Site Transaction Id:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="site_transaction_id" name="site_transaction_id" value="" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Método de Pago:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="payment_method_id" name="payment_method_id" value="1" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">BIN:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="bin" name="bin" value="450799" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Monto:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="amount" name="amount" value="2000" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Moneda:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="currency" name="currency" value="ARS" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Cuotas:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="installments" name="installments" value="1" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Descripcion:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="description" name="description" value="" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Tipo de Pago:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="payment_type" name="payment_type" value="single" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;"></label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="button" id="executePayment" name="executePayment" value="Ejecutar Pago" onclick="javascript: executePayment();" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Respuesta:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <textarea class="form-control" rows="8" id="RespuestaPago" name="RespuestaPago"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel-group">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Información de un Pago</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row col-sm-12 col-md-12 col-lg-12">
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Id Pago:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="paymentIdGetInfo" name="paymentIdGetInfo" value="" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;"></label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="button" id="executeGetPaymentInfo" name="executeGetPaymentInfo" value="Obtener Información del pago" onclick="javascript: executeGetPaymentInfo();" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Información del pago:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <textarea class="form-control" rows="8" id="RespuestaGetPaymentInfo" name="RespuestaGetPaymentInfo"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel-group">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Devoluciones Totales</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Id Pago:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="paymentId" name="paymentId" value="" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;"></label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="button" id="executeRefund" name="executeRefund" value="Ejecutar Devolucion Total" onclick="javascript: executeRefund();" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Id devolucion:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="refundId" name="refundId" value="" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;"></label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="button" id="executeCancelRefund" name="executeCancelRefund" value="Cancelar Devolucion Total" onclick="javascript: executeCancelRefund();" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Respuesta Devolucion Total:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <textarea class="form-control" rows="8" id="RespuestaDevolucionTotal" name="RespuestaDevolucionTotal"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Respuesta Cancelar Devolucion Total:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <textarea class="form-control" rows="8" id="RespuestaCancelarDevolucionTotal" name="RespuestaCancelarDevolucionTotal"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel-group">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Devoluciones Parciales</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Id Pago:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="paymentIdParcial" name="paymentIdParcial" value="" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Monto:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="montoPartialRefund" name="montoPartialRefund" value="20.50" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;"></label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="button" id="executePartialRefund" name="executePartialRefund" value="Ejecutar Devolucion Parcial" onclick="javascript: executePartialRefund();" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Id devolucion:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="refundIdParcial" name="refundIdParcial" value="" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;"></label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="button" id="executeCancelPartialRefund" name="executeCancelPartialRefund" value="Cancelar Devolucion Parcial" onclick="javascript: executeCancelPartialRefund();" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Respuesta Devolucion Parcial:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <textarea class="form-control" rows="8" id="RespuestaDevolucionParcial" name="RespuestaDevolucionParcial"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Respuesta Cancelar Devolucion Parcial:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <textarea class="form-control" rows="8" id="RespuestaCancelarDevolucionParcial" name="RespuestaCancelarDevolucionParcial"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="@Url.Content("~/Scripts/app.js")"></script>
+
+    <script>
+        function executePayment() {
+
+            var payment = '{"site_transaction_id": ' + $('#site_transaction_id').val() + ' ';
+            payment = payment + ', "AmbienteId": ' + $('#AmbienteId').val() + ' ';
+            payment = payment + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
+            payment = payment + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
+            payment = payment + ', "payment_method_id": ' + $('#payment_method_id').val() + ' ';
+            payment = payment + ', "token": "' + $('#token').val() + '"';
+            payment = payment + ', "bin": "' + $('#bin').val() + '"';
+            payment = payment + ', "amount": ' + $('#amount').val() + ' ';
+            payment = payment + ', "currency": "' + $('#currency').val() + '"';
+            payment = payment + ', "installments": ' + $('#installments').val() + '';
+            payment = payment + ', "description": "' + $('#description').val() + '"';
+            payment = payment + ', "payment_type": "' + $('#payment_type').val() + '"}';
+
+            $.ajax({
+                url: '@Url.Action("Payment", "Home")',
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: payment,
+                success: function (responseData, status, xhttp) {
+                    $("#paymentId").val(responseData.id);
+                    $("#paymentIdParcial").val(responseData.id);
+                    $("#paymentIdGetInfo").val(responseData.id);
+                },
+                error: function (responseData, status, xhttp) {
+
+                },
+                complete: function (responseDataDecidir, status, xhttp) {
+                    $("#RespuestaPago").val(JSON.stringify(responseDataDecidir));
+                }
+            });
+
+        }
+
+        function executeRefund() {
+            var refund = '{ "ambienteId": ' + $('#AmbienteId').val();
+            refund = refund + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
+            refund = refund + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
+            refund = refund + ', "paymentId": ' + $('#paymentId').val() + '}';
+
+            $.ajax({
+                url: '@Url.Action("Refund", "Home")',
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: refund,
+                success: function (responseData, status, xhttp) {
+                    $("#refundId").val(responseData.id);
+                },
+                error: function (responseData, status, xhttp) {
+
+                },
+                complete: function (responseDataDecidir, status, xhttp) {
+                    $("#RespuestaDevolucionTotal").val(JSON.stringify(responseDataDecidir));
+                }
+            });
+        }
+
+        function executeCancelRefund() {
+            var deleteRefund = '{ "ambienteId": ' + $('#AmbienteId').val();
+            deleteRefund = deleteRefund + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
+            deleteRefund = deleteRefund + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
+            deleteRefund = deleteRefund + ', "paymentId": ' + $('#paymentId').val();
+            deleteRefund = deleteRefund + ', "refundId": ' + $('#refundId').val() + '}';
+
+            $.ajax({
+                url: '@Url.Action("DeleteRefund", "Home")',
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: deleteRefund,
+                success: function (responseData, status, xhttp) {
+                },
+                error: function (responseData, status, xhttp) {
+
+                },
+                complete: function (responseDataDecidir, status, xhttp) {
+                    $("#RespuestaCancelarDevolucionTotal").val(JSON.stringify(responseDataDecidir));
+                }
+            });
+        }
+
+        function executePartialRefund() {
+            var refund = '{ "ambienteId": ' + $('#AmbienteId').val();
+            refund = refund + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
+            refund = refund + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
+            refund = refund + ', "paymentId": ' + $('#paymentIdParcial').val();
+            refund = refund + ', "amount": ' + $('#montoPartialRefund').val() + '}';
+
+            $.ajax({
+                url: '@Url.Action("PartialRefund", "Home")',
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: refund,
+                success: function (responseData, status, xhttp) {
+                    $("#refundIdParcial").val(responseData.id);
+                },
+                error: function (responseData, status, xhttp) {
+
+                },
+                complete: function (responseDataDecidir, status, xhttp) {
+                    $("#RespuestaDevolucionParcial").val(JSON.stringify(responseDataDecidir));
+                }
+            });
+        }
+
+        function executeCancelPartialRefund() {
+            var deleteRefund = '{ "ambienteId": ' + $('#AmbienteId').val();
+            deleteRefund = deleteRefund + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
+            deleteRefund = deleteRefund + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
+            deleteRefund = deleteRefund + ', "paymentId": ' + $('#paymentIdParcial').val();
+            deleteRefund = deleteRefund + ', "refundId": ' + $('#refundIdParcial').val() + '}';
+
+            $.ajax({
+                url: '@Url.Action("DeletePartialRefund", "Home")',
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: deleteRefund,
+                success: function (responseData, status, xhttp) {
+                },
+                error: function (responseData, status, xhttp) {
+
+                },
+                complete: function (responseDataDecidir, status, xhttp) {
+                    $("#RespuestaCancelarDevolucionParcial").val(JSON.stringify(responseDataDecidir));
+                }
+            });
+        }
+
+        function executeGetPaymentInfo() {
+            var deleteRefund = '{ "ambienteId": ' + $('#AmbienteId').val();
+            deleteRefund = deleteRefund + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
+            deleteRefund = deleteRefund + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
+            deleteRefund = deleteRefund + ', "paymentId": ' + $('#paymentIdGetInfo').val() + '}';
+
+            $.ajax({
+                url: '@Url.Action("GetPaymentInfo", "Home")',
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: deleteRefund,
+                success: function (responseData, status, xhttp) {
+                },
+                error: function (responseData, status, xhttp) {
+
+                },
+                complete: function (responseDataDecidir, status, xhttp) {
+                    $("#RespuestaGetPaymentInfo").val(JSON.stringify(responseDataDecidir));
+                }
+            });
+        }
+
+    </script>
+}

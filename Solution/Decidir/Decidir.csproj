@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{208EA1C5-2305-440F-A4A2-B35C93AAE417}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Decidir</RootNamespace>
+    <AssemblyName>Decidir</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net35\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Clients\RestClient.cs" />
+    <Compile Include="Clients\RestResponse.cs" />
+    <Compile Include="Constants\Ambiente.cs" />
+    <Compile Include="DecidirConnector.cs" />
+    <Compile Include="Exceptions\ResponseException.cs" />
+    <Compile Include="Model\CyberSource\Address.cs" />
+    <Compile Include="Model\CyberSource\DigitalGoodsFraudDetection.cs" />
+    <Compile Include="Model\CyberSource\DigitalGoodsTransactionData.cs" />
+    <Compile Include="Model\CyberSource\RetailFraudDetection.cs" />
+    <Compile Include="Model\CyberSource\CSItem.cs" />
+    <Compile Include="Model\CyberSource\RetailTransactionData.cs" />
+    <Compile Include="Model\CyberSource\TicketingFraudDetection.cs" />
+    <Compile Include="Model\CyberSource\TicketingTransactionData.cs" />
+    <Compile Include="Model\DeleteRefundResponse.cs" />
+    <Compile Include="Model\CyberSource\Csmdds.cs" />
+    <Compile Include="Model\CyberSource\Customer.cs" />
+    <Compile Include="Model\CyberSource\FraudDetection.cs" />
+    <Compile Include="Model\GetAllCardTokensResponse.cs" />
+    <Compile Include="Model\GetAllPaymentsResponse.cs" />
+    <Compile Include="Model\HealthCheckResponse.cs" />
+    <Compile Include="Model\PartialRefund.cs" />
+    <Compile Include="Model\Payment.cs" />
+    <Compile Include="Model\PaymentResponse.cs" />
+    <Compile Include="Model\CyberSource\PurchaseTotals.cs" />
+    <Compile Include="Model\RefundResponse.cs" />
+    <Compile Include="Model\Token.cs" />
+    <Compile Include="Model\TokenFraudDetection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CardTokens.cs" />
+    <Compile Include="Services\HealthCheck.cs" />
+    <Compile Include="Services\Payments.cs" />
+    <Compile Include="Services\Service.cs" />
+    <Compile Include="Services\UserSite.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
