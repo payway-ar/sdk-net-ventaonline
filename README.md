@@ -700,7 +700,6 @@ resultPaymentResponse = decidir.Payment(payment);
 | MEDIO DE PAGO | NOMBRE |
 ----------------|--------
 | 1 | VISA |
-| 6 | AMEX<sup>2</sup> |
 | 8 | DINERS |
 | 15 | MASTERCARD |
 | 20 | MASTERCARD TEST |
