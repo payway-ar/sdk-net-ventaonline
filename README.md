@@ -4,11 +4,13 @@ Decidir SDK .Net
 
 Modulo para conexión con gateway de pago DECIDIR2
 
+  + [Introducción](#introduccion)
+	+ [Alcance](#alcance)
+	+ [Diagrama de secuencia](#secuencia)
   + [Instalación](#instalacion)
     + [Versiones de .Net soportadas](#versionesdenetsoportadas)
-  + [Manual de Integración](#manualintegracion)
-  + [Diagrama de secuencia](#secuencia)
-  + [Ambientes](#test)
+	+ [Manual de Integración](#manualintegracion)
+	+ [Ambientes](#test)
   + [Uso](#uso)
     + [Inicializar la clase correspondiente al conector](#initconector)
     + [Operatoria del Gateway](#operatoria)
@@ -35,7 +37,53 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Divisas Aceptadas](#divisasa)
     + [Provincias](#provincias)
   
-  
+<a name="introduccion"></a>
+
+## Introducción
+El flujo de una transacción a través de las **sdks** consta de dos pasos, la **generaci&oacute;n de un token de pago** por parte del cliente y el **procesamiento de pago** por parte del comercio. Existen sdks espec&iacute;ficas para realizar estas funciones en distintos lenguajes que se detallan a continuaci&oacute;n:
+
++ **Generaci&oacute;n de un token de pago.**  Se utiliza alguna de las siguentes **sdks front-end** :
+  + [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
+  + [sdk Android](https://github.com/decidir/SDK-Android.v2)
+  + [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
++ **Procesamiento de pago.**  Se utiliza alguna de las siguentes **sdks back-end** :
+  + [sdk Java](https://github.com/decidir/SDK-JAVA.v2)
+  + [sdk PHP](https://github.com/decidir/SDK-PHP.v2)
+  + [sdk .Net](https://github.com/decidir/SDK-.NET.v2)
+  + [sdk Node](https://github.com/decidir/SDK-.NODE.v2)
+
+[<sub>Volver a inicio</sub>](#inicio)
+
+<a name="alcance"></a>
+
+### Alcance
+La **sdk Net** provee soporte para su **aplicaci&oacute;n back-end**, encargandose de la comunicaci&oacute;n del comercio con la **API Decidir** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
+
+Para generar el token de pago, la aplicaci&oacute;n cliente realizar&aacute; con **Decidir** a trav&eacute;s de alguna de las siguentes **sdks front-end**:
++ [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
++ [sdk Android](https://github.com/decidir/SDK-Android.v2)
++ [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
+
+![imagen de sdks](./docs/img/DiagramaSDKs.png)</br>
+
+[<sub>Volver a inicio</sub>](#inicio)
+
+<a name="secuencia"></a>
+
+### Diagrama de secuencia
+
+El flujo de una transacción a través de las sdks consta de dos pasos, a saber:
+
+sdk front-end: Se realiza una solicitud de token de pago con la Llave de Acceso pública (public API Key), enviando los datos sensibles de la tarjeta (PAN, mes y año de expiración, código de seguridad, titular, y tipo y número de documento) y obteniéndose como resultado un token que permitirá realizar la transacción posterior.
+
+sdk back-end: Se ejecuta el pago con la Llave de Acceso privada (private API Key), enviando el token generado en el Paso 1 más el identificador de la transacción a nivel comercio, el monto total, la moneda y la cantidad de cuotas.
+
+A continuación, se presenta un diagrama con el Flujo de un Pago.
+
+![imagen de configuracion](./docs/img/FlujoPago.png)</br>
+
+[<sub>Volver a inicio</sub>](#inicio)
+
 <a name="instalacion"></a>
 ## Instalación
 Se debe descargar la última versión del SDK desde el botón Download ZIP del branch master.
@@ -56,23 +104,15 @@ La versi&oacute;n implementada de la SDK, esta testeada para versiones desde .ne
 
 <a name="manualintegracion"></a>
 
-## Manual de Integración
+### Manual de Integración
 
-Se encuentra disponible en Gitbook el **[Manual de Integración Decidir2] (https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios usando la presente SDK.
-
-[<sub>Volver a inicio</sub>](#inicio)
-
-<a name="secuencia"></a>
-
-## Diagrama de secuencia
-
-![imagen de configuracion](https://www.planttext.com/plantuml/img/NP7DJiCm48JlUOfLkAI7149HIN90gaWE4H9K_5shnTuWqyIkrWvIUNhiYhQX5zixdfM_MQDmXk7D4iC5aupsf_GEX1c8XJ8LC66lVX16ZK7TCaQ7os3i30zZZnoimqZMCKuqa0HR_3JHHF9DDGab5LTWJQ-4SgCCHcSsf26Hw8pTryXVv70M_TdFdrEoYhjEYB8iYhJiFcxJ6vddQIclV5ai5cKf5uMydiUGl3uzD8-pCufJniFzDDYHyNABku6qix1YzOsEOBbgOKCxiChHsWVM5eLJHgy3qNlxieIwyKkMGNmEcMNnDCu9mVlo-JnfwyF8mbutzstTFly72rzK-KxTAHxGY_euvIZw1G00)</br>
+Se encuentra disponible la documentación **[Manual de Integración Decidir2](https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios utilizando la presente SDK.
 
 [<sub>Volver a inicio</sub>](#inicio)
 
 <a name="test"></a>
 
-## Ambientes
+### Ambientes
 
 El SDK-Net permite trabajar con los ambientes de desarrollo y de producción de Decidir.
 El ambiente se debe instanciar como se indica a continuación.
