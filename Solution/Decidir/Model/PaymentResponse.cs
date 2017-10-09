@@ -17,15 +17,17 @@ namespace Decidir.Model
         public string payment_type { get; set; }
         public List<PaymentResponse> sub_payments { get; set; }
         public string status { get; set; }
-        public string status_details { get; set; }
+        public StatusDetails status_details { get; set; }
         public string date { get; set; }
         public string merchant_id { get; set; }
         public Dictionary<string, string> fraud_detection { get; set; }
+        public int statusCode { get; set; }
 
         public PaymentResponse()
         {
             this.sub_payments = new List<PaymentResponse>();
             this.fraud_detection = new Dictionary<string, string>();
+            this.status_details = new StatusDetails();
         }
     }
 }

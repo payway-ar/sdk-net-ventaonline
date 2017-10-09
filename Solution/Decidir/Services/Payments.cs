@@ -39,13 +39,16 @@ namespace Decidir.Services
 
             RestResponse result = this.restClient.Post("payments", Payment.toJson(paymentCopy));
 
-            if (result.StatusCode == STATUS_CREATED && !String.IsNullOrEmpty(result.Response))
+            if (!String.IsNullOrEmpty(result.Response))
             {
                 response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
             }
-            else
+
+            response.statusCode = result.StatusCode;
+
+            if (result.StatusCode != STATUS_CREATED)
             {
-                throw new ResponseException(result.StatusCode + " - " + result.Response);
+                throw new PaymentResponseException(result.StatusCode.ToString(), response);
             }
 
             return response;

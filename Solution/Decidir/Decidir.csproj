@@ -53,6 +53,7 @@
     <Compile Include="Clients\RestResponse.cs" />
     <Compile Include="Constants\Ambiente.cs" />
     <Compile Include="DecidirConnector.cs" />
+    <Compile Include="Exceptions\PaymentResponseException.cs" />
     <Compile Include="Exceptions\ResponseException.cs" />
     <Compile Include="Model\CyberSource\Address.cs" />
     <Compile Include="Model\CyberSource\DigitalGoodsFraudDetection.cs" />
@@ -74,6 +75,9 @@
     <Compile Include="Model\PaymentResponse.cs" />
     <Compile Include="Model\CyberSource\PurchaseTotals.cs" />
     <Compile Include="Model\RefundResponse.cs" />
+    <Compile Include="Model\StatusDetails.cs" />
+    <Compile Include="Model\StatusErrorDetails.cs" />
+    <Compile Include="Model\StatusErrorReason.cs" />
     <Compile Include="Model\Token.cs" />
     <Compile Include="Model\TokenFraudDetection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

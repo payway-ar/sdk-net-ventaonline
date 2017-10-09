@@ -7,11 +7,11 @@ namespace Decidir
     public class DecidirConnector
     {
         #region Constants
-        public const string versionDecidir = "1.0.0";
+        public const string versionDecidir = "1.1.0";
         
-        private const string endPointSandbox = "https://developers.decidir.com/api/v1/";
+        private const string endPointSandbox = "https://developers.decidir.com/api/v2/";
 
-        private const string endPointProduction = "https://live.decidir.com/api/v1/";
+        private const string endPointProduction = "https://live.decidir.com/api/v2/";
         #endregion
 
         private string privateApiKey;

@@ -6,6 +6,7 @@ Modulo para conexión con gateway de pago DECIDIR2
 
   + [Introducción](#introduccion)
 	+ [Alcance](#alcance)
+	+ [Pasos para realizar un pago al nuevo formulario](#Pasos)
 	+ [Diagrama de secuencia](#secuencia)
   + [Instalación](#instalacion)
     + [Versiones de .Net soportadas](#versionesdenetsoportadas)
@@ -58,6 +59,75 @@ El flujo de una transacción a través de las **sdks** consta de dos pasos, la *
 
 ### Alcance
 La **sdk Net** provee soporte para su **aplicaci&oacute;n back-end**, encargandose de la comunicaci&oacute;n del comercio con la **API Decidir** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
+
+![imagen de sdks](./docs/img/FormularioIturan.png)</br>
+
+<a name="Pasos"></a>
+
+### Pasos para realizar un pago al nuevo formulario:
+
+
+- El comercio que se integre, debe realizar un [POST] al endpoint de Forms /validate
+
+En el header debe enviarse la apikey pci.
+El body de dicho post contendrá lo siguiente:
+```JSON#
+{
+"site": {
+    "id": "00123123",                                          
+    "transaction_id": "0000001111"                    
+},
+  "customer": {     
+    "id": "test",                                                    
+    "email" : "cliente@email.com"
+  },
+"payment": {
+   "amount": 99999,
+   "currency": "ARS",
+   "payment_type": "distributed",
+   "sub_payments" : [
+    {
+        "site_id": "00111116",
+          "amount": 60000,           
+          "installments": 3             
+      },
+      {
+        "site_id": "00111117",
+          "amount": 39999,             
+          "installments": 3            
+      }
+   ]
+},
+  "success_url": "http://www.ituran.com.ar/home",
+  "cancel_url": "http://www.ituran.com.ar/pagos"
+}
+```
+
+- CAMPO ID (SITE): Dato no requerido.En caso de que ingrese con un site (que viene en la apikey), y quiera realizar un pago con otro site.
+- CAMPO TRANSACTION_ID (SITE): Numero de operación.
+- CAMPO ID (CUSTOMER): Nombre de usuario registrado en el sitio, dato para obtener tokes de tarjetas.
+- CAMPO EMAIL (CUSTOMER): Email donde se enviará información del pago.
+- CAMPO AMOUNT (PAYMENT): Es el monto, el mismo viaja como Long.
+- CAMPO CURRENCY (PAYMENT): Tipo de moneda.
+- CAMPO PAYMENT_TYPE (PAYMENT): Si el pago es simple "single" en cambio si es distribuida como en en ejemplo "distributed".
+- CAMPO SUB_PAYMENTS (PAYMENT): Para el caso de un pago simple el mismo debe ir de la siguiente manera: "sub_payments" : [  ]
+- CAMPO SUCCESS_URL: Url donde rediccionara una vez realizado el pago con exito.
+- CAMPO CANCEL_URL: Url donde rediccionara si el cliente quiere cancelar el formulario.
+
+
+El resto de la información que no se encuentra en dicho Post, sea los medio de pago o cuotas habilitadas para dicho sitio, se encuentran en el template.
+
+El resultado del validate contendrá un hash de la información enviada. Ejemplo:
+{
+    "hash": "generatedHash"
+}
+
+- Con el hash obtenido, el browser tendrá que ser redirigido con un [GET] al recurso /form?hash={generatedHash} mostrando el template renderizado para hacer el pago.
+
+- El usuario pondrá optar por una tarjeta tokenizada o ingresará los datos de una nueva. Una vez completado el formulario, al seleccionar pagar, este hará un [POST] al enpoint /payments de Forms.
+Forms intentará realizar un pago. En caso de que sea satisfactorio, este redirigirá a la página seteada en el campo "success_url" (paso 1), caso contrario renderizará el template de error.
+
+
 
 Para generar el token de pago, la aplicaci&oacute;n cliente realizar&aacute; con **Decidir** a trav&eacute;s de alguna de las siguentes **sdks front-end**:
 + [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
