@@ -23,10 +23,16 @@ namespace Decidir.Model
         public Dictionary<string, string> fraud_detection { get; set; }
         public int statusCode { get; set; }
 
+        public string establishment_name { get; set; }
+        public string site_id { get; set; }
+        public string pan { get; set; }
+        public Dictionary<string, string> aggregate_data { get; set; }
+
         public PaymentResponse()
         {
             this.sub_payments = new List<PaymentResponse>();
             this.fraud_detection = new Dictionary<string, string>();
+            this.aggregate_data = new Dictionary<string, string>();
             this.status_details = new StatusDetails();
         }
     }

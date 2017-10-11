@@ -55,6 +55,8 @@
     <Compile Include="DecidirConnector.cs" />
     <Compile Include="Exceptions\PaymentResponseException.cs" />
     <Compile Include="Exceptions\ResponseException.cs" />
+    <Compile Include="Model\CapturePaymentResponse.cs" />
+    <Compile Include="Model\ConfirmedCapturePayment.cs" />
     <Compile Include="Model\CyberSource\Address.cs" />
     <Compile Include="Model\CyberSource\DigitalGoodsFraudDetection.cs" />
     <Compile Include="Model\CyberSource\DigitalGoodsTransactionData.cs" />

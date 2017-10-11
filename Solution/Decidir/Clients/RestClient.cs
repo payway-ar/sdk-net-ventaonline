@@ -53,11 +53,11 @@ namespace Decidir.Clients
         {
             this.contentType = contentType;
         }
-        
+
         public RestResponse Get(string url, string data)
         {
             string uri = endpoint + url + data;
-            
+
             var httpWebRequest = Initialize(uri, METHOD_GET);
 
             return DoRequest(httpWebRequest);
@@ -83,7 +83,7 @@ namespace Decidir.Clients
 
             return DoRequest(httpWebRequest);
         }
-        
+
         public RestResponse Delete(string url)
         {
             string uri = endpoint + url;
@@ -93,11 +93,23 @@ namespace Decidir.Clients
             return DoRequest(httpWebRequest);
         }
 
-        public RestResponse Put(string url)
+        public RestResponse Put(string url, string data = null)
         {
             string uri = endpoint + url;
 
             var httpWebRequest = Initialize(uri, METHOD_PUT);
+
+            if (!string.IsNullOrEmpty(data))
+            {
+                var encoding = new UTF8Encoding();
+                var bytes = Encoding.GetEncoding("iso-8859-1").GetBytes(data);
+                httpWebRequest.ContentLength = bytes.Length;
+
+                using (var writeStream = httpWebRequest.GetRequestStream())
+                {
+                    writeStream.Write(bytes, 0, bytes.Length);
+                }
+            }
 
             return DoRequest(httpWebRequest);
         }
@@ -130,7 +142,8 @@ namespace Decidir.Clients
                 {
                     result.StatusCode = ((int)response.StatusCode);
 
-                    if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created)
+                    if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created
+                        && response.StatusCode != HttpStatusCode.NoContent)
                     {
                         var message = String.Format("Request failed. Received HTTP {0}", response.StatusCode);
                         result.Response = message;
@@ -180,7 +193,7 @@ namespace Decidir.Clients
 
             return result;
         }
-        
+
         protected void SetHeaders(HttpWebRequest httpWebRequest)
         {
             if (this.headers != null && this.headers.Count > 0)

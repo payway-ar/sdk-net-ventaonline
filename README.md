@@ -17,6 +17,7 @@ Modulo para conexión con gateway de pago DECIDIR2
     + [Operatoria del Gateway](#operatoria)
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
+      + [Captura del Pago](#capture)
       + [Listado de Pagos](#getallpayments)
       + [Información de un Pago](#getpaymentinfo)
       + [Anulación / Devolución Total de Pago](#refund)
@@ -272,6 +273,34 @@ payment.payment_type = "single";
 try
 {
     PaymentResponse resultPaymentResponse = decidir.Payment(payment);
+}
+catch (ResponseException)
+{
+}
+```
+
+[<sub>Volver a inicio</sub>](#inicio)
+
+<a name="capture"></a>
+
+### Captura del Pago
+Para el caso de la operatoria de transacción en dos pasos, la captura o confirmación del pago puede realizarse de la siguiente manera.
+
+*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos.
+
+```C#
+string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
+string publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+
+//Para el ambiente de desarrollo
+DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
+
+Payment payment = new Payment();
+
+payment.amount = 2000; 
+
+try {
+    PaymentResponse resultPaymentResponse = decidir.CapturePayment(payment);
 }
 catch (ResponseException)
 {

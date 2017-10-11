@@ -54,6 +54,27 @@ namespace Decidir.Services
             return response;
         }
 
+        public CapturePaymentResponse CapturePayment(long paymentId, double amount)
+        {
+            int amountCapture = Convert.ToInt32(amount * 100);
+            CapturePaymentResponse response = null;
+            RestResponse result = this.restClient.Put(String.Format("payments/{0}", paymentId.ToString()), "{\"amount\": " + amountCapture.ToString() + " }");
+
+            if (result.StatusCode != STATUS_NOCONTENT && result.StatusCode != STATUS_OK)
+            {
+                throw new ResponseException(result.StatusCode + " - " + result.Response);
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(result.Response))
+                {
+                    response = JsonConvert.DeserializeObject<CapturePaymentResponse>(result.Response);
+                }
+            }
+            
+            return response;
+        }
+
         public GetAllPaymentsResponse GetAllPayments(long? offset = null, long? pageSize = null, string siteOperationId = null, string merchantId = null)
         {
             GetAllPaymentsResponse payments = null;
@@ -71,7 +92,7 @@ namespace Decidir.Services
 
             return payments;
         }
-        
+
         public PaymentResponse GetPaymentInfo(long paymentId)
         {
             PaymentResponse payment = null;
@@ -136,7 +157,7 @@ namespace Decidir.Services
             {
                 throw new ResponseException("500 - " + ex.Message);
             }
-            
+
 
             RestResponse result = this.restClient.Post(String.Format("payments/{0}/refunds", paymentId.ToString()), Model.PartialRefund.toJson(partialRefund));
 
