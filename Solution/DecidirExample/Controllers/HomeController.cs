@@ -90,7 +90,8 @@ namespace DecidirExample.Controllers
             pago.payment_type = payment.payment_type;
             pago.site_transaction_id = payment.site_transaction_id;
             pago.token = payment.token;
-            pago.user_id = payment.user_id;
+            pago.customer.email = payment.email;
+            pago.customer.id = payment.user_id;
 
             return pago;
         }

@@ -472,7 +472,7 @@ Al cargar el formulario de pago este mostrara las tarjetas tokenizadas que posee
 
 ### Ejecución de pago tokenizado
 
-Una vez que se obtiene el token a partir de la tarjeta tokenizada, se deberá ejecutar la solicitud de pago. Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el "site_transaction_id" y "user_id".
+Una vez que se obtiene el token a partir de la tarjeta tokenizada, se deberá ejecutar la solicitud de pago. Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el "site_transaction_id" y el objeto "customer".
 
 ```C#
 string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
@@ -486,7 +486,8 @@ PaymentResponse resultPaymentResponse = new PaymentResponse();
 Payment payment = new Payment();
 
 payment.site_transaction_id = "12042017_20";
-payment.user_id = "useridprueba";
+payment.customer.email = "useridprueba@mail.com";
+payment.customer.id = "12345678";
 payment.payment_method_id = 1;
 payment.token = "be211413-757b-487e-bb0c-283d21c0fb6f";
 payment.bin = "450799";

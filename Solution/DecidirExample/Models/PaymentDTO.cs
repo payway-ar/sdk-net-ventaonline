@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace DecidirExample.Models
 {
@@ -14,6 +11,7 @@ namespace DecidirExample.Models
 
         public string site_transaction_id { get; set; }
         public string token { get; set; }
+        public string email { get; set; }
         public string user_id { get; set; }
         public int payment_method_id { get; set; }
         public string bin { get; set; }
