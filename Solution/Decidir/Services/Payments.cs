@@ -31,6 +31,10 @@ namespace Decidir.Services
             try
             {
                 paymentCopy.amount = Convert.ToInt64(payment.amount * 100);
+
+                foreach(object o in paymentCopy.sub_payments)
+                    ((SubPayment)o).amount = Convert.ToInt64(((SubPayment)o).amount * 100);
+
             }
             catch (Exception ex)
             {

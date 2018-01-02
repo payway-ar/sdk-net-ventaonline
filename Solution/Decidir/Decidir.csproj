@@ -81,6 +81,8 @@
     <Compile Include="Model\StatusDetails.cs" />
     <Compile Include="Model\StatusErrorDetails.cs" />
     <Compile Include="Model\StatusErrorReason.cs" />
+    <Compile Include="Model\SubPayment.cs" />
+    <Compile Include="Model\SubPaymentResponse.cs" />
     <Compile Include="Model\Token.cs" />
     <Compile Include="Model\TokenFraudDetection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

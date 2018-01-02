@@ -8,14 +8,14 @@ namespace Decidir.Model
         public string site_transaction_id { get; set; }
         public string token { get; set; }
         public string user_id { get; set; }
-        public string payment_method_id { get; set; }
+        public int? payment_method_id { get; set; }
         public string bin { get; set; }
         public int amount { get; set; }
         public string currency { get; set; }
-        public int installments { get; set; }
+        public int? installments { get; set; }
         public string description { get; set; }
         public string payment_type { get; set; }
-        public List<PaymentResponse> sub_payments { get; set; }
+        public List<SubPaymentResponse> sub_payments { get; set; }
         public string status { get; set; }
         public StatusDetails status_details { get; set; }
         public string date { get; set; }
@@ -28,9 +28,17 @@ namespace Decidir.Model
         public string pan { get; set; }
         public Dictionary<string, string> aggregate_data { get; set; }
 
+        public CustomerData customer { get; set; }
+        public string card_brand { get; set; }
+        public string first_installment_expiration_date { get; set; }
+
+        public string spv { get; set; }
+        public string confirmed { get; set; }
+        public string card_data { get; set; }
+
         public PaymentResponse()
         {
-            this.sub_payments = new List<PaymentResponse>();
+            this.sub_payments = new List<SubPaymentResponse>();
             this.fraud_detection = new Dictionary<string, string>();
             this.aggregate_data = new Dictionary<string, string>();
             this.status_details = new StatusDetails();
