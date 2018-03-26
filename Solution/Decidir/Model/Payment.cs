@@ -18,11 +18,13 @@ namespace Decidir.Model
         public string payment_type { get; set; }
         public List<object> sub_payments { get; set; }
         public FraudDetection fraud_detection { get; set; }
+        public string site_id { get; set; }
 
         public Payment()
         {
             this.sub_payments = new List<object>();
             this.customer = new CustomerData();
+            this.site_id = null;
         }
 
         public static string toJson(Payment payment)
@@ -45,6 +47,7 @@ namespace Decidir.Model
             payment.description = this.description;
             payment.payment_type = this.payment_type;
             payment.fraud_detection = this.fraud_detection;
+            payment.site_id = this.site_id;
 
             foreach (object o in this.sub_payments)
                 payment.sub_payments.Add(o);

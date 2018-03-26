@@ -23,39 +23,18 @@ namespace Decidir.Services
             this.restClient = new RestClient(this.endpoint, headers, CONTENT_TYPE_APP_JSON);
         }
 
+        public PaymentResponse ExecutePayment(OfflinePayment payment)
+        {
+            Payment paymentCopy = payment.copyOffline();
+
+            return DoPayment(paymentCopy);
+        }
+
         public PaymentResponse ExecutePayment(Payment payment)
         {
-            PaymentResponse response = null;
             Payment paymentCopy = payment.copy();
 
-            try
-            {
-                paymentCopy.amount = Convert.ToInt64(payment.amount * 100);
-
-                foreach(object o in paymentCopy.sub_payments)
-                    ((SubPayment)o).amount = Convert.ToInt64(((SubPayment)o).amount * 100);
-
-            }
-            catch (Exception ex)
-            {
-                throw new ResponseException("500 - " + ex.Message);
-            }
-
-            RestResponse result = this.restClient.Post("payments", Payment.toJson(paymentCopy));
-
-            if (!String.IsNullOrEmpty(result.Response))
-            {
-                response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
-            }
-
-            response.statusCode = result.StatusCode;
-
-            if (result.StatusCode != STATUS_CREATED)
-            {
-                throw new PaymentResponseException(result.StatusCode.ToString(), response);
-            }
-
-            return response;
+            return DoPayment(paymentCopy);
         }
 
         public CapturePaymentResponse CapturePayment(long paymentId, double amount)
@@ -66,7 +45,10 @@ namespace Decidir.Services
 
             if (result.StatusCode != STATUS_NOCONTENT && result.StatusCode != STATUS_OK)
             {
-                throw new ResponseException(result.StatusCode + " - " + result.Response);
+                if (isErrorResponse(result.StatusCode))
+                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new ResponseException(result.StatusCode + " - " + result.Response);
             }
             else
             {
@@ -75,7 +57,7 @@ namespace Decidir.Services
                     response = JsonConvert.DeserializeObject<CapturePaymentResponse>(result.Response);
                 }
             }
-            
+
             return response;
         }
 
@@ -91,7 +73,10 @@ namespace Decidir.Services
             }
             else
             {
-                throw new ResponseException(result.StatusCode + " - " + result.Response);
+                if (isErrorResponse(result.StatusCode))
+                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new ResponseException(result.StatusCode + " - " + result.Response);
             }
 
             return payments;
@@ -100,15 +85,21 @@ namespace Decidir.Services
         public PaymentResponse GetPaymentInfo(long paymentId)
         {
             PaymentResponse payment = null;
-            RestResponse result = this.restClient.Get("payments", String.Format("/{0}", paymentId.ToString()));
+
+            string parameter = String.Format("/{0}", paymentId.ToString());
+
+            RestResponse result = this.restClient.Get("payments", String.Format("/{0}?expand=card_data", paymentId.ToString()));
 
             if (result.StatusCode == STATUS_OK && !String.IsNullOrEmpty(result.Response))
             {
-                payment = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
+                payment = JsonConvert.DeserializeObject<PaymentResponseExtend>(result.Response);
             }
             else
             {
-                throw new ResponseException(result.StatusCode + " - " + result.Response);
+                if (isErrorResponse(result.StatusCode))
+                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new ResponseException(result.StatusCode + " - " + result.Response);
             }
 
             return payment;
@@ -125,7 +116,10 @@ namespace Decidir.Services
             }
             else
             {
-                throw new ResponseException(result.StatusCode + " - " + result.Response);
+                if (isErrorResponse(result.StatusCode))
+                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new ResponseException(result.StatusCode + " - " + result.Response);
             }
 
             return refund;
@@ -142,7 +136,10 @@ namespace Decidir.Services
             }
             else
             {
-                throw new ResponseException(result.StatusCode + " - " + result.Response);
+                if (isErrorResponse(result.StatusCode))
+                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new ResponseException(result.StatusCode + " - " + result.Response);
             }
 
             return refund;
@@ -159,7 +156,7 @@ namespace Decidir.Services
             }
             catch (Exception ex)
             {
-                throw new ResponseException("500 - " + ex.Message);
+                throw new ResponseException(ex.Message);
             }
 
 
@@ -171,7 +168,10 @@ namespace Decidir.Services
             }
             else
             {
-                throw new ResponseException(result.StatusCode + " - " + result.Response);
+                if (isErrorResponse(result.StatusCode))
+                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new ResponseException(result.StatusCode + " - " + result.Response);
             }
 
             return refund;
@@ -180,6 +180,43 @@ namespace Decidir.Services
         public DeleteRefundResponse DeletePartialRefund(long paymentId, long refundId)
         {
             return DeleteRefund(paymentId, refundId);
+        }
+
+        protected PaymentResponse DoPayment(Payment paymentCopy)
+        {
+            PaymentResponse response = null;
+
+            try
+            {
+                paymentCopy.amount = Convert.ToInt64(paymentCopy.amount * 100);
+
+                foreach (object o in paymentCopy.sub_payments)
+                    ((SubPayment)o).amount = Convert.ToInt64(((SubPayment)o).amount * 100);
+
+            }
+            catch (Exception ex)
+            {
+                throw new ResponseException(ex.Message);
+            }
+
+            RestResponse result = this.restClient.Post("payments", Payment.toJson(paymentCopy));
+
+            if (!String.IsNullOrEmpty(result.Response))
+            {
+                response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
+            }
+
+            response.statusCode = result.StatusCode;
+
+            if (result.StatusCode != STATUS_CREATED)
+            {
+                if (isErrorResponse(result.StatusCode))
+                    throw new PaymentResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new PaymentResponseException(result.StatusCode + " - " + result.Response, response);
+            }
+
+            return response;
         }
 
         private string GetAllPaymentsQuery(long? offset, long? pageSize, string siteOperationId, string merchantId)

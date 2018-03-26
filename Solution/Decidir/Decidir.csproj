@@ -56,6 +56,9 @@
     <Compile Include="Exceptions\PaymentResponseException.cs" />
     <Compile Include="Exceptions\ResponseException.cs" />
     <Compile Include="Model\CapturePaymentResponse.cs" />
+    <Compile Include="Model\CardDataPayment.cs" />
+    <Compile Include="Model\CardHolder.cs" />
+    <Compile Include="Model\CardHolderIdentification.cs" />
     <Compile Include="Model\ConfirmedCapturePayment.cs" />
     <Compile Include="Model\CustomerData.cs" />
     <Compile Include="Model\CyberSource\Address.cs" />
@@ -70,9 +73,12 @@
     <Compile Include="Model\CyberSource\Csmdds.cs" />
     <Compile Include="Model\CyberSource\Customer.cs" />
     <Compile Include="Model\CyberSource\FraudDetection.cs" />
+    <Compile Include="Model\ErrorResponse.cs" />
+    <Compile Include="Model\ErrorValidationResponse.cs" />
     <Compile Include="Model\GetAllCardTokensResponse.cs" />
     <Compile Include="Model\GetAllPaymentsResponse.cs" />
     <Compile Include="Model\HealthCheckResponse.cs" />
+    <Compile Include="Model\OfflinePayment.cs" />
     <Compile Include="Model\PartialRefund.cs" />
     <Compile Include="Model\Payment.cs" />
     <Compile Include="Model\PaymentResponse.cs" />

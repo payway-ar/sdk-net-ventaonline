@@ -3,6 +3,7 @@ using Decidir.Model;
 using Decidir.Exceptions;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Decidir.Services
 {
@@ -24,7 +25,10 @@ namespace Decidir.Services
             }
             else
             {
-                throw new ResponseException(result.StatusCode + " - " + result.Response);
+                if (isErrorResponse(result.StatusCode))
+                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new ResponseException(result.StatusCode + " - " + result.Response);
             }
              
             return response;

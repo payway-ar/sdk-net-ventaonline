@@ -7,7 +7,7 @@ namespace Decidir
     public class DecidirConnector
     {
         #region Constants
-        public const string versionDecidir = "1.2.1";
+        public const string versionDecidir = "1.3.0";
         
         private const string endPointSandbox = "https://developers.decidir.com/api/v2/";
 
@@ -51,6 +51,11 @@ namespace Decidir
         }
         
         public PaymentResponse Payment(Payment payment)
+        {
+            return this.paymentService.ExecutePayment(payment);
+        }
+
+        public PaymentResponse Payment(OfflinePayment payment)
         {
             return this.paymentService.ExecutePayment(payment);
         }

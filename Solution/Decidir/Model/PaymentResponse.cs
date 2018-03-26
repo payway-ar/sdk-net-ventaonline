@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Decidir.Model
 {
@@ -44,4 +45,11 @@ namespace Decidir.Model
             this.status_details = new StatusDetails();
         }
     }
+
+    public class PaymentResponseExtend : PaymentResponse
+    {
+        [JsonProperty(PropertyName = "card_data")]
+        public CardDataPayment cardData { get; set; }
+    }
+
 }

@@ -17,6 +17,7 @@ Modulo para conexión con gateway de pago DECIDIR2
     + [Operatoria del Gateway](#operatoria)
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
+      + [Ejecución del Pago Offline](#offlinepayment)
       + [Listado de Pagos](#getallpayments)
       + [Información de un Pago](#getpaymentinfo)
       + [Anulación / Devolución Total de Pago](#refund)
@@ -268,6 +269,49 @@ payment.currency = "ARS";
 payment.installments = 1;
 payment.description = "";
 payment.payment_type = "single";
+
+try
+{
+    PaymentResponse resultPaymentResponse = decidir.Payment(payment);
+}
+catch (ResponseException)
+{
+}
+```
+
+[<sub>Volver a inicio</sub>](#inicio)
+
+<a name="offlinepayment"></a>
+
+### Ejecución del Pago Offline
+Una vez generado y almacenado el token de pago, se deberá ejecutar la solicitud de pago más el token previamente generado.
+Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el site_transaction_id.
+
+*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos.
+
+```C#
+string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
+string publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+
+//Para el ambiente de desarrollo
+DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
+
+Payment payment = new Payment();
+
+payment.site_transaction_id = "[ID DE LA TRANSACCIÓN]";
+payment.payment_method_id = 1;
+payment.token = "[TOKEN DE PAGO]";
+payment.amount = 2000;
+payment.currency = "ARS";
+payment.payment_type = "single";
+payment.email = "prueba@prueba.com";
+payment.invoice_expiration = "191123";
+payment.cod_p3 = "1";
+payment.cod_p4 = "134";
+payment.client = "12345678";
+payment.payment_mode = "offline";
+payment.second_invoice_expiration = "191223";
+payment.surcharge = 1001;
 
 try
 {

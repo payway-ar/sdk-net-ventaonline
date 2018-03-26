@@ -18,5 +18,16 @@ namespace Decidir.Services
         {
             this.endpoint = endpoint;
         }
+
+        protected bool isErrorResponse(int statusCode)
+        {
+            if (statusCode == 402)
+                return false;
+            else
+                if (statusCode >= 400 && statusCode < 500)
+                    return true;
+                else
+                    return false;
+        }
     }
 }

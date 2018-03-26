@@ -1,5 +1,7 @@
 ﻿using Decidir.Clients;
 using Decidir.Exceptions;
+using Decidir.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -31,7 +33,10 @@ namespace Decidir.Services
             }
             else
             {
-                throw new ResponseException(result.StatusCode + " - " + result.Response);
+                if (isErrorResponse(result.StatusCode))
+                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new ResponseException(result.StatusCode + " - " + result.Response);
             }
 
             return deleted;
