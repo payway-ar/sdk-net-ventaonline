@@ -181,13 +181,13 @@ namespace Decidir.Clients
                 }
                 else
                 {
-                    result.StatusCode = 0;
+                    result.StatusCode = 500;
                     result.Response = ex.Message;
                 }
             }
             catch (Exception ex)
             {
-                result.StatusCode = 0;
+                result.StatusCode = 500;
                 result.Response = ex.Message;
             }
 

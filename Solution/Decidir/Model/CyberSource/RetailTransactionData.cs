@@ -6,7 +6,6 @@ namespace Decidir.Model.CyberSource
     {
         public Address ship_to { get; set; }
         public string days_to_delivery { get; set; }
-        public string dispatch_method { get; set; }
         public bool tax_voucher_required { get; set; }
         public string customer_loyality_number { get; set; }
         public string coupon_code { get; set; }

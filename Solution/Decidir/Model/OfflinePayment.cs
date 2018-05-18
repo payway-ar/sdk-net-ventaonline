@@ -1,4 +1,7 @@
-﻿namespace Decidir.Model
+﻿using Decidir.Exceptions;
+using System;
+
+namespace Decidir.Model
 {
     public class OfflinePayment : Payment
     {
@@ -7,9 +10,10 @@
         public string cod_p3 { get; set; }
         public string cod_p4 { get; set; }
         public string client { get; set; }
-        public int surcharge { get; set; }
+        public double? surcharge { get; set; }
         public string second_invoice_expiration { get; set; }
         public string payment_mode { get; set; }
+        public int? bank_id { get; set; }
 
         public OfflinePayment() : base()
         {
@@ -41,11 +45,31 @@
             payment.payment_mode = this.payment_mode;
             payment.second_invoice_expiration = this.second_invoice_expiration;
             payment.surcharge = this.surcharge;
+            payment.bank_id = this.bank_id;
 
             foreach (object o in this.sub_payments)
                 payment.sub_payments.Add(o);
 
             return payment;
+        }
+
+        public override void ConvertDecidirAmounts()
+        {
+            try
+            {
+                this.amount = Convert.ToInt64(this.amount * 100);
+
+                if (this.surcharge != null)
+                    this.surcharge = Convert.ToInt64((this.surcharge) * 100);
+
+                foreach (object o in this.sub_payments)
+                    ((SubPayment)o).amount = Convert.ToInt64(((SubPayment)o).amount * 100);
+
+            }
+            catch (Exception ex)
+            {
+                throw new ResponseException(ex.Message);
+            }
         }
     }
 }

@@ -186,18 +186,7 @@ namespace Decidir.Services
         {
             PaymentResponse response = null;
 
-            try
-            {
-                paymentCopy.amount = Convert.ToInt64(paymentCopy.amount * 100);
-
-                foreach (object o in paymentCopy.sub_payments)
-                    ((SubPayment)o).amount = Convert.ToInt64(((SubPayment)o).amount * 100);
-
-            }
-            catch (Exception ex)
-            {
-                throw new ResponseException(ex.Message);
-            }
+            paymentCopy.ConvertDecidirAmounts();
 
             RestResponse result = this.restClient.Post("payments", Payment.toJson(paymentCopy));
 

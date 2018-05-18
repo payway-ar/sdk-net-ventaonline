@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using Decidir.Model.CyberSource;
+using System;
+using Decidir.Exceptions;
 
 namespace Decidir.Model
 {
@@ -29,7 +31,10 @@ namespace Decidir.Model
 
         public static string toJson(Payment payment)
         {
-            return JsonConvert.SerializeObject(payment, Newtonsoft.Json.Formatting.None);
+            return JsonConvert.SerializeObject(payment, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
         }
 
         internal Payment copy()
@@ -53,6 +58,22 @@ namespace Decidir.Model
                 payment.sub_payments.Add(o);
 
             return payment;
+        }
+
+        public virtual void ConvertDecidirAmounts()
+        {
+            try
+            {
+                this.amount = Convert.ToInt64(this.amount * 100);
+
+                foreach (object o in this.sub_payments)
+                    ((SubPayment)o).amount = Convert.ToInt64(((SubPayment)o).amount * 100);
+
+            }
+            catch (Exception ex)
+            {
+                throw new ResponseException(ex.Message);
+            }
         }
     }
 }
