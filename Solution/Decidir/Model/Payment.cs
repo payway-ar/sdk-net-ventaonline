@@ -21,6 +21,7 @@ namespace Decidir.Model
         public List<object> sub_payments { get; set; }
         public FraudDetection fraud_detection { get; set; }
         public string site_id { get; set; }
+        public AggregateDataPayment aggregate_data { get; set; }
 
         public Payment()
         {
@@ -53,6 +54,7 @@ namespace Decidir.Model
             payment.payment_type = this.payment_type;
             payment.fraud_detection = this.fraud_detection;
             payment.site_id = this.site_id;
+            payment.aggregate_data = this.aggregate_data;
 
             foreach (object o in this.sub_payments)
                 payment.sub_payments.Add(o);

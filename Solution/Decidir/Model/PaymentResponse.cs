@@ -37,6 +37,8 @@ namespace Decidir.Model
         public string confirmed { get; set; }
         public string card_data { get; set; }
 
+        public string customer_token { get; set; }
+
         public PaymentResponse()
         {
             this.sub_payments = new List<SubPaymentResponse>();
