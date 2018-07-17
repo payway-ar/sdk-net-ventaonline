@@ -283,9 +283,22 @@ catch (ResponseException)
 
 <a name="offlinepayment"></a>
 
-### Ejecución del Pago Offline
+
+
 Una vez generado y almacenado el token de pago, se deberá ejecutar la solicitud de pago más el token previamente generado.
 Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el site_transaction_id.
+
+### Ejecución del Pago Offline
+
+
+#### Secuencia de Rapipago y Pagofacil
+
+![imagen de sdks](./docs/img/me-rapipago-pagofacil.jpg)</br>
+
+#### Secuencia de Pago mis cuentas
+
+![imagen de sdks](./docs/img/me-pmc.jpg)</br>
+
 
 *Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos.
 
@@ -296,17 +309,17 @@ string publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
 //Para el ambiente de desarrollo
 DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
 
-Payment payment = new Payment();
+OfflinePayment payment = new OfflinePayment();
 
 payment.site_transaction_id = "[ID DE LA TRANSACCIÓN]";
-payment.payment_method_id = 1;
+payment.payment_method_id = 48;
 payment.token = "[TOKEN DE PAGO]";
 payment.amount = 2000;
 payment.currency = "ARS";
 payment.payment_type = "single";
 payment.email = "prueba@prueba.com";
 payment.invoice_expiration = "191123";
-payment.cod_p3 = "1";
+payment.cod_p3 = "01";
 payment.cod_p4 = "134";
 payment.client = "12345678";
 payment.payment_mode = "offline";
