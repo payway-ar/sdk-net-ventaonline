@@ -21,7 +21,8 @@ namespace Decidir.Model
         public StatusDetails status_details { get; set; }
         public string date { get; set; }
         public string merchant_id { get; set; }
-        public Dictionary<string, string> fraud_detection { get; set; }
+        public Dictionary<string, object> fraud_detection { get; set; }
+        public int statusCode { get; set; }	
         public int statusCode { get; set; }
 
         public string establishment_name { get; set; }
