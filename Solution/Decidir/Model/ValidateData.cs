@@ -11,6 +11,7 @@ namespace Decidir.Model
         public ValidateCustomer customer { get; set; }
         public ValidatePayment payment { get; set; }
         public string success_url { get; set; }
+        public string redirect_url { get; set; }
         public string cancel_url { get; set; }
         public FraudDetection fraud_detection { get; set; }
         public static string toJson(ValidateData validateData)

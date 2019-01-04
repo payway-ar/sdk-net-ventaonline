@@ -346,13 +346,14 @@ catch (ResponseException)
 
 <a name="getvalidateform"></a>
 
-Este servicio se utiliza para pagar en dos pasos. Funciona a partir del servicio /validate enviando los datos de pago y devolviendo un hash que luego este se utilizara al llamar a /forms enviandolo como parametro la respuesta sera un formulario renderizado.
+Este servicio permite integrar en el comercio un formulario de pago. Utiliza el recurso "validate" para obtener un hash a partir de los datos de la operacion, luego este hash sera utilizado al momento de llamar al recurso "form" el cual devolvera el formulario renderizado propio para cada comercio listo para ser utilizado y completar el flujo de pago.
 
+![Caso2](docs/img/validate_caso2.png)</br>
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site.id  | Merchant  | Condicional | Numérico de 20 digitos   | id: "12365436"  |
-|site.template.id  | Id de formulario de pago  | SI | Numérico de 20 digitos  |   |
+|site.template.id  | Id de formulario de pago, el id es unico para cada comercio y es generado previamente por Decidir | SI | Numérico de 20 digitos  |   |
 |site.transaction_id  | Numero de operación  | SI | Alfanumérico  de 40 digitos |   |
 |customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
 |customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
@@ -368,10 +369,23 @@ pago es distribuido por monto, ya que si es por porcentaje toma los configurados
 |cancel_url  | Url donde se rediccionará si el cliente quiere cancelar el formulario  | SI | NA |   |
 |redirect_url  | Url en la cual se enviaran los datos de la operación una vez finalizada la misma para que el comercio pueda capturarlos y mostrarlos como lo desee  | Es requerido en los casos donde no informe el campo "success_url" | NA |   |
 
+
 ```C#
 
 //Para esta funcion es necesario enviar junto al public y private key el "form_key".
-    Customer.email = "user@mail.com";
+ /****************  VALIDATE *******************/
+    ValidateCustomer validateCustomer = new ValidateCustomer();
+    validateCustomer.email = "user@mail.com";
+    validateCustomer.id = "user@mail.com";
+    SiteInfo site = new SiteInfo();
+    TemplateValidate template =new TemplateValidate();
+    template.id = 5;
+    site.transaction_id = "1";
+    site.template = template;
+
+
+    ValidateData validateData = new ValidateData();
+    validateData.site = site;
     validateData.customer = validateCustomer;
 
     ValidatePayment validatePayment = new ValidatePayment();
@@ -387,10 +401,11 @@ pago es distribuido por monto, ya que si es por porcentaje toma los configurados
 
 
     validateData.success_url = "https://shop.swatch.com/es_ar/";
+    validateData.redirect_url = null;  // si success_url esta vacio redirect_url es requerido
     validateData.cancel_url = "https://swatch.com/api/result";
     // En este ejemplo se utiliza el vertical Travel el cual debe ser completado con sus respectivos campos 
     TravelFraudDetection travel = new TravelFraudDetection();
-    validateData.fraud_detection = travel;
+    validateData.fraud_detection = retail; 
 
     String privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
     String publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
@@ -405,11 +420,24 @@ pago es distribuido por monto, ya que si es por porcentaje toma los configurados
 
 ```
 
+#### Respuesta servicio validate
 
+```C#
+
+{
+"statusCode":201,
+"hash":"a1652d02-ba6e-427e-833f-b686efeed29f"
+}
+
+```
+
+#### Formulario renderizado
+
+Al obtener el hash se puede generar el formulario a partir de la url: *https://api.decidir.com/web/form?hash=46711cd8-81f8-4228-96cc-ac3e90c75622*.
+
+![Formulario de pago](docs/img/form_renderizado.jpg)</br>
 
 [<sub>Volver a inicio</sub>](#inicio)
-
-
 
 
 
