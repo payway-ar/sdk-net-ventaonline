@@ -20,6 +20,7 @@ namespace DecidirExample.Models
         public long installments { get; set; }
         public string description { get; set; }
         public string payment_type { get; set; }
+        public string establishment_name { get; set; }
         public List<object> sub_payments { get; set; }
 
         public PaymentDTO()

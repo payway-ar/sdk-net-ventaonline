@@ -16,16 +16,15 @@ namespace Decidir.Model
         public int? installments { get; set; }
         public string description { get; set; }
         public string payment_type { get; set; }
+        public string establishment_name { get; set; }
         public List<SubPaymentResponse> sub_payments { get; set; }
         public string status { get; set; }
         public StatusDetails status_details { get; set; }
         public string date { get; set; }
         public string merchant_id { get; set; }
         public Dictionary<string, object> fraud_detection { get; set; }
-        public int statusCode { get; set; }	
         public int statusCode { get; set; }
 
-        public string establishment_name { get; set; }
         public string site_id { get; set; }
         public string pan { get; set; }
         public Dictionary<string, string> aggregate_data { get; set; }
@@ -43,7 +42,7 @@ namespace Decidir.Model
         public PaymentResponse()
         {
             this.sub_payments = new List<SubPaymentResponse>();
-            this.fraud_detection = new Dictionary<string, string>();
+            this.fraud_detection = new Dictionary<string, object>();
             this.aggregate_data = new Dictionary<string, string>();
             this.status_details = new StatusDetails();
         }

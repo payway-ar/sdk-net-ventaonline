@@ -18,6 +18,7 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
       + [Ejecución del Pago Offline](#offlinepayment)
+      + [Formulario de Pago](#getvalidateform)
       + [Listado de Pagos](#getallpayments)
       + [Información de un Pago](#getpaymentinfo)
       + [Anulación / Devolución Total de Pago](#refund)
@@ -33,7 +34,9 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Parámetros Comunes](#parametros-comunes)
       + [Retail](#retail)
       + [Ticketing](#ticketing)
-      + [Digital Goods](#digital-goods)  
+      + [Digital Goods](#digital-goods)
+      + [Services](#services)  
+      + [Travel](#travel)
   + [Tablas de referencia](#tablasreferencia)
     + [Códigos de Medios de Pago](#codigos-de-medios-de-pago)
       + [Divisas Aceptadas](#divisasa)
@@ -269,6 +272,7 @@ payment.currency = "ARS";
 payment.installments = 1;
 payment.description = "";
 payment.payment_type = "single";
+payment.establishment_name = "single";
 
 try
 {
@@ -317,6 +321,7 @@ payment.token = "[TOKEN DE PAGO]";
 payment.amount = 2000;
 payment.currency = "ARS";
 payment.payment_type = "single";
+payment.establishment_name = "";
 payment.email = "prueba@prueba.com";
 payment.invoice_expiration = "191123";
 payment.cod_p3 = "01";
@@ -336,6 +341,77 @@ catch (ResponseException)
 ```
 
 [<sub>Volver a inicio</sub>](#inicio)
+
+### Formulario de Pago
+
+<a name="getvalidateform"></a>
+
+Este servicio se utiliza para pagar en dos pasos. Funciona a partir del servicio /validate enviando los datos de pago y devolviendo un hash que luego este se utilizara al llamar a /forms enviandolo como parametro la respuesta sera un formulario renderizado.
+
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site.id  | Merchant  | Condicional | Numérico de 20 digitos   | id: "12365436"  |
+|site.template.id  | Id de formulario de pago  | SI | Numérico de 20 digitos  |   |
+|site.transaction_id  | Numero de operación  | SI | Alfanumérico  de 40 digitos |   |
+|customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
+|customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
+|payment.amount  | Monto de la compra  | SI | Numérico |   |
+|payment.currency  | Tipo de moneda  | NO | Letras |   |
+|payment.payment_method_id  | Id del medio de pago  | SI | Númerico |   |
+|payment.bin  | Primeros 6 dígitos de la tarjeta  | NO | Númerico |   |
+|payment.installments  | Cantidad de cuotas  | SI | Númerico |   |
+|payment.payment_type  | Indica si es simple o distribuida  | SI | Valores posibles: "single", "distributed" |   |
+|payment.sub_payments  | Se utiliza para pagos distribuidos. Informa los subpayments  | Es requerido si el
+pago es distribuido por monto, ya que si es por porcentaje toma los configurados desde Adm Sites (SAC) | NA |   |
+|success_url  | Url a donde se rediccionará una vez que el usuario finalice la operación desde la página de feedback  | SI | Númerico |   |
+|cancel_url  | Url donde se rediccionará si el cliente quiere cancelar el formulario  | SI | NA |   |
+|redirect_url  | Url en la cual se enviaran los datos de la operación una vez finalizada la misma para que el comercio pueda capturarlos y mostrarlos como lo desee  | Es requerido en los casos donde no informe el campo "success_url" | NA |   |
+
+```C#
+
+//Para esta funcion es necesario enviar junto al public y private key el "form_key".
+    Customer.email = "user@mail.com";
+    validateData.customer = validateCustomer;
+
+    ValidatePayment validatePayment = new ValidatePayment();
+    validatePayment.amount = 500;
+    validatePayment.currency = "ARS";
+    validatePayment.payment_method_id = 1;
+    validatePayment.bin = "45979";
+    validatePayment.installments = 4;
+    validatePayment.payment_type = "single";
+    validatePayment.sub_payments = new List<object>();
+
+    validateData.payment = validatePayment;
+
+
+    validateData.success_url = "https://shop.swatch.com/es_ar/";
+    validateData.cancel_url = "https://swatch.com/api/result";
+    // En este ejemplo se utiliza el vertical Travel el cual debe ser completado con sus respectivos campos 
+    TravelFraudDetection travel = new TravelFraudDetection();
+    validateData.fraud_detection = travel;
+
+    String privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
+    String publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+    String validateApiKey = "5cde7e72ea1e430db94d436543523744";
+    String merchant = "00020621";
+
+    //Para el ambiente de desarrollo
+    DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey, validateApiKey, merchant);
+
+    //validateData.fraud_detection = new Dictionary<string, object>(); // travel;
+    ValidateResponse ValidateResponse = decidir.Validate(validateData);
+
+```
+
+
+
+[<sub>Volver a inicio</sub>](#inicio)
+
+
+
+
 
 <a name="getallpayments"></a>
 
@@ -524,6 +600,7 @@ payment.currency = "ARS";
 payment.installments = 1;
 payment.description = "";
 payment.payment_type = "single";
+payment.establishment_name = "";
 
 resultPaymentResponse = decidir.Payment(payment);
 
@@ -856,6 +933,197 @@ resultPaymentResponse = decidir.Payment(payment);
 ```
 
 [<sub>Volver a inicio</sub>](#inicio)
+
+<a name="services"></a>
+
+### Services
+
+Los siguientes parámetros se deben enviar específicamente para la vertical Services. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
+
+```C#
+ServicesFraudDetection services = new ServicesFraudDetection();
+
+services.channel = "Web/Mobile/Telefonica";
+
+//bill_to
+services.bill_to.city = "Buenos Aires";
+services.bill_to.country = "AR";
+services.bill_to.customer_id = "useridprueba";
+services.bill_to.email = "accept@decidir.com.ar";
+services.bill_to.first_name = "nombre";
+services.bill_to.last_name = "apellido";
+services.bill_to.phone_number = "1512341234";
+services.bill_to.postal_code = "1427";
+services.bill_to.state = "BA";
+services.bill_to.street1 = "Cerrito 123";
+services.bill_to.street2 = "Mexico 123";
+
+//purchase_totals
+services.purchase_totals.currency = "ARS";
+services.purchase_totals.amount = 2000 * 100;
+
+//customer_in_site
+services.customer_in_site.days_in_site = 243;
+services.customer_in_site.is_guest = false;
+services.customer_in_site.password = "abracadabra";
+services.customer_in_site.num_of_transactions = 1;
+services.customer_in_site.cellphone_number = "12121";
+services.customer_in_site.date_of_birth = "129412";
+services.customer_in_site.street = "RIO 4041";
+
+
+//services_transaction_data
+services.services_transaction_data.service_type = "tiposervicio";
+services.services_transaction_data.reference_payment_service1 = "reference1";
+services.services_transaction_data.reference_payment_service2 = "reference2";
+services.services_transaction_data.reference_payment_service3 = "reference3";
+
+
+CSItem item = new CSItem();
+item.code = "estoesunapruebadecs";
+item.description = "Prueba de CyberSource";
+item.name = "CyberSource";
+item.sku = "prueba";
+item.total_amount = 2000 * 100;
+item.quantity = 1;
+item.unit_price = 2000 * 100;
+services.services_transaction_data.items.Add(item);
+
+for (int i = 17; i < 35; i++)
+{
+  Csmdds csmdds = new Csmdds();
+
+  csmdds.code = i;
+  csmdds.description = "MDD" + i.ToString();
+
+  services.csmdds.Add(csmdds);
+}
+
+for (int i = 43; i < 101; i++)
+{
+  Csmdds csmdds = new Csmdds();
+
+  csmdds.code = i;
+  csmdds.description = "MDD" + i.ToString();
+
+  services.csmdds.Add(csmdds);
+}
+```
+
+Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase Decidir\Data\Cybersource\Ticketing de la siguiente manera.
+
+```C#
+string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
+string publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+
+//Para el ambiente de desarrollo
+DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
+Payment payment = new Payment();
+PaymentResponse resultPaymentResponse = new PaymentResponse();
+
+payment.fraud_detection = services;
+
+resultPaymentResponse = decidir.Payment(payment);
+```
+
+[<sub>Volver a inicio</sub>](#inicio)
+
+
+### Travel
+
+Los siguientes parámetros se deben enviar específicamente para la vertical Travel. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
+
+```C#
+TravelFraudDetection travel = new TravelFraudDetection();
+
+//bill_to
+travel.bill_to.city = "Buenos Aires";
+travel.bill_to.country = "AR";
+travel.bill_to.customer_id = "useridprueba";
+travel.bill_to.email = "accept@decidir.com.ar";
+travel.bill_to.first_name = "nombre";
+travel.bill_to.last_name = "apellido";
+travel.bill_to.phone_number = "1512341234";
+travel.bill_to.postal_code = "1427";
+travel.bill_to.state = "BA";
+travel.bill_to.street1 = "Cerrito 123";
+travel.bill_to.street2 = "Mexico 123";
+
+//purchase_totals
+travel.purchase_totals.currency = "ARS";
+travel.purchase_totals.amount = 2000 * 100;
+
+//customer_in_site
+travel.customer_in_site.days_in_site = 243;
+travel.customer_in_site.is_guest = false;
+travel.customer_in_site.password = "abracadabra";
+travel.customer_in_site.num_of_transactions = 1;
+travel.customer_in_site.cellphone_number = "12121";
+travel.customer_in_site.date_of_birth = "129412";
+travel.customer_in_site.street = "RIO 4041";
+
+//travel_transaction_data
+travel.travel_transaction_data.reservation_code = "GJH784";
+travel.travel_transaction_data.third_party_booking = false;
+travel.travel_transaction_data.departure_city = "EZE";
+travel.travel_transaction_data.final_destination_city = "HND";
+travel.travel_transaction_data.international_flight = true;
+travel.travel_transaction_data.frequent_flier_number = "00000123";
+travel.travel_transaction_data.class_of_service = "class";
+travel.travel_transaction_data.day_of_week_of_flight = 2;
+travel.travel_transaction_data.week_of_year_of_flight = 5;
+travel.travel_transaction_data.airline_code = "AA";
+travel.travel_transaction_data.code_share = "SKYTEAM";
+
+
+//>>>>>>>>>>>>>>>>>>>>>>>
+DepartureDate depDate = new DepartureDate();
+depDate.departure_time = "2017-05-30T09:00Z";
+depDate.departure_zone = "GMT-0300";
+
+DecisionManagerTravel decManager = new DecisionManagerTravel();
+decManager.complete_route = "EZE-LAX:LAX-HND";
+decManager.journey_type = "one way";
+decManager.departureDate.Add(depDate);
+
+travel.travel_transaction_data.managerTravel.Add(decManager);
+
+//>>>>>>>>>>>>>>>>>>>>>>>
+Passengers passenger = new Passengers();
+passenger.email = "user@mail.com";
+passenger.first_name = "Juan";
+passenger.last_name = "Perez";
+passenger.passport_id = "412314851231"
+passenger.phone = "541134356768"
+passenger.passenger_status = "gold";
+passenger.passenger_type = "ADT";
+
+travel.travel_transaction_data.passengers.Add(passenger);
+
+//>>>>>>>>>>>>>>>>>>>>>>>
+travel.travel_transaction_data.airline_number_of_passengers = 1;
+
+```
+
+Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase Decidir\Data\Cybersource\Travel de la siguiente manera.
+
+```C#
+string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
+string publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+
+//Para el ambiente de desarrollo
+DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
+Payment payment = new Payment();
+PaymentResponse resultPaymentResponse = new PaymentResponse();
+
+payment.fraud_detection = travel;
+
+resultPaymentResponse = decidir.Payment(payment);
+```
+
+[<sub>Volver a inicio</sub>](#inicio)
+
+
 
 <a name="tablasreferencia"></a>
 

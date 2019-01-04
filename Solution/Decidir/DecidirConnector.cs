@@ -7,40 +7,57 @@ namespace Decidir
     public class DecidirConnector
     {
         #region Constants
-        public const string versionDecidir = "1.4.3";
-        
-        private const string endPointSandbox = "https://developers.decidir.com/api/v2/";
+        public const string versionDecidir = "1.4.8";
 
-        private const string endPointProduction = "https://live.decidir.com/api/v2/";
+        private const string request_host_sandbox = "https://developers.decidir.com";
+        private const string request_host_production = "https://live.decidir.com";
+        private const string request_path_payments = "/api/v2/";
+        private const string request_path_validate = "/web/";
+
+
+
+        private const string endPointSandbox = request_host_sandbox + request_path_payments; // https://developers.decidir.com/api/v2/;
+        private const string endPointProduction = request_host_production + request_path_payments; //https://live.decidir.com/api/v2/;
+
+
         #endregion
 
         private string privateApiKey;
         private string publicApiKey;
         private int ambiente;
         private string endpoint;
+        private string request_host;
+
+        private string validateApiKey;
+        private string merchant;
 
         private HealthCheck healthCheckService;
         private Payments paymentService;
         private UserSite userSiteService;
         private CardTokens cardTokensService;
 
-        public DecidirConnector(int ambiente, string privateApiKey, string publicApiKey)
+        public DecidirConnector(int ambiente, string privateApiKey, string publicApiKey, string validateApiKey=null, string  merchant=null )
         {
             this.ambiente = ambiente;
             this.privateApiKey = privateApiKey;
             this.publicApiKey = publicApiKey;
+            this.validateApiKey = validateApiKey;
+            this.merchant = merchant;
 
             if (ambiente == Ambiente.AMBIENTE_PRODUCCION)
             {
                 this.endpoint = endPointProduction;
+                this.request_host = request_host_production;
             }
             else
             {
                 this.endpoint = endPointSandbox;
+                this.request_host = request_host_sandbox;
+
             }
 
             this.healthCheckService = new HealthCheck(this.endpoint);
-            this.paymentService = new Payments(this.endpoint, this.privateApiKey);
+            this.paymentService = new Payments(this.endpoint, this.privateApiKey, this.validateApiKey, this.merchant , this.request_host);
             this.userSiteService = new UserSite(this.endpoint, this.privateApiKey);
             this.cardTokensService = new CardTokens(this.endpoint, this.privateApiKey);
         }
@@ -104,5 +121,12 @@ namespace Decidir
         {
             return this.cardTokensService.DeleteCardToken(token);
         }
+
+        public ValidateResponse Validate(ValidateData validateData)
+        {
+            return this.paymentService.ValidatePayment(validateData);
+        }
+        
+
     }
 }

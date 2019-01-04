@@ -39,6 +39,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Decidir">
+      <HintPath>..\..\dist\Decidir.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dist\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -56,6 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CardData.cs" />
     <Compile Include="DecidirTest.cs" />
     <Compile Include="ExampleTest.cs" />
     <Compile Include="Model\CardDataTest.cs" />
@@ -64,12 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PaymentsTest.cs" />
     <Compile Include="Services\TokenTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Decidir\Decidir.csproj">
-      <Project>{208ea1c5-2305-440f-a4a2-b35c93aae417}</Project>
-      <Name>Decidir</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Choose>

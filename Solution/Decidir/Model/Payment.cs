@@ -18,6 +18,7 @@ namespace Decidir.Model
         public long installments { get; set; }
         public string description { get; set; }
         public string payment_type { get; set; }
+        public string establishment_name { get; set; }
         public List<object> sub_payments { get; set; }
         public FraudDetection fraud_detection { get; set; }
         public string site_id { get; set; }
@@ -52,6 +53,7 @@ namespace Decidir.Model
             payment.installments = this.installments;
             payment.description = this.description;
             payment.payment_type = this.payment_type;
+            payment.establishment_name = this.establishment_name;
             payment.fraud_detection = this.fraud_detection;
             payment.site_id = this.site_id;
             payment.aggregate_data = this.aggregate_data;

@@ -32,6 +32,7 @@ namespace DecidirTest
             payment.installments = 1;
             payment.description = "";
             payment.payment_type = "single";
+            payment.establishment_name = "";
 
             try
             {

@@ -55,11 +55,13 @@
     <Compile Include="DecidirConnector.cs" />
     <Compile Include="Exceptions\PaymentResponseException.cs" />
     <Compile Include="Exceptions\ResponseException.cs" />
+    <Compile Include="Exceptions\ValidateResponseException.cs" />
     <Compile Include="Model\AggregateDataPayment.cs" />
     <Compile Include="Model\CapturePaymentResponse.cs" />
     <Compile Include="Model\CardDataPayment.cs" />
     <Compile Include="Model\CardHolder.cs" />
     <Compile Include="Model\CardHolderIdentification.cs" />
+    <Compile Include="Model\SiteInfo.cs" />
     <Compile Include="Model\ConfirmedCapturePayment.cs" />
     <Compile Include="Model\CustomerData.cs" />
     <Compile Include="Model\CyberSource\Address.cs" />
@@ -70,6 +72,13 @@
     <Compile Include="Model\CyberSource\RetailTransactionData.cs" />
     <Compile Include="Model\CyberSource\TicketingFraudDetection.cs" />
     <Compile Include="Model\CyberSource\TicketingTransactionData.cs" />
+    <Compile Include="Model\CyberSource\ServicesFraudDetection.cs" />
+    <Compile Include="Model\CyberSource\ServicesTransactionData.cs" />
+    <Compile Include="Model\CyberSource\TravelFraudDetection.cs" />
+    <Compile Include="Model\CyberSource\TravelTransactionData.cs" />
+    <Compile Include="Model\CyberSource\Passengers.cs" />
+    <Compile Include="Model\CyberSource\DecisionManagerTravel.cs" />
+    <Compile Include="Model\CyberSource\DepartureDate.cs" />
     <Compile Include="Model\DeleteRefundResponse.cs" />
     <Compile Include="Model\CyberSource\Csmdds.cs" />
     <Compile Include="Model\CyberSource\Customer.cs" />
@@ -90,14 +99,19 @@
     <Compile Include="Model\StatusErrorReason.cs" />
     <Compile Include="Model\SubPayment.cs" />
     <Compile Include="Model\SubPaymentResponse.cs" />
+    <Compile Include="Model\TemplateValidate.cs" />
     <Compile Include="Model\Token.cs" />
     <Compile Include="Model\TokenFraudDetection.cs" />
+    <Compile Include="Model\ValidateCustomer.cs" />
+    <Compile Include="Model\ValidatePayment.cs" />
+    <Compile Include="Model\ValidateResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CardTokens.cs" />
     <Compile Include="Services\HealthCheck.cs" />
     <Compile Include="Services\Payments.cs" />
     <Compile Include="Services\Service.cs" />
     <Compile Include="Services\UserSite.cs" />
+    <Compile Include="Model\ValidateData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -11,10 +11,17 @@ namespace Decidir.Services
     internal class Payments : Service
     {
         private string privateApiKey;
+        private string validateApiKey;
+        private string merchant;
+        private string request_host;
+        private RestClient restClientValidate;
 
-        public Payments(string endpoint, string privateApiKey) : base(endpoint)
+        public Payments(String endpoint, String privateApiKey, String validateApiKey=null , String merchant=null, string request_host = null) : base(endpoint)
         {
             this.privateApiKey = privateApiKey;
+            this.validateApiKey = validateApiKey;
+            this.merchant = merchant;
+            this.request_host = request_host;
 
             Dictionary<string, string> headers = new Dictionary<string, string>();
             headers.Add("apikey", this.privateApiKey);
@@ -190,6 +197,8 @@ namespace Decidir.Services
 
             RestResponse result = this.restClient.Post("payments", Payment.toJson(paymentCopy));
 
+
+
             if (!String.IsNullOrEmpty(result.Response))
             {
                 response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
@@ -243,5 +252,45 @@ namespace Decidir.Services
 
             return String.Empty;
         }
+
+
+        public ValidateResponse DoValidate(ValidateData validatePayment)
+        {
+            ValidateResponse response = null;
+            
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            headers.Add("apikey", this.validateApiKey);
+            headers.Add("X-Consumer-Username", this.merchant);
+            headers.Add("Cache-Control", "no-cache");
+
+            this.restClientValidate = new RestClient(this.request_host + "/web/", headers, CONTENT_TYPE_APP_JSON);
+
+            RestResponse result = this.restClientValidate.Post("validate", ValidateData.toJson(validatePayment));
+
+            if (!String.IsNullOrEmpty(result.Response))
+            {
+                response = JsonConvert.DeserializeObject<ValidateResponse>(result.Response);
+            }
+
+            response.statusCode = result.StatusCode;
+
+            if (result.StatusCode != STATUS_CREATED)
+            {
+                if (isErrorResponse(result.StatusCode))
+                    throw new ValidateResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new ValidateResponseException(result.StatusCode + " - " + result.Response, response);
+            }
+
+            return response;
+        }
+
+
+        public ValidateResponse ValidatePayment(ValidateData validateData)
+        {
+            return DoValidate(validateData);
+        }
+
+
     }
 }

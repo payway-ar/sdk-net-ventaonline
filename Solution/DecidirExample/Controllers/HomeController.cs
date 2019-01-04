@@ -88,6 +88,7 @@ namespace DecidirExample.Controllers
             pago.installments = payment.installments;
             pago.payment_method_id = payment.payment_method_id;
             pago.payment_type = payment.payment_type;
+            pago.establishment_name = payment.establishment_name;
             pago.site_transaction_id = payment.site_transaction_id;
             pago.token = payment.token;
             pago.customer.email = payment.email;

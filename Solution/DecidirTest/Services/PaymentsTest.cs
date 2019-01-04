@@ -104,13 +104,14 @@ namespace DecidirTest.Services
             data.installments = 1;
             data.description = "";
             data.payment_type = "single";
+            data.establishment_name = "";    
 
             data.fraud_detection = new TicketingFraudDetection();
 
             try
             {
                 paymentJson = Payment.toJson(data);
-                Assert.AreEqual("{\"site_transaction_id\":\"" + data.site_transaction_id + "\",\"token\":\"d52b7701-87bb-4926-b4a6-94267a5a78b4\",\"user_id\":null,\"payment_method_id\":1,\"bin\":\"450799\",\"amount\":2000.0,\"currency\":\"ARS\",\"installments\":1,\"description\":\"\",\"payment_type\":\"single\",\"sub_payments\":[],\"fraud_detection\":{\"ticketing_transaction_data\":{\"days_to_event\":null,\"delivery_type\":null,\"items\":[]},\"send_to_cs\":true,\"channel\":null,\"bill_to\":{\"city\":null,\"country\":null,\"customer_id\":null,\"email\":null,\"first_name\":null,\"last_name\":null,\"phone_number\":null,\"postal_code\":null,\"state\":null,\"street1\":null,\"street2\":null},\"purchase_totals\":{\"currency\":null,\"amount\":0},\"customer_in_site\":{\"days_in_site\":0,\"is_guest\":false,\"password\":null,\"num_of_transactions\":0,\"cellphone_number\":null,\"date_of_birth\":null,\"street\":null},\"csmdds\":[]}}", paymentJson);
+                Assert.AreEqual("{\"site_transaction_id\":\"" + data.site_transaction_id + "\",\"token\":\"d52b7701-87bb-4926-b4a6-94267a5a78b4\",\"user_id\":null,\"payment_method_id\":1,\"bin\":\"450799\",\"amount\":2000.0,\"currency\":\"ARS\",\"installments\":1,\"description\":\"\",\"payment_type\":\"single\", \"establishment_name\":\"\",\"sub_payments\":[],\"fraud_detection\":{\"ticketing_transaction_data\":{\"days_to_event\":null,\"delivery_type\":null,\"items\":[]},\"send_to_cs\":true,\"channel\":null,\"bill_to\":{\"city\":null,\"country\":null,\"customer_id\":null,\"email\":null,\"first_name\":null,\"last_name\":null,\"phone_number\":null,\"postal_code\":null,\"state\":null,\"street1\":null,\"street2\":null},\"purchase_totals\":{\"currency\":null,\"amount\":0},\"customer_in_site\":{\"days_in_site\":0,\"is_guest\":false,\"password\":null,\"num_of_transactions\":0,\"cellphone_number\":null,\"date_of_birth\":null,\"street\":null},\"csmdds\":[]}}", paymentJson);
             }
             catch (Exception)
             {
