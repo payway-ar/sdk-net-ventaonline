@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Content\bootstrap.css" />
+    <None Remove="Content\bootstrap.min.css" />
+    <None Remove="Content\Site.css" />
+    <None Remove="fonts\glyphicons-halflings-regular.eot" />
+    <None Remove="fonts\glyphicons-halflings-regular.svg" />
+    <None Remove="fonts\glyphicons-halflings-regular.ttf" />
+    <None Remove="fonts\glyphicons-halflings-regular.woff" />
+    <None Remove="Scripts\app.js" />
+    <None Remove="Scripts\bootstrap.js" />
+    <None Remove="Scripts\bootstrap.min.js" />
+    <None Remove="Scripts\jquery-1.10.2.js" />
+    <None Remove="Scripts\jquery-1.10.2.min.js" />
+    <None Remove="Scripts\jquery-1.10.2.min.map" />
+    <None Remove="Scripts\jquery.validate.js" />
+    <None Remove="Scripts\jquery.validate.min.js" />
+    <None Remove="Scripts\jquery.validate.unobtrusive.js" />
+    <None Remove="Scripts\jquery.validate.unobtrusive.min.js" />
+    <None Remove="Scripts\modernizr-2.6.2.js" />
+    <None Remove="Scripts\respond.js" />
+    <None Remove="Scripts\respond.min.js" />
+    <None Remove="Scripts\_references.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DecidirLib2\DecidirLib2.csproj" />
+  </ItemGroup>
+
+</Project>

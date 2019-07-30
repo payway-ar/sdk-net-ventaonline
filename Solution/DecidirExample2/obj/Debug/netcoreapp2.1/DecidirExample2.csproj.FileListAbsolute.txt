@@ -1,0 +1,15 @@
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\obj\Debug\netcoreapp2.1\DecidirExample2.csproj.CoreCompileInputs.cache
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\obj\Debug\netcoreapp2.1\DecidirExample2.AssemblyInfoInputs.cache
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\obj\Debug\netcoreapp2.1\DecidirExample2.AssemblyInfo.cs
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\obj\Debug\netcoreapp2.1\DecidirExample2.dll
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\obj\Debug\netcoreapp2.1\DecidirExample2.pdb
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\obj\Debug\netcoreapp2.1\DecidirExample2.csprojAssemblyReference.cache
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\bin\Debug\netcoreapp2.1\DecidirExample2.deps.json
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\bin\Debug\netcoreapp2.1\DecidirExample2.runtimeconfig.json
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\bin\Debug\netcoreapp2.1\DecidirExample2.runtimeconfig.dev.json
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\bin\Debug\netcoreapp2.1\DecidirExample2.dll
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\bin\Debug\netcoreapp2.1\DecidirExample2.pdb
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\bin\Debug\netcoreapp2.1\DecidirLib2.dll
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\bin\Debug\netcoreapp2.1\DecidirLib2.pdb
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\obj\Debug\netcoreapp2.1\DecidirExample2.csproj.CopyComplete
+C:\Users\ariel\source\repos\acamacho-rb\sdk-.net-v2\Solution\DecidirExample2\obj\Debug\netcoreapp2.1\DecidirExample2.RazorTargetAssemblyInfo.cache

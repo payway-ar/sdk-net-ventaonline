@@ -1,0 +1,55 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.1",
+    "signature": "ccf84f944cd0fa3c4d4880af80ea6f4c15fa19ad"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.1": {
+      "DecidirLib2/1.0.0": {
+        "dependencies": {
+          "Json.Net": "1.0.16",
+          "Newtonsoft.Json": "11.0.0.0"
+        },
+        "runtime": {
+          "DecidirLib2.dll": {}
+        }
+      },
+      "Json.Net/1.0.16": {
+        "runtime": {
+          "lib/netstandard2.0/Json.Net.dll": {
+            "assemblyVersion": "1.0.16.1",
+            "fileVersion": "1.0.16.1"
+          }
+        }
+      },
+      "Newtonsoft.Json/11.0.0.0": {
+        "runtime": {
+          "Newtonsoft.Json.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.2.21924"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DecidirLib2/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Json.Net/1.0.16": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kFEw3EjjO1LN429+ltBm+bPGbG91VsDVRX0wPnq2KsAOYlwVVyRQTuDz3vE+wlVKu5SOSAQLsUxS5svnrkbPTQ==",
+      "path": "json.net/1.0.16",
+      "hashPath": "json.net.1.0.16.nupkg.sha512"
+    },
+    "Newtonsoft.Json/11.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

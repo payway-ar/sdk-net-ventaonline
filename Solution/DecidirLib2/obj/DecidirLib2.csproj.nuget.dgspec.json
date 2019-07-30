@@ -1,0 +1,64 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\ariel\\source\\repos\\acamacho-rb\\sdk-.net-v2\\Solution\\DecidirLib2\\DecidirLib2.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\ariel\\source\\repos\\acamacho-rb\\sdk-.net-v2\\Solution\\DecidirLib2\\DecidirLib2.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ariel\\source\\repos\\acamacho-rb\\sdk-.net-v2\\Solution\\DecidirLib2\\DecidirLib2.csproj",
+        "projectName": "DecidirLib2",
+        "projectPath": "C:\\Users\\ariel\\source\\repos\\acamacho-rb\\sdk-.net-v2\\Solution\\DecidirLib2\\DecidirLib2.csproj",
+        "packagesPath": "C:\\Users\\ariel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ariel\\source\\repos\\acamacho-rb\\sdk-.net-v2\\Solution\\DecidirLib2\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\ariel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Json.Net": {
+              "target": "Package",
+              "version": "[1.0.16, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}
