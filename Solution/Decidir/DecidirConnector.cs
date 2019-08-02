@@ -24,7 +24,6 @@ namespace Decidir
 
         private string privateApiKey;
         private string publicApiKey;
-        private int ambiente;
         private string endpoint;
         private string request_host;
 
@@ -36,9 +35,20 @@ namespace Decidir
         private UserSite userSiteService;
         private CardTokens cardTokensService;
 
-        public DecidirConnector(int ambiente, string privateApiKey, string publicApiKey, string validateApiKey=null, string  merchant=null )
+        public DecidirConnector(int ambiente, string privateApiKey, string publicApiKey, string validateApiKey = null, string merchant = null)
         {
-            this.ambiente = ambiente;
+            init(ambiente, privateApiKey, publicApiKey, validateApiKey, merchant);
+        }
+
+        public DecidirConnector(string endpoint, string request_host, string privateApiKey, string publicApiKey, string validateApiKey = null, string merchant = null)
+        {
+            this.endpoint = endpoint;
+            this.request_host = request_host;
+            init(-1, privateApiKey, publicApiKey, validateApiKey, merchant);
+        }
+
+        private void init(int ambiente, string privateApiKey, string publicApiKey, string validateApiKey, string merchant)
+        {
             this.privateApiKey = privateApiKey;
             this.publicApiKey = publicApiKey;
             this.validateApiKey = validateApiKey;
@@ -49,18 +59,18 @@ namespace Decidir
                 this.endpoint = endPointProduction;
                 this.request_host = request_host_production;
             }
-            else
+            else if (ambiente == Ambiente.AMBIENTE_SANDBOX)
             {
                 this.endpoint = endPointSandbox;
                 this.request_host = request_host_sandbox;
-
             }
 
             this.healthCheckService = new HealthCheck(this.endpoint);
-            this.paymentService = new Payments(this.endpoint, this.privateApiKey, this.validateApiKey, this.merchant , this.request_host);
+            this.paymentService = new Payments(this.endpoint, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
             this.userSiteService = new UserSite(this.endpoint, this.privateApiKey);
             this.cardTokensService = new CardTokens(this.endpoint, this.privateApiKey);
         }
+
 
         public HealthCheckResponse HealthCheck()
         {
@@ -126,7 +136,11 @@ namespace Decidir
         {
             return this.paymentService.ValidatePayment(validateData);
         }
-        
+
+        public GetTokenResponse GetToken(CardTokenBsa card_token_bsa)
+        {
+            return this.paymentService.GetToken(card_token_bsa);
+        }
 
     }
 }

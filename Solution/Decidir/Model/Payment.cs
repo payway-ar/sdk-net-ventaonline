@@ -23,6 +23,7 @@ namespace Decidir.Model
         public FraudDetection fraud_detection { get; set; }
         public string site_id { get; set; }
         public AggregateDataPayment aggregate_data { get; set; }
+        public CardTokenBsa card_token_bsa { get; set; }
 
         public Payment()
         {

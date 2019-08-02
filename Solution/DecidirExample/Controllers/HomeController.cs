@@ -1,10 +1,6 @@
 ﻿using Decidir;
 using Decidir.Model;
 using DecidirExample.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace DecidirExample.Controllers
@@ -77,6 +73,17 @@ namespace DecidirExample.Controllers
             return Json(respuesta);
         }
 
+        [HttpPost]
+        public ActionResult GetTokenBSA(CardTokenBsaDTO cardTokenBsaDTO)
+        {
+            DecidirConnector decidir = new DecidirConnector(cardTokenBsaDTO.AmbienteId, cardTokenBsaDTO.privateApiKey, cardTokenBsaDTO.publicApiKey);
+
+            GetTokenResponse respuesta = decidir.GetToken(cardTokenBsaDTO.cardTokenBsa);
+
+            return Json(respuesta);
+        }
+
+
         private Payment GetPayment(PaymentDTO payment)
         {
             Payment pago = new Payment();
@@ -96,5 +103,6 @@ namespace DecidirExample.Controllers
 
             return pago;
         }
+
     }
 }
