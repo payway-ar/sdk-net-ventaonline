@@ -17,12 +17,12 @@ namespace DecidirTest
     {
 
         private static string request_host = "http://localhost:8888";
-        private static string endpoint = request_host + "/";
+        private static string request_path = "/";
 
         [TestMethod]
         public void PaymentTest()
         {
-            DecidirConnector decidir = new DecidirConnector(endpoint, request_host, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+            DecidirConnector decidir = new DecidirConnector(request_host, request_path, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
             PaymentResponse resultPaymentResponse = new PaymentResponse();
             GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
 

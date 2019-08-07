@@ -20,9 +20,29 @@
                             <select class="form-control valid" id="AmbienteId" name="AmbienteId">
                                 <option value="0"> Developers</option>
                                 <option value="1"> Production</option>
+                                <option value="-1"> Otro</option>
                             </select>
                         </div>
                     </div>
+
+                    <div class="form-group onlyOtherEnvironment">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Request Host</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="request_host" name="request_host" placeholder="http(s)://host:port" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group onlyOtherEnvironment">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Request Path</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="request_path" name="request_path" placeholder="/api/v2/" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
 
                     <div class="form-group">
                         <div class="col-sm-6 col-md-6 col-lg-6">
@@ -41,6 +61,7 @@
                             <input type="text" id="publicApiKey" name="publicApiKey" value="e9cdb99fff374b5f91da4480c8dca741" class="form-control text-box single-line" />
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -448,6 +469,8 @@
             payment = payment + ', "AmbienteId": ' + $('#AmbienteId').val() + ' ';
             payment = payment + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
             payment = payment + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
+            payment = payment + ', "request_host": "' + $('#request_host').val() + '"';
+            payment = payment + ', "request_path": "' + $('#request_path').val() + '"';
             payment = payment + ', "payment_method_id": ' + $('#payment_method_id').val() + ' ';
             payment = payment + ', "token": "' + $('#token').val() + '"';
             payment = payment + ', "bin": "' + $('#bin').val() + '"';
@@ -482,7 +505,9 @@
             var refund = '{ "ambienteId": ' + $('#AmbienteId').val();
             refund = refund + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
             refund = refund + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
-            refund = refund + ', "paymentId": ' + $('#paymentId').val() + '}';
+            refund = refund + ', "paymentId": ' + $('#paymentId').val();
+            refund = refund + ', "request_host": "' + $('#request_host').val() + '"';
+            refund = refund + ', "request_path": "' + $('#request_path').val() + '"}';
 
             $.ajax({
                 url: '@Url.Action("Refund", "Home")',
@@ -507,7 +532,9 @@
             deleteRefund = deleteRefund + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
             deleteRefund = deleteRefund + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
             deleteRefund = deleteRefund + ', "paymentId": ' + $('#paymentId').val();
-            deleteRefund = deleteRefund + ', "refundId": ' + $('#refundId').val() + '}';
+            deleteRefund = deleteRefund + ', "refundId": ' + $('#refundId').val();
+            deleteRefund = deleteRefund + ', "request_host": "' + $('#request_host').val() + '"';
+            deleteRefund = deleteRefund + ', "request_path": "' + $('#request_path').val() + '"}';
 
             $.ajax({
                 url: '@Url.Action("DeleteRefund", "Home")',
@@ -531,7 +558,9 @@
             refund = refund + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
             refund = refund + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
             refund = refund + ', "paymentId": ' + $('#paymentIdParcial').val();
-            refund = refund + ', "amount": ' + $('#montoPartialRefund').val() + '}';
+            refund = refund + ', "amount": ' + $('#montoPartialRefund').val();
+            refund = refund + ', "request_host": "' + $('#request_host').val() + '"';
+            refund = refund + ', "request_path": "' + $('#request_path').val() + '"}';
 
             $.ajax({
                 url: '@Url.Action("PartialRefund", "Home")',
@@ -556,7 +585,9 @@
             deleteRefund = deleteRefund + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
             deleteRefund = deleteRefund + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
             deleteRefund = deleteRefund + ', "paymentId": ' + $('#paymentIdParcial').val();
-            deleteRefund = deleteRefund + ', "refundId": ' + $('#refundIdParcial').val() + '}';
+            deleteRefund = deleteRefund + ', "refundId": ' + $('#refundIdParcial').val();
+            deleteRefund = deleteRefund + ', "request_host": "' + $('#request_host').val() + '"';
+            deleteRefund = deleteRefund + ', "request_path": "' + $('#request_path').val() + '"}';
 
             $.ajax({
                 url: '@Url.Action("DeletePartialRefund", "Home")',
@@ -579,7 +610,9 @@
             var deleteRefund = '{ "ambienteId": ' + $('#AmbienteId').val();
             deleteRefund = deleteRefund + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
             deleteRefund = deleteRefund + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
-            deleteRefund = deleteRefund + ', "paymentId": ' + $('#paymentIdGetInfo').val() + '}';
+            deleteRefund = deleteRefund + ', "paymentId": ' + $('#paymentIdGetInfo').val();
+            deleteRefund = deleteRefund + ', "request_host": "' + $('#request_host').val() + '"';
+            deleteRefund = deleteRefund + ', "request_path": "' + $('#request_path').val() + '"}';
 
             $.ajax({
                 url: '@Url.Action("GetPaymentInfo", "Home")',
@@ -603,6 +636,8 @@
                 "AmbienteId": ${$('#AmbienteId').val()},
                 "privateApiKey": "${$('#privateApiKey').val()}",
                 "publicApiKey": "${$('#publicApiKey').val()}",
+                "request_host": "${$('#request_host').val()}",
+                "request_path": "${$('#request_path').val()}",
                 "cardTokenBsa": {  
                     "public_token": "${$('#public_token').val()}",
                     "issue_date": "${$('#issue_date').val()}",

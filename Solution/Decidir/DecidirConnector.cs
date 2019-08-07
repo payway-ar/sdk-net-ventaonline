@@ -40,10 +40,10 @@ namespace Decidir
             init(ambiente, privateApiKey, publicApiKey, validateApiKey, merchant);
         }
 
-        public DecidirConnector(string endpoint, string request_host, string privateApiKey, string publicApiKey, string validateApiKey = null, string merchant = null)
+        public DecidirConnector(string request_host, string request_path, string privateApiKey, string publicApiKey, string validateApiKey = null, string merchant = null)
         {
-            this.endpoint = endpoint;
             this.request_host = request_host;
+            this.endpoint = request_host + request_path;
             init(-1, privateApiKey, publicApiKey, validateApiKey, merchant);
         }
 
