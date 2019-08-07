@@ -15,20 +15,20 @@ namespace DecidirTest
     [TestClass]
     public class DecidirTest
     {
+
+        private static string request_host = "http://localhost:8888";
+        private static string request_path = "/";
+
         [TestMethod]
         public void PaymentTest()
         {
-            DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
-            CardData data = GetCardData();
-         //   CardTokenResponse resultCardData = new CardTokenResponse();
+            DecidirConnector decidir = new DecidirConnector(request_host, request_path, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
             PaymentResponse resultPaymentResponse = new PaymentResponse();
             GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
 
             try
             {
-              //  resultCardData = decidir.GetToken(data);
-
-                Payment payment = GetPayment(1);
+                Payment payment = GetPayment();
 
                 resultPaymentResponse = decidir.Payment(payment);
 
@@ -42,31 +42,27 @@ namespace DecidirTest
             }
             catch (ResponseException)
             {
-               
                 Assert.AreEqual(true, false);
             }
         }
 
-        private Payment GetPayment(int v)
+        private Payment GetPayment()
         {
-            throw new NotImplementedException();
+            return new Payment();
         }
 
-        /*  [TestMethod]
+          [TestMethod]
           public void GetPaymentInfoTest()
           {
               DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
               CardData data = GetCardData();
-              CardTokenResponse resultCardData = new CardTokenResponse();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               PaymentResponse paymentInfoResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
 
               try
               {
-                  resultCardData = decidir.GetToken(data);
-
-                  Payment payment = GetPayment(resultCardData.id);
+                  Payment payment = GetPayment();
 
                   resultPaymentResponse = decidir.Payment(payment);
 
@@ -90,16 +86,12 @@ namespace DecidirTest
           public void PaymentCSRetailTest()
           {
               DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
-              CardDataCyberSource data = GetCardDataCyberSource();
-              CardTokenResponse resultCardData = new CardTokenResponse();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
 
               try
               {
-                  resultCardData = decidir.GetToken(data);
-
-                  Payment payment = GetPayment(resultCardData.id);
+                  Payment payment = GetPayment();
                   payment.fraud_detection = GetRetailFraudDetection();
 
                   resultPaymentResponse = decidir.Payment(payment);
@@ -122,16 +114,12 @@ namespace DecidirTest
           public void PaymentCSDigitalGoodsTest()
           {
               DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
-              CardDataCyberSource data = GetCardDataCyberSource();
-              CardTokenResponse resultCardData = new CardTokenResponse();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
 
               try
               {
-                  resultCardData = decidir.GetToken(data);
-
-                  Payment payment = GetPayment(resultCardData.id);
+                  Payment payment = GetPayment();
                   payment.fraud_detection = GetDigitalGoodsFraudDetection();
 
                   resultPaymentResponse = decidir.Payment(payment);
@@ -154,16 +142,12 @@ namespace DecidirTest
           public void PaymentCSTicketingTest()
           {
               DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
-              CardDataCyberSource data = GetCardDataCyberSource();
-              CardTokenResponse resultCardData = new CardTokenResponse();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
 
               try
               {
-                  resultCardData = decidir.GetToken(data);
-
-                  Payment payment = GetPayment(resultCardData.id);
+                  Payment payment = GetPayment();
                   payment.fraud_detection = GetTicketingFraudDetection();
 
                   resultPaymentResponse = decidir.Payment(payment);
@@ -187,16 +171,13 @@ namespace DecidirTest
           {
               DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
               CardData data = GetCardData();
-              CardTokenResponse resultCardData = new CardTokenResponse();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
               RefundResponse refund = new RefundResponse();
 
               try
               {
-                  resultCardData = decidir.GetToken(data);
-
-                  Payment payment = GetPayment(resultCardData.id);
+                  Payment payment = GetPayment();
 
                   resultPaymentResponse = decidir.Payment(payment);
 
@@ -221,8 +202,6 @@ namespace DecidirTest
           public void AnulacionRefundTest()
           {
               DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
-              CardData data = GetCardData();
-              CardTokenResponse resultCardData = new CardTokenResponse();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
               RefundResponse refund = new RefundResponse();
@@ -230,11 +209,8 @@ namespace DecidirTest
 
               try
               {
-                  resultCardData = decidir.GetToken(data);
-
-                  Payment payment = GetPayment(resultCardData.id);
-
-                  resultPaymentResponse = decidir.Payment(payment);
+                Payment payment = GetPayment();
+                resultPaymentResponse = decidir.Payment(payment);
 
                   Assert.AreEqual(resultPaymentResponse.bin, payment.bin);
                   Assert.AreEqual(resultPaymentResponse.amount, payment.amount * 100);
@@ -259,19 +235,14 @@ namespace DecidirTest
           public void PartialRefundTest()
           {
               DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
-              CardData data = GetCardData();
-              CardTokenResponse resultCardData = new CardTokenResponse();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
               RefundResponse refund = new RefundResponse();
 
               try
               {
-                  resultCardData = decidir.GetToken(data);
-
-                  Payment payment = GetPayment(resultCardData.id);
-
-                  resultPaymentResponse = decidir.Payment(payment);
+                Payment payment = GetPayment();
+                resultPaymentResponse = decidir.Payment(payment);
 
                   Assert.AreEqual(resultPaymentResponse.bin, payment.bin);
                   Assert.AreEqual(resultPaymentResponse.amount, payment.amount * 100);
@@ -295,7 +266,6 @@ namespace DecidirTest
           {
               DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
               CardData data = GetCardData();
-              CardTokenResponse resultCardData = new CardTokenResponse();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
               RefundResponse refund = new RefundResponse();
@@ -303,9 +273,7 @@ namespace DecidirTest
 
               try
               {
-                  resultCardData = decidir.GetToken(data);
-
-                  Payment payment = GetPayment(resultCardData.id);
+                  Payment payment = GetPayment();
 
                   resultPaymentResponse = decidir.Payment(payment);
 
@@ -327,20 +295,22 @@ namespace DecidirTest
                   Assert.AreEqual(true, false);
               }
           }
-          */
-          private CardData GetCardData()
-          {
-              CardData data = new CardData();
+          
+        private CardData GetCardData()
+        {
+            CardData data = new CardData();
 
-              data.card_number = "4507990000004905";
-              data.card_expiration_month = "08";
-              data.card_expiration_year = "20";
-              data.security_code = "123";
-              data.card_holder_name = "John Doe";
-              data.card_holder_identification.type = "dni";
-              data.card_holder_identification.number = "25123456";
+            data.card_number = "4507990000004905";
+            data.card_expiration_month = "08";
+            data.card_expiration_year = "20";
+            data.security_code = "123";
+            data.card_holder_name = "John Doe";
+            CardHolderIdentification cardHolderIdentification = new CardHolderIdentification();
+            cardHolderIdentification.type = "dni";
+            cardHolderIdentification.number = "25123456";
+            data.card_holder_identification = cardHolderIdentification;
 
-              return data;
+            return data;
           }
           
 

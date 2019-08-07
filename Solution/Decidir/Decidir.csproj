@@ -33,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Decidir.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -53,6 +54,7 @@
     <Compile Include="Clients\RestResponse.cs" />
     <Compile Include="Constants\Ambiente.cs" />
     <Compile Include="DecidirConnector.cs" />
+    <Compile Include="Exceptions\GetTokenResponseException.cs" />
     <Compile Include="Exceptions\PaymentResponseException.cs" />
     <Compile Include="Exceptions\ResponseException.cs" />
     <Compile Include="Exceptions\ValidateResponseException.cs" />
@@ -61,6 +63,9 @@
     <Compile Include="Model\CardDataPayment.cs" />
     <Compile Include="Model\CardHolder.cs" />
     <Compile Include="Model\CardHolderIdentification.cs" />
+    <Compile Include="Model\CardTokenBsa.cs" />
+    <Compile Include="Model\CyberSource\FraudDetectionBSA.cs" />
+    <Compile Include="Model\GetTokenResponse.cs" />
     <Compile Include="Model\SiteInfo.cs" />
     <Compile Include="Model\ConfirmedCapturePayment.cs" />
     <Compile Include="Model\CustomerData.cs" />
