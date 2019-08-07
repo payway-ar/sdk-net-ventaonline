@@ -1,0 +1,9 @@
+C:\Users\ariel\Source\Repos\acamacho-rb\sdk-.net-v2\Solution\Decidir\bin\Debug\Decidir.dll
+C:\Users\ariel\Source\Repos\acamacho-rb\sdk-.net-v2\Solution\Decidir\bin\Debug\Decidir.pdb
+C:\Users\ariel\Source\Repos\acamacho-rb\sdk-.net-v2\Solution\Decidir\bin\Debug\Newtonsoft.Json.dll
+C:\Users\ariel\Source\Repos\acamacho-rb\sdk-.net-v2\Solution\Decidir\bin\Debug\Newtonsoft.Json.xml
+C:\Users\ariel\Source\Repos\acamacho-rb\sdk-.net-v2\Solution\Decidir\obj\Debug\Decidir.csprojAssemblyReference.cache
+C:\Users\ariel\Source\Repos\acamacho-rb\sdk-.net-v2\Solution\Decidir\obj\Debug\Decidir.csproj.CoreCompileInputs.cache
+C:\Users\ariel\Source\Repos\acamacho-rb\sdk-.net-v2\Solution\Decidir\obj\Debug\Decidir.csproj.CopyComplete
+C:\Users\ariel\Source\Repos\acamacho-rb\sdk-.net-v2\Solution\Decidir\obj\Debug\Decidir.dll
+C:\Users\ariel\Source\Repos\acamacho-rb\sdk-.net-v2\Solution\Decidir\obj\Debug\Decidir.pdb
