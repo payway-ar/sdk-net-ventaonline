@@ -6,4 +6,4 @@ $("#AmbienteId").change(() => {
         $("#request_host,#request_path").val("")
         $(".onlyOtherEnvironment").hide();
     }
-})
+});
