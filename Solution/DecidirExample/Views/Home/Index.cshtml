@@ -465,7 +465,7 @@
     <script>
         function executePayment() {
 
-            var payment = '{"site_transaction_id": ' + $('#site_transaction_id').val() + ' ';
+            var payment = '{"site_transaction_id": "' + $('#site_transaction_id').val() + '" ';
             payment = payment + ', "AmbienteId": ' + $('#AmbienteId').val() + ' ';
             payment = payment + ', "privateApiKey": "' + $('#privateApiKey').val() + '"';
             payment = payment + ', "publicApiKey": "' + $('#publicApiKey').val() + '"';
