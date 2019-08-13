@@ -12,6 +12,7 @@ namespace Decidir.Model
         public string card_holder_name { get; set; }
         public CardHolderIdentification card_holder_identification { get; set; }
         public FraudDetectionBSA fraud_detection { get; set; }
+        public string payment_mode = "bsa";
 
         public static string toJson(CardTokenBsa card_token)
         {
