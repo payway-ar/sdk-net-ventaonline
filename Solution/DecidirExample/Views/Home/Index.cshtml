@@ -151,6 +151,15 @@
 
                     <div class="form-group">
                         <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label style="font-weight: bold;">Nombre del Establecimiento:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" id="establishment_name" name="establishment_name" value="" class="form-control text-box single-line" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
                             <label style="font-weight: bold;">Tipo de Pago:</label>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
@@ -478,6 +487,7 @@
             payment = payment + ', "currency": "' + $('#currency').val() + '"';
             payment = payment + ', "installments": ' + $('#installments').val() + '';
             payment = payment + ', "description": "' + $('#description').val() + '"';
+            payment = payment + ', "establishment_name": "' + $('#establishment_name').val() + '"';
             payment = payment + ', "payment_type": "' + $('#payment_type').val() + '"}';
 
             $.ajax({
