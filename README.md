@@ -577,18 +577,10 @@ FraudDetectionBSA fraud_detection = new FraudDetectionBSA();
 fraud_detection.device_unique_identifier = "12345";
 
 CardTokenBsa card_token_bsa = new CardTokenBsa();
-card_token_bsa.public_token = 96291105; 
-card_token_bsa.volatile_encrypted_data = "YRfrWggICAggsF0nR6ViuAgWsPr5ouR5knIbPtkN+yntd7G6FzN/Xb8zt6+QHnoxmpTraKphZVHvxA==";
-card_token_bsa.public_request_key ="8a64ca9e-2c20-4355-9d63-a412928af325";
+card_token_bsa.public_token = 96291105;
 card_token_bsa.issue_date = "20190108";
-card_token_bsa.flag_security_code = "0";
-card_token_bsa.flag_tokenization = "0";
-card_token_bsa.flag_selector_key = "1";
-card_token_bsa.flag_pei = "1";
+card_token_bsa.merchant_id = "1234567890";
 card_token_bsa.card_holder_name = "Comprador";
-card_token_bsa.card_number = "4507990000004905";
-card_token_bsa.card_expiration_month = "08";
-card_token_bsa.card_expiration_year = "19";
 card_token_bsa.card_holder_identification = card_holder_identification;
 card_token_bsa.fraud_detection = fraud_detection;
 
@@ -602,7 +594,7 @@ try
 }
 catch (Exception e)
 {
-    Debug.WriteLine("{0} Exception caughttttt.", e);
+    Debug.WriteLine("{0} Exception caught.", e);
 }
 ```
 
