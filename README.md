@@ -25,6 +25,7 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Anulación de Devolución Total](#deleterefund)
       + [Devolución Parcial de un Pago](#partialrefund)
       + [Anulación de Devolución Parcial](#deletepartialrefund)
+      + [Obtención de Token BSA](#getTokenBSA)
     + [Tokenización de tarjetas de crédito](#tokenizaciontarjeta)
       + [Listado de tarjetas tokenizadas](#listadotarjetastokenizadas)	
       + [Solicitud de token de pago](#solicitudpagotokenizado)
@@ -559,6 +560,42 @@ long refundId = 0;
 DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
 
 DeleteRefundResponse deleteRefund = decidir.DeletePartialRefund(paymentId, refundId);
+```
+
+[<sub>Volver a inicio</sub>](#inicio)
+
+<a name="getTokenBSA"></a>
+### Obtención de token para pago con BSA
+Se debe llamar al servicio getToken para obeter el token con el que se hará el pago en Decidir
+
+```C#
+CardHolderIdentification card_holder_identification = new CardHolderIdentification();
+card_holder_identification.type = "DNI";
+card_holder_identification.number = "33222444";
+
+FraudDetectionBSA fraud_detection = new FraudDetectionBSA();
+fraud_detection.device_unique_identifier = "12345";
+
+CardTokenBsa card_token_bsa = new CardTokenBsa();
+card_token_bsa.public_token = 96291105;
+card_token_bsa.issue_date = "20190108";
+card_token_bsa.merchant_id = "1234567890";
+card_token_bsa.card_holder_name = "Comprador";
+card_token_bsa.card_holder_identification = card_holder_identification;
+card_token_bsa.fraud_detection = fraud_detection;
+
+//Para el ambiente de desarrollo
+DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey_decidir, publicApiKey_decidir);
+
+try
+{
+    GetTokenResponse resultGetTokenResponse = decidir.GetToken(card_token_bsa);
+    string outputResutGetToken = JsonConvert.SerializeObject(resultGetTokenResponse);
+}
+catch (Exception e)
+{
+    Debug.WriteLine("{0} Exception caught.", e);
+}
 ```
 
 [<sub>Volver a inicio</sub>](#inicio)

@@ -89,6 +89,7 @@ namespace Decidir.Clients
             string uri = endpoint + url;
 
             var httpWebRequest = Initialize(uri, METHOD_DELETE);
+            httpWebRequest.ContentType = null;
 
             return DoRequest(httpWebRequest);
         }
@@ -116,7 +117,7 @@ namespace Decidir.Clients
 
         protected HttpWebRequest Initialize(string uri, string method)
         {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(uri);
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(uri);
             httpWebRequest.Method = method;
 
             httpWebRequest.ContentLength = 0;

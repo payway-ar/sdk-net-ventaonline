@@ -8,7 +8,8 @@ namespace DecidirExample.Models
 
         public string privateApiKey { get; set; }
         public string publicApiKey { get; set; }
-
+        public string request_host { get; set; }
+        public string request_path { get; set; }
         public string site_transaction_id { get; set; }
         public string token { get; set; }
         public string email { get; set; }
