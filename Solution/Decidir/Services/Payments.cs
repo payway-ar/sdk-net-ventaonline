@@ -210,12 +210,12 @@ namespace Decidir.Services
                 }
                 catch (JsonReaderException)
                 {
-                    ErrorResponse errorPaymentResponse = new ErrorResponse();
-                    errorPaymentResponse.code = "502";
-                    errorPaymentResponse.error_type = "Error en recepción de mensaje";
-                    errorPaymentResponse.message = "No se pudo leer la respuesta";
-                    errorPaymentResponse.validation_errors = null;
-                    throw new PaymentResponseException(errorPaymentResponse.code, errorPaymentResponse );
+                    ErrorResponse ErrorPaymentResponse = new ErrorResponse();
+                    ErrorPaymentResponse.code = "502";
+                    ErrorPaymentResponse.error_type = "Error en recepción de mensaje";
+                    ErrorPaymentResponse.message = "No se pudo leer la respuesta";
+                    ErrorPaymentResponse.validation_errors = null;
+                    throw new PaymentResponseException(ErrorPaymentResponse.code, ErrorPaymentResponse );
                 }
             }
 
