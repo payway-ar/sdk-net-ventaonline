@@ -204,7 +204,19 @@ namespace Decidir.Services
 
             if (!String.IsNullOrEmpty(result.Response))
             {
-                response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
+                    try
+                {
+                    response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
+                }
+                catch (JsonReaderException)
+                {
+                    ErrorResponse ErrorPaymentResponse = new ErrorResponse();
+                    ErrorPaymentResponse.code = "502";
+                    ErrorPaymentResponse.error_type = "Error en recepción de mensaje";
+                    ErrorPaymentResponse.message = "No se pudo leer la respuesta";
+                    ErrorPaymentResponse.validation_errors = null;
+                    throw new PaymentResponseException(ErrorPaymentResponse.code, ErrorPaymentResponse );
+                }
             }
 
             response.statusCode = result.StatusCode;
