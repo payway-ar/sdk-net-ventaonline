@@ -18,7 +18,7 @@ namespace Decidir.Services
         private RestClient restClientValidate;
         private RestClient restClientGetTokenBSA;
 
-        public Payments(String endpoint, String privateApiKey, String validateApiKey=null , String merchant=null, string request_host = null, string publicApiKey = null) : base(endpoint)
+        public Payments(String endpoint, String privateApiKey, String validateApiKey = null, String merchant = null, string request_host = null, string publicApiKey = null) : base(endpoint)
         {
             this.privateApiKey = privateApiKey;
             this.validateApiKey = validateApiKey;
@@ -204,7 +204,19 @@ namespace Decidir.Services
 
             if (!String.IsNullOrEmpty(result.Response))
             {
-                response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
+                try
+                {
+                    response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
+                }
+                catch (JsonReaderException)
+                {
+                    ErrorResponse ErrorPaymentResponse = new ErrorResponse();
+                    ErrorPaymentResponse.code = "502";
+                    ErrorPaymentResponse.error_type = "Error en recepción de mensaje";
+                    ErrorPaymentResponse.message = "No se pudo leer la respuesta";
+                    ErrorPaymentResponse.validation_errors = null;
+                    throw new PaymentResponseException(ErrorPaymentResponse.code, ErrorPaymentResponse);
+                }
             }
 
             response.statusCode = result.StatusCode;
@@ -260,7 +272,7 @@ namespace Decidir.Services
         public ValidateResponse DoValidate(ValidateData validatePayment)
         {
             ValidateResponse response = null;
-            
+
             Dictionary<string, string> headers = new Dictionary<string, string>();
             headers.Add("apikey", this.validateApiKey);
             headers.Add("X-Consumer-Username", this.merchant);
@@ -294,12 +306,19 @@ namespace Decidir.Services
             return DoValidate(validateData);
         }
 
-        public GetTokenResponse GetToken(CardTokenBsa card_token)
+        public GetTokenResponse GetTokenByCardTokenBsa(CardTokenBsa card_token)
         {
-            return DoGetToken(card_token);
+            string cardTokenJson = CardTokenBsa.toJson(card_token);
+            return DoGetToken(cardTokenJson);
         }
 
-        private GetTokenResponse DoGetToken(CardTokenBsa card_token)
+        public GetTokenResponse GetToken(TokenRequest token)
+        {
+            string cardTokenJson = TokenRequest.toJson(token);
+            return DoGetToken(cardTokenJson);
+        }
+
+        private GetTokenResponse DoGetToken(string cardTokenJson)
         {
             GetTokenResponse response = null;
 
@@ -307,7 +326,7 @@ namespace Decidir.Services
             headers.Add("apikey", this.publicApiKey);
 
             this.restClientGetTokenBSA = new RestClient(this.endpoint, headers, CONTENT_TYPE_APP_JSON);
-            string cardTokenJson = CardTokenBsa.toJson(card_token);
+
             RestResponse result = this.restClientGetTokenBSA.Post("tokens", cardTokenJson);
 
             if (!String.IsNullOrEmpty(result.Response))
