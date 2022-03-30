@@ -76,7 +76,7 @@ namespace Decidir
         {
             return this.healthCheckService.Execute();
         }
-        
+
         public PaymentResponse Payment(Payment payment)
         {
             return this.paymentService.ExecutePayment(payment);
@@ -137,9 +137,14 @@ namespace Decidir
             return this.paymentService.ValidatePayment(validateData);
         }
 
-        public GetTokenResponse GetToken(CardTokenBsa card_token_bsa)
+        public GetTokenResponse GetTokenByCardTokenBsa(CardTokenBsa card_token_bsa)
         {
-            return this.paymentService.GetToken(card_token_bsa);
+            return this.paymentService.GetTokenByCardTokenBsa(card_token_bsa);
+        }
+
+        public GetTokenResponse GetToken(TokenRequest token)
+        {
+            return this.paymentService.GetToken(token);
         }
 
     }
