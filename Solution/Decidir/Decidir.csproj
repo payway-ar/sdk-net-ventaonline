@@ -61,11 +61,17 @@
     <Compile Include="Model\AggregateDataPayment.cs" />
     <Compile Include="Model\CapturePaymentResponse.cs" />
     <Compile Include="Model\CardDataPayment.cs" />
+    <Compile Include="Model\CardError.cs" />
+    <Compile Include="Model\CardErrorReason.cs" />
     <Compile Include="Model\CardHolder.cs" />
     <Compile Include="Model\CardHolderIdentification.cs" />
     <Compile Include="Model\CardTokenBsa.cs" />
     <Compile Include="Model\CyberSource\FraudDetectionBSA.cs" />
     <Compile Include="Model\GetTokenResponse.cs" />
+    <Compile Include="Model\RefundPaymentResponse.cs" />
+    <Compile Include="Model\RefundSubPayment.cs" />
+    <Compile Include="Model\RefundSubPaymentRequest.cs" />
+    <Compile Include="Model\RefundSubPaymentResponse.cs" />
     <Compile Include="Model\SiteInfo.cs" />
     <Compile Include="Model\ConfirmedCapturePayment.cs" />
     <Compile Include="Model\CustomerData.cs" />

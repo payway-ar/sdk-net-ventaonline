@@ -135,6 +135,27 @@ namespace Decidir.Services
             return refund;
         }
 
+        public RefundPaymentResponse RefundSubPayment(long paymentId, RefundSubPaymentRequest refundSubPaymentRequest)
+        {
+            RefundPaymentResponse refund = null;
+            RestResponse result = this.restClient.Post(String.Format("payments/{0}/refunds", paymentId.ToString()), Model.RefundSubPaymentRequest.toJson(refundSubPaymentRequest));
+
+            if (result.StatusCode == STATUS_CREATED && !String.IsNullOrEmpty(result.Response))
+            {
+                refund = JsonConvert.DeserializeObject<RefundPaymentResponse>(result.Response);
+            }
+            else
+            {
+                if (isErrorResponse(result.StatusCode))
+                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new ResponseException(result.StatusCode + " - " + result.Response);
+            }
+
+            return refund;
+
+        }
+
         public DeleteRefundResponse DeleteRefund(long paymentId, long refundId)
         {
             DeleteRefundResponse refund = null;
