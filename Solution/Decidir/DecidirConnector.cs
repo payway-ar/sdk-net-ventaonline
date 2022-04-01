@@ -11,6 +11,7 @@ namespace Decidir
 
         private const string request_host_sandbox = "https://developers.decidir.com";
         private const string request_host_production = "https://live.decidir.com";
+        private const string request_host_qa = "https://qa.decidir.com";
         private const string request_path_payments = "/api/v2/";
         private const string request_path_validate = "/web/";
 
@@ -18,7 +19,7 @@ namespace Decidir
 
         private const string endPointSandbox = request_host_sandbox + request_path_payments; // https://developers.decidir.com/api/v2/;
         private const string endPointProduction = request_host_production + request_path_payments; //https://live.decidir.com/api/v2/;
-
+        private const string endPointQA = request_host_qa + request_path_payments; //https://live.decidir.com/api/v2/;
 
         #endregion
 
@@ -58,6 +59,11 @@ namespace Decidir
             {
                 this.endpoint = endPointProduction;
                 this.request_host = request_host_production;
+            }
+            else if (ambiente == Ambiente.AMBIENTE_QA)
+            {
+                this.endpoint = endPointQA;
+                this.request_host = request_host_qa;
             }
             else if (ambiente == Ambiente.AMBIENTE_SANDBOX)
             {
