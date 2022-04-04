@@ -9,7 +9,7 @@ namespace Decidir
         #region Constants
         public const string versionDecidir = "1.4.8";
 
-        private const string request_host_sandbox = "https://qa.decidir.com";
+        private const string request_host_sandbox = "https://developers.decidir.com";
         private const string request_host_production = "https://live.decidir.com";
         private const string request_path_payments = "/api/v2/";
         private const string request_path_validate = "/web/";
