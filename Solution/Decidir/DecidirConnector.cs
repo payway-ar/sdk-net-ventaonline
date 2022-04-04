@@ -107,7 +107,7 @@ namespace Decidir
             return this.paymentService.Refund(paymentId);
         }
 
-        public RefundPaymentResponse RefundSubPayment(long paymentId, RefundSubPaymentRequest refundSubPaymentRequest)
+        public RefundPaymentResponse RefundSubPayment(long paymentId, string refundSubPaymentRequest)
         {
             return this.paymentService.RefundSubPayment(paymentId, refundSubPaymentRequest);    
         }

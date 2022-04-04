@@ -7,7 +7,7 @@ namespace Decidir.Model
 {
     public class RefundPaymentResponse
     {
-        public long id { get; set; }
+        public long? id { get; set; }
         public long amount { get; set; }
         private CardError error { get; set; }
         public List<RefundSubPaymentResponse> sub_payments { get; set; }

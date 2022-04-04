@@ -34,7 +34,7 @@ namespace DecidirExample.Controllers
         }
 
         [HttpPost]
-        public ActionResult RefundSubPayment(int ambienteId, string privateApiKey, string publicApiKey, long paymentId,RefundSubPaymentRequest refundSubPaymentRequest , string request_host, string request_path)
+        public ActionResult RefundSubPayment(int ambienteId, string privateApiKey, string publicApiKey, long paymentId,string refundSubPaymentRequest , string request_host, string request_path)
         {
             DecidirConnector decidir = GetDecidirConnector(ambienteId, privateApiKey, publicApiKey, request_host, request_path);
 

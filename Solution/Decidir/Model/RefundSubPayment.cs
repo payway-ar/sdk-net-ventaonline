@@ -7,7 +7,7 @@ namespace Decidir.Model
 {
     public class RefundSubPayment
     {
-        public long id { get; set; }
-        public long amount  { get; set; }
+        public int id { get; set; }
+        public int amount  { get; set; }
     }
 }

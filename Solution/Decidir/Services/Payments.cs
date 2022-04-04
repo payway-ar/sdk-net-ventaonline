@@ -135,11 +135,13 @@ namespace Decidir.Services
             return refund;
         }
 
-        public RefundPaymentResponse RefundSubPayment(long paymentId, RefundSubPaymentRequest refundSubPaymentRequest)
+        public RefundPaymentResponse RefundSubPayment(long paymentId, String refundSubPaymentRequest)
         {
             RefundPaymentResponse refund = null;
-            RestResponse result = this.restClient.Post(String.Format("payments/{0}/refunds", paymentId.ToString()), Model.RefundSubPaymentRequest.toJson(refundSubPaymentRequest));
 
+
+            RestResponse result = this.restClient.Post(String.Format("payments/{0}/refunds", paymentId.ToString()),  refundSubPaymentRequest);
+            
             if (result.StatusCode == STATUS_CREATED && !String.IsNullOrEmpty(result.Response))
             {
                 refund = JsonConvert.DeserializeObject<RefundPaymentResponse>(result.Response);
