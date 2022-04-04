@@ -113,6 +113,7 @@
     <Compile Include="Model\TemplateValidate.cs" />
     <Compile Include="Model\Token.cs" />
     <Compile Include="Model\TokenFraudDetection.cs" />
+    <Compile Include="Model\TokenRequest.cs" />
     <Compile Include="Model\ValidateCustomer.cs" />
     <Compile Include="Model\ValidatePayment.cs" />
     <Compile Include="Model\ValidateResponse.cs" />
