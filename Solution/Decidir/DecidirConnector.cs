@@ -113,6 +113,11 @@ namespace Decidir
             return this.paymentService.Refund(paymentId);
         }
 
+        public RefundPaymentResponse RefundSubPayment(long paymentId, string refundSubPaymentRequest)
+        {
+            return this.paymentService.RefundSubPayment(paymentId, refundSubPaymentRequest);    
+        }
+
         public DeleteRefundResponse DeleteRefund(long paymentId, long refundId)
         {
             return this.paymentService.DeleteRefund(paymentId, refundId);
@@ -142,10 +147,14 @@ namespace Decidir
         {
             return this.paymentService.ValidatePayment(validateData);
         }
-
-        public GetTokenResponse GetToken(CardTokenBsa card_token_bsa)
+        public GetTokenResponse GetTokenByCardTokenBsa(CardTokenBsa card_token_bsa)
         {
-            return this.paymentService.GetToken(card_token_bsa);
+            return this.paymentService.GetTokenByCardTokenBsa(card_token_bsa);
+        }
+
+        public GetTokenResponse GetToken(TokenRequest token)
+        {
+            return this.paymentService.GetToken(token);
         }
 
     }
