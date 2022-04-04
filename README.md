@@ -25,6 +25,7 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Anulación de Devolución Total](#deleterefund)
       + [Devolución Parcial de un Pago](#partialrefund)
       + [Anulación de Devolución Parcial](#deletepartialrefund)
+      + [Obtención de Token](#getToken)
       + [Obtención de Token BSA](#getTokenBSA)
     + [Tokenización de tarjetas de crédito](#tokenizaciontarjeta)
       + [Listado de tarjetas tokenizadas](#listadotarjetastokenizadas)	
@@ -563,6 +564,63 @@ DeleteRefundResponse deleteRefund = decidir.DeletePartialRefund(paymentId, refun
 ```
 
 [<sub>Volver a inicio</sub>](#inicio)
+
+<a name="getToken"></a>
+### Obtención de token para pago simple
+Se debe llamar al servicio getToken para obtener el token con el que se hará el pago en Decidir
+
+```C#
+
+crear el request o directamente mandar el body
+
+          TokenRequest request = new TokenRequest();
+            request.card_number = "4509790112684851";
+            request.card_expiration_month = "12";
+            request.card_expiration_year = "30";
+            request.card_holder_name = "Barb";
+            request.security_code = "123";
+            CardHolderIdentification card_holder_identification = new CardHolderIdentification();
+            card_holder_identification.type = "dni";
+            card_holder_identification.number = "29123456";
+            request.card_holder_identification = card_holder_identification;
+            TokenFraudDetection fraud_detection = new TokenFraudDetection();
+            fraud_detection.device_unique_identifier = "12345";
+            request.fraud_detection = fraud_detection;
+            request.ip_address = "192.168.100.1";
+
+
+body:
+{
+    "card_number": "4509790112684851",
+    "card_expiration_month": "12",
+    "card_expiration_year": "30",
+    "card_holder_name": "Barb",
+    "security_code": "123",
+    "card_holder_identification": {
+        "type": "dni",
+        "number": "29123456"
+    },
+    "fraud_detection": {
+        "device_unique_identifier": "12345"
+    },
+    "ip_address": "192.168.100.1"
+}
+//Para el ambiente de desarrollo
+DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey_decidir, publicApiKey_decidir);
+
+try
+{
+    GetTokenResponse resultGetTokenResponse = decidir.GetToken(request);
+    string outputResutGetToken = JsonConvert.SerializeObject(resultGetTokenResponse);
+}
+catch (Exception e)
+{
+    Debug.WriteLine("{0} Exception caught.", e);
+}
+```
+
+[<sub>Volver a inicio</sub>](#inicio)
+
 
 <a name="getTokenBSA"></a>
 ### Obtención de token para pago con BSA
