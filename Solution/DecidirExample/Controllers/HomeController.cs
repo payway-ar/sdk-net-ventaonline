@@ -88,7 +88,7 @@ namespace DecidirExample.Controllers
         {
             DecidirConnector decidir = GetDecidirConnector(cardTokenBsaDTO.AmbienteId, cardTokenBsaDTO.privateApiKey, cardTokenBsaDTO.publicApiKey, cardTokenBsaDTO.request_host, cardTokenBsaDTO.request_path);
 
-            GetTokenResponse respuesta = decidir.GetToken(cardTokenBsaDTO.cardTokenBsa);
+            GetTokenResponse respuesta = decidir.GetTokenByCardTokenBsa(cardTokenBsaDTO.cardTokenBsa);
 
             return Json(respuesta);
         }
