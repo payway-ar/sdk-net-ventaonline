@@ -18,7 +18,7 @@ namespace Decidir.Services
         private RestClient restClientValidate;
         private RestClient restClientGetTokenBSA;
 
-        public Payments(String endpoint, String privateApiKey, String validateApiKey = null, String merchant = null, string request_host = null, string publicApiKey = null) : base(endpoint)
+        public Payments(String endpoint, String privateApiKey, String validateApiKey=null , String merchant=null, string request_host = null, string publicApiKey = null) : base(endpoint)
         {
             this.privateApiKey = privateApiKey;
             this.validateApiKey = validateApiKey;
@@ -135,6 +135,29 @@ namespace Decidir.Services
             return refund;
         }
 
+        public RefundPaymentResponse RefundSubPayment(long paymentId, String refundSubPaymentRequest)
+        {
+            RefundPaymentResponse refund = null;
+
+
+            RestResponse result = this.restClient.Post(String.Format("payments/{0}/refunds", paymentId.ToString()),  refundSubPaymentRequest);
+            
+            if (result.StatusCode == STATUS_CREATED && !String.IsNullOrEmpty(result.Response))
+            {
+                refund = JsonConvert.DeserializeObject<RefundPaymentResponse>(result.Response);
+            }
+            else
+            {
+                if (isErrorResponse(result.StatusCode))
+                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new ResponseException(result.StatusCode + " - " + result.Response);
+            }
+
+            return refund;
+
+        }
+
         public DeleteRefundResponse DeleteRefund(long paymentId, long refundId)
         {
             DeleteRefundResponse refund = null;
@@ -204,7 +227,7 @@ namespace Decidir.Services
 
             if (!String.IsNullOrEmpty(result.Response))
             {
-                try
+                    try
                 {
                     response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
                 }
@@ -215,7 +238,7 @@ namespace Decidir.Services
                     ErrorPaymentResponse.error_type = "Error en recepción de mensaje";
                     ErrorPaymentResponse.message = "No se pudo leer la respuesta";
                     ErrorPaymentResponse.validation_errors = null;
-                    throw new PaymentResponseException(ErrorPaymentResponse.code, ErrorPaymentResponse);
+                    throw new PaymentResponseException(ErrorPaymentResponse.code, ErrorPaymentResponse );
                 }
             }
 
@@ -272,7 +295,7 @@ namespace Decidir.Services
         public ValidateResponse DoValidate(ValidateData validatePayment)
         {
             ValidateResponse response = null;
-
+            
             Dictionary<string, string> headers = new Dictionary<string, string>();
             headers.Add("apikey", this.validateApiKey);
             headers.Add("X-Consumer-Username", this.merchant);
@@ -306,19 +329,12 @@ namespace Decidir.Services
             return DoValidate(validateData);
         }
 
-        public GetTokenResponse GetTokenByCardTokenBsa(CardTokenBsa card_token)
+        public GetTokenResponse GetToken(CardTokenBsa card_token)
         {
-            string cardTokenJson = CardTokenBsa.toJson(card_token);
-            return DoGetToken(cardTokenJson);
+            return DoGetToken(card_token);
         }
 
-        public GetTokenResponse GetToken(TokenRequest token)
-        {
-            string cardTokenJson = TokenRequest.toJson(token);
-            return DoGetToken(cardTokenJson);
-        }
-
-        private GetTokenResponse DoGetToken(string cardTokenJson)
+        private GetTokenResponse DoGetToken(CardTokenBsa card_token)
         {
             GetTokenResponse response = null;
 
@@ -326,7 +342,7 @@ namespace Decidir.Services
             headers.Add("apikey", this.publicApiKey);
 
             this.restClientGetTokenBSA = new RestClient(this.endpoint, headers, CONTENT_TYPE_APP_JSON);
-
+            string cardTokenJson = CardTokenBsa.toJson(card_token);
             RestResponse result = this.restClientGetTokenBSA.Post("tokens", cardTokenJson);
 
             if (!String.IsNullOrEmpty(result.Response))

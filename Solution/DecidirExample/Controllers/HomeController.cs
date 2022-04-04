@@ -34,6 +34,16 @@ namespace DecidirExample.Controllers
         }
 
         [HttpPost]
+        public ActionResult RefundSubPayment(int ambienteId, string privateApiKey, string publicApiKey, long paymentId,string refundSubPaymentRequest , string request_host, string request_path)
+        {
+            DecidirConnector decidir = GetDecidirConnector(ambienteId, privateApiKey, publicApiKey, request_host, request_path);
+
+            RefundPaymentResponse respuesta = decidir.RefundSubPayment(paymentId, refundSubPaymentRequest);
+
+            return Json(respuesta);
+        }
+
+        [HttpPost]
         public ActionResult DeleteRefund(int ambienteId, string privateApiKey, string publicApiKey, long paymentId, long refundId, string request_host, string request_path)
         {
             DecidirConnector decidir = GetDecidirConnector(ambienteId, privateApiKey, publicApiKey, request_host, request_path);
@@ -78,7 +88,7 @@ namespace DecidirExample.Controllers
         {
             DecidirConnector decidir = GetDecidirConnector(cardTokenBsaDTO.AmbienteId, cardTokenBsaDTO.privateApiKey, cardTokenBsaDTO.publicApiKey, cardTokenBsaDTO.request_host, cardTokenBsaDTO.request_path);
 
-            GetTokenResponse respuesta = decidir.GetTokenByCardTokenBsa(cardTokenBsaDTO.cardTokenBsa);
+            GetTokenResponse respuesta = decidir.GetToken(cardTokenBsaDTO.cardTokenBsa);
 
             return Json(respuesta);
         }
