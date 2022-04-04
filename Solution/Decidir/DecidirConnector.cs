@@ -113,6 +113,11 @@ namespace Decidir
             return this.paymentService.Refund(paymentId);
         }
 
+        public RefundPaymentResponse RefundSubPayment(long paymentId, string refundSubPaymentRequest)
+        {
+            return this.paymentService.RefundSubPayment(paymentId, refundSubPaymentRequest);    
+        }
+
         public DeleteRefundResponse DeleteRefund(long paymentId, long refundId)
         {
             return this.paymentService.DeleteRefund(paymentId, refundId);
