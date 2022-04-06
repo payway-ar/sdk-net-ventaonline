@@ -9,9 +9,9 @@ namespace Decidir.Services
 {
     internal class HealthCheck : Service
     {
-        public HealthCheck(string endpoint) : base(endpoint)
+        public HealthCheck(string endpoint, Dictionary<string, string> headers) : base(endpoint)
         {
-            this.restClient = new RestClient(this.endpoint, new Dictionary<string, string>(), CONTENT_TYPE_APP_JSON);
+            this.restClient = new RestClient(this.endpoint, headers, CONTENT_TYPE_APP_JSON);
         }
 
         public HealthCheckResponse Execute()

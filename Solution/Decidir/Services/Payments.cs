@@ -17,20 +17,17 @@ namespace Decidir.Services
         private string request_host;
         private RestClient restClientValidate;
         private RestClient restClientGetTokenBSA;
+        Dictionary<string, string> headers;
 
-        public Payments(String endpoint, String privateApiKey, String validateApiKey=null , String merchant=null, string request_host = null, string publicApiKey = null) : base(endpoint)
+        public Payments(String endpoint, String privateApiKey, Dictionary<string, string> headers, String validateApiKey=null , String merchant=null, string request_host = null, string publicApiKey = null) : base(endpoint)
         {
             this.privateApiKey = privateApiKey;
             this.validateApiKey = validateApiKey;
             this.merchant = merchant;
             this.request_host = request_host;
             this.publicApiKey = publicApiKey;
-
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-            headers.Add("apikey", this.privateApiKey);
-            headers.Add("Cache-Control", "no-cache");
-
-            this.restClient = new RestClient(this.endpoint, headers, CONTENT_TYPE_APP_JSON);
+            this.headers = headers;
+            this.restClient = new RestClient(this.endpoint, this.headers, CONTENT_TYPE_APP_JSON);
         }
 
         public PaymentResponse ExecutePayment(OfflinePayment payment)
@@ -295,11 +292,9 @@ namespace Decidir.Services
         public ValidateResponse DoValidate(ValidateData validatePayment)
         {
             ValidateResponse response = null;
-            
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-            headers.Add("apikey", this.validateApiKey);
-            headers.Add("X-Consumer-Username", this.merchant);
-            headers.Add("Cache-Control", "no-cache");
+
+            this.headers["apikey"]= this.validateApiKey;
+            this.headers.Add("X-Consumer-Username", this.merchant);
 
             this.restClientValidate = new RestClient(this.request_host + "/web/", headers, CONTENT_TYPE_APP_JSON);
 
@@ -345,10 +340,9 @@ namespace Decidir.Services
         {
             GetTokenResponse response = null;
 
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-            headers.Add("apikey", this.publicApiKey);
+            this.headers["apikey"] = this.publicApiKey;
 
-            this.restClientGetTokenBSA = new RestClient(this.endpoint, headers, CONTENT_TYPE_APP_JSON);
+            this.restClientGetTokenBSA = new RestClient(this.endpoint, this.headers, CONTENT_TYPE_APP_JSON);
             RestResponse result = this.restClientGetTokenBSA.Post("tokens", cardTokenJson);
 
             if (!String.IsNullOrEmpty(result.Response))
