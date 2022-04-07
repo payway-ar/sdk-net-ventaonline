@@ -17,12 +17,14 @@ namespace Decidir
         private const string request_host_qa = "https://qa.decidir.com";
         private const string request_path_payments = "/api/v2/";
         private const string request_path_validate = "/web/";
+        private const string request_path_closureQA = "/api/v1/";
 
 
 
         private const string endPointSandbox = request_host_sandbox + request_path_payments; // https://developers.decidir.com/api/v2/;
         private const string endPointProduction = request_host_production + request_path_payments; //https://live.decidir.com/api/v2/;
-        private const string endPointQA = request_host_qa + request_path_payments; //https://live.decidir.com/api/v2/;
+        private const string endPointQA = request_host_qa + request_path_payments; //https://qa.decidir.com/api/v2/;
+        private const string endPointQAClosure = request_host_qa + request_path_closureQA;
 
         #endregion
 
@@ -40,6 +42,7 @@ namespace Decidir
         private Payments paymentService;
         private UserSite userSiteService;
         private CardTokens cardTokensService;
+        private BatchClosure bathClosureService;
 
         private Dictionary<string, string> headers;
 
@@ -85,10 +88,20 @@ namespace Decidir
                 this.request_host = request_host_sandbox;
             }
 
+            if (ambiente == Ambiente.AMBIENTE_QA)
+            {
+                this.bathClosureService = new BatchClosure(endPointQAClosure, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
+            }
+            else
+            {
+                this.bathClosureService = new BatchClosure(this.endpoint, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
+            }
+
             this.healthCheckService = new HealthCheck(this.endpoint, this.headers);
             this.paymentService = new Payments(this.endpoint, this.privateApiKey, this.headers, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
             this.userSiteService = new UserSite(this.endpoint, this.privateApiKey, this.headers);
             this.cardTokensService = new CardTokens(this.endpoint, this.privateApiKey,this.headers);
+
         }
 
 
@@ -130,6 +143,11 @@ namespace Decidir
         public RefundPaymentResponse RefundSubPayment(long paymentId, string refundSubPaymentRequest)
         {
             return this.paymentService.RefundSubPayment(paymentId, refundSubPaymentRequest);    
+        }
+
+        public BatchClosureResponse BatchClosure(string batchClosure)
+        {
+            return this.bathClosureService.BatchClosureActive(batchClosure);
         }
 
         public DeleteRefundResponse DeleteRefund(long paymentId, long refundId)

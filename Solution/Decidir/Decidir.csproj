@@ -59,6 +59,9 @@
     <Compile Include="Exceptions\ResponseException.cs" />
     <Compile Include="Exceptions\ValidateResponseException.cs" />
     <Compile Include="Model\AggregateDataPayment.cs" />
+    <Compile Include="Model\BatchClosureError.cs" />
+    <Compile Include="Model\BatchClosureRequest.cs" />
+    <Compile Include="Model\BatchClosureResponse.cs" />
     <Compile Include="Model\CapturePaymentResponse.cs" />
     <Compile Include="Model\CardDataPayment.cs" />
     <Compile Include="Model\CardError.cs" />
@@ -118,6 +121,7 @@
     <Compile Include="Model\ValidatePayment.cs" />
     <Compile Include="Model\ValidateResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BatchClosureService.cs" />
     <Compile Include="Services\CardTokens.cs" />
     <Compile Include="Services\HealthCheck.cs" />
     <Compile Include="Services\Payments.cs" />
