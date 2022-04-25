@@ -1,8 +1,8 @@
 <a name="inicio"></a>
-Decidir SDK .Net
+Payway SDK .Net
 ===============
 
-Modulo para conexión con gateway de pago DECIDIR2
+Modulo para conexión con gateway de pago Payway
 
   + [Introducción](#introduccion)
 	+ [Alcance](#alcance)
@@ -50,21 +50,20 @@ Modulo para conexión con gateway de pago DECIDIR2
 El flujo de una transacción a través de las **sdks** consta de dos pasos, la **generaci&oacute;n de un token de pago** por parte del cliente y el **procesamiento de pago** por parte del comercio. Existen sdks espec&iacute;ficas para realizar estas funciones en distintos lenguajes que se detallan a continuaci&oacute;n:
 
 + **Generaci&oacute;n de un token de pago.**  Se utiliza alguna de las siguentes **sdks front-end** :
-  + [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
-  + [sdk Android](https://github.com/decidir/SDK-Android.v2)
-  + [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
+  + [sdk Javascript](https://github.com/payway-ar/sdk-javascript-ventaonline)
 + **Procesamiento de pago.**  Se utiliza alguna de las siguentes **sdks back-end** :
-  + [sdk Java](https://github.com/decidir/SDK-JAVA.v2)
-  + [sdk PHP](https://github.com/decidir/SDK-PHP.v2)
-  + [sdk .Net](https://github.com/decidir/SDK-.NET.v2)
-  + [sdk Node](https://github.com/decidir/SDK-.NODE.v2)
+  + [sdk Java](https://github.com/payway-ar/sdk-java-ventaonline)
+  + [sdk PHP](https://github.com/payway-ar/sdk-php-ventaonline)
+  + [sdk .Net](https://github.com/payway-ar/sdk-net-ventaonline)
+  + [sdk Node](https://github.com/payway-ar/sdk-node-ventaonline)
+
 
 [<sub>Volver a inicio</sub>](#inicio)
 
 <a name="alcance"></a>
 
 ### Alcance
-La **sdk Net** provee soporte para su **aplicaci&oacute;n back-end**, encargandose de la comunicaci&oacute;n del comercio con la **API Decidir** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
+La **sdk Net** provee soporte para su **aplicaci&oacute;n back-end**, encargandose de la comunicaci&oacute;n del comercio con la **API Payway** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
 
 ![imagen de sdks](./docs/img/FormularioIturan.png)</br>
 
@@ -135,10 +134,8 @@ Forms intentará realizar un pago. En caso de que sea satisfactorio, este rediri
 
 
 
-Para generar el token de pago, la aplicaci&oacute;n cliente realizar&aacute; con **Decidir** a trav&eacute;s de alguna de las siguentes **sdks front-end**:
-+ [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
-+ [sdk Android](https://github.com/decidir/SDK-Android.v2)
-+ [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
+Para generar el token de pago, la aplicaci&oacute;n cliente realizar&aacute; con **Payway** a trav&eacute;s de alguna de las siguentes **sdks front-end**:
++ [sdk Javascript](https://github.com/payway-ar/sdk-javascript-ventaonline)
 
 ![imagen de sdks](./docs/img/DiagramaSDKs.png)</br>
 
@@ -182,7 +179,7 @@ La versi&oacute;n implementada de la SDK, esta testeada para versiones desde .ne
 
 ### Manual de Integración
 
-Se encuentra disponible la documentación **[Manual de Integración Decidir2](https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios utilizando la presente SDK.
+Se encuentra disponible la documentación **[Manual de Integración Payway](https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios utilizando la presente SDK.
 
 [<sub>Volver a inicio</sub>](#inicio)
 
@@ -190,7 +187,7 @@ Se encuentra disponible la documentación **[Manual de Integración Decidir2](ht
 
 ### Ambientes
 
-El SDK-Net permite trabajar con los ambientes de desarrollo y de producción de Decidir.
+El SDK-Net permite trabajar con los ambientes de desarrollo y de producción de Payway.
 El ambiente se debe instanciar como se indica a continuación.
 
 ```C#
@@ -214,9 +211,9 @@ DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_PRODUCCION, pr
 
 Instanciación de la clase `DecidirConnector`
 
-La misma recibe como parámetros la public key o private key provisto por Decidir para el comercio y el ambiente en que se trabajara.
+La misma recibe como parámetros la public key o private key provisto por Payway para el comercio y el ambiente en que se trabajara.
 
-Ambas API Keys serán provistas por el equipo de Soporte de DECIDIR (soporte@decidir.com.ar).
+Ambas API Keys serán provistas por el equipo de Soporte de Payway (soporte@payway.com.ar).
 
 Es de importancia mencionar que a lo largo de toda la presente documentación, se utilizarán las siguientes API Keys de prueba para los Requests
 
@@ -236,7 +233,7 @@ DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, priva
 
 <a name="healthcheck"></a>
 ### Health Check
-Este recurso permite conocer el estado actual de la API RESTful de DECIDIR.
+Este recurso permite conocer el estado actual de la API RESTful de Payway.
 
 ```C#
 using Decidir;
@@ -355,7 +352,7 @@ Este servicio permite integrar en el comercio un formulario de pago. Utiliza el 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site.id  | Merchant  | Condicional | Numérico de 20 digitos   | id: "12365436"  |
-|site.template.id  | Id de formulario de pago, el id es unico para cada comercio y es generado previamente por Decidir | SI | Numérico de 20 digitos  |   |
+|site.template.id  | Id de formulario de pago, el id es unico para cada comercio y es generado previamente por Payway | SI | Numérico de 20 digitos  |   |
 |site.transaction_id  | Numero de operación  | SI | Alfanumérico  de 40 digitos |   |
 |customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
 |customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
@@ -567,7 +564,7 @@ DeleteRefundResponse deleteRefund = decidir.DeletePartialRefund(paymentId, refun
 
 <a name="getToken"></a>
 ### Obtención de token para pago simple
-Se debe llamar al servicio getToken para obtener el token con el que se hará el pago en Decidir
+Se debe llamar al servicio getToken para obtener el token con el que se hará el pago en Payway
 
 ```C#
 
@@ -606,7 +603,7 @@ body:
     "ip_address": "192.168.100.1"
 }
 //Para el ambiente de desarrollo
-DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey_decidir, publicApiKey_decidir);
+DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey_payway, publicApiKey_payway);
 
 try
 {
@@ -624,7 +621,7 @@ catch (Exception e)
 
 <a name="getTokenBSA"></a>
 ### Obtención de token para pago con BSA
-Se debe llamar al servicio getToken para obeter el token con el que se hará el pago en Decidir
+Se debe llamar al servicio getToken para obeter el token con el que se hará el pago en Payway
 
 ```C#
 CardHolderIdentification card_holder_identification = new CardHolderIdentification();
@@ -662,7 +659,7 @@ catch (Exception e)
 
 ## Tokenización de tarjetas de crédito
 
-Esta funcionalidad permite que luego de realizar una compra con una tarjeta, se genere un token alfanumerico unico en el backend de Decidir, esto permite que a la hora de comprar nuevamente con esta tarjeta solo requerira el codigo de seguridad.
+Esta funcionalidad permite que luego de realizar una compra con una tarjeta, se genere un token alfanumerico unico en el backend de Payway, esto permite que a la hora de comprar nuevamente con esta tarjeta solo requerira el codigo de seguridad.
 Como primer paso se debe realizar una un pago normal, el token generado estara en el campo "token" de la respuesta.
 
 [<sub>Volver a inicio</sub>](#inicio)
@@ -1271,7 +1268,7 @@ https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-imp
 | AR$ | Pesos Argentinos | ARS |
 | U$S | Dólares Americanos | USD | 
 
-**NOTA** Si bien la API RESTful de DECIDIR admite compras en Dólares Americanos, la legislación argentina sólo permite transacciones en Pesos Argentinos. Es por esto que DECIDIR recomienda que todas las transacciones se cursen en dicha moneda.
+**NOTA** Si bien la API RESTful de Payway admite compras en Dólares Americanos, la legislación argentina sólo permite transacciones en Pesos Argentinos. Es por esto que Payway recomienda que todas las transacciones se cursen en dicha moneda.
 
 [<sub>Volver a inicio</sub>](#inicio)
 
