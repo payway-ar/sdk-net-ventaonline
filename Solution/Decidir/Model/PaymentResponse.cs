@@ -39,6 +39,8 @@ namespace Decidir.Model
 
         public string customer_token { get; set; }
 
+        public Auth3dsResponse auth_3ds_response { get; set; }
+
         public PaymentResponse()
         {
             this.sub_payments = new List<SubPaymentResponse>();

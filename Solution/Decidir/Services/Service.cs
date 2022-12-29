@@ -13,6 +13,7 @@ namespace Decidir.Services
         protected const int STATUS_OK = 200;
         protected const int STATUS_CREATED = 201;
         protected const int STATUS_NOCONTENT = 204;
+        protected const int STATUS_ERROR = 500;
 
         public Service(string endpoint)
         {

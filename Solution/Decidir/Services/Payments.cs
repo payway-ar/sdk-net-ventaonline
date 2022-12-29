@@ -220,13 +220,14 @@ namespace Decidir.Services
 
             RestResponse result = this.restClient.Post("payments", Payment.toJson(paymentCopy));
 
-
+            /*Console.WriteLine(toJson(result.Response));*/
 
             if (!String.IsNullOrEmpty(result.Response))
             {
                     try
                 {
                     response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
+                    /*Console.WriteLine(toJson(response));*/
                 }
                 catch (JsonReaderException)
                 {
@@ -243,13 +244,29 @@ namespace Decidir.Services
 
             if (result.StatusCode != STATUS_CREATED)
             {
-                if (isErrorResponse(result.StatusCode))
-                    throw new PaymentResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                if (result.StatusCode == STATUS_ERROR)
+                {
+                    throw new PaymentResponseException(result.StatusCode + " - " + result.Response, JsonConvert.DeserializeObject<ErrorResponse>(result.Response), result.StatusCode);
+                } else
+                {
+
+                    if (isErrorResponse(result.StatusCode))
+                    throw new PaymentResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response),result.StatusCode);
                 else
-                    throw new PaymentResponseException(result.StatusCode + " - " + result.Response, response);
+                    throw new PaymentResponseException(result.StatusCode + " - " + result.Response, response,result.StatusCode);
+                }
             }
+            
 
             return response;
+        }
+
+        public static string toJson(Object payment)
+        {
+            return JsonConvert.SerializeObject(payment, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
         }
 
         private string GetAllPaymentsQuery(long? offset, long? pageSize, string siteOperationId, string merchantId)
