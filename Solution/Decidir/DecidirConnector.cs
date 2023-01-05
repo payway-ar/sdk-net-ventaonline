@@ -46,12 +46,12 @@ namespace Decidir
 
         private Dictionary<string, string> headers;
 
-        public DecidirConnector(int ambiente, string privateApiKey, string publicApiKey, string validateApiKey = null, string merchant = null, string grouper = null, string developer = null)
+        public DecidirConnector(int ambiente, string privateApiKey, string publicApiKey, string validateApiKey = null, string merchant = null, string grouper = "", string developer = "")
         {
             init(ambiente, privateApiKey, publicApiKey, validateApiKey, merchant, grouper, developer);
         }
 
-        public DecidirConnector(string request_host, string request_path, string privateApiKey, string publicApiKey, string validateApiKey = null, string merchant = null, string grouper = null, string developer = null)
+        public DecidirConnector(string request_host, string request_path, string privateApiKey, string publicApiKey, string validateApiKey = null, string merchant = null, string grouper = "", string developer = "")
         {
             this.request_host = request_host;
             this.endpoint = request_host + request_path;

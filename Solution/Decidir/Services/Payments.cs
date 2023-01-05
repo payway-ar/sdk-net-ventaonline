@@ -216,7 +216,7 @@ namespace Decidir.Services
         {
             PaymentResponse response = null;
 
-            paymentCopy.ConvertDecidirAmounts();
+            /*paymentCopy.ConvertDecidirAmounts();*/
 
             RestResponse result = this.restClient.Post("payments", Payment.toJson(paymentCopy));
 
