@@ -17,11 +17,10 @@ namespace Decidir.Model.CyberSource
         public string code_share { get; set; }
         public int airline_number_of_passengers { get; set; }
         public List<Passengers> passengers { get; set; }
-        public List<DecisionManagerTravel> decision_manager_travel { get; set; }
+        public DecisionManagerTravel decision_manager_travel { get; set; }
         
         public TravelTransactionData()
         {   
-            this.decision_manager_travel = new List<DecisionManagerTravel>();
             this.passengers = new List<Passengers>();
         }
     }
