@@ -144,7 +144,7 @@ namespace Decidir.Clients
                     result.StatusCode = ((int)response.StatusCode);
 
                     if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created
-                        && response.StatusCode != HttpStatusCode.NoContent)
+                        && response.StatusCode != HttpStatusCode.NoContent && response.StatusCode != HttpStatusCode.Accepted)
                     {
                         var message = String.Format("Request failed. Received HTTP {0}", response.StatusCode);
                         result.Response = message;
