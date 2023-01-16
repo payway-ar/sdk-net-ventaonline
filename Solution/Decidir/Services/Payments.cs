@@ -44,6 +44,11 @@ namespace Decidir.Services
             return DoPayment(paymentCopy);
         }
 
+        public PaymentResponse InstructionThreeDS(string xConsumerUsername, Instruction3dsData instruction3DsData)
+        {
+            return sendInstructionThreeDS(xConsumerUsername, instruction3DsData);
+        }
+
         public CapturePaymentResponse CapturePayment(long paymentId, double amount)
         {
             int amountCapture = Convert.ToInt32(amount * 100);
@@ -212,25 +217,105 @@ namespace Decidir.Services
             return DeleteRefund(paymentId, refundId);
         }
 
-        protected PaymentResponse DoPayment(Payment paymentCopy)
+        protected PaymentResponse sendInstructionThreeDS(string xConsumerUsername, Instruction3dsData instruction3DsData)
         {
             PaymentResponse response = null;
+            Model3dsResponse response3ds = new Model3dsResponse();
 
-            /*paymentCopy.ConvertDecidirAmounts();*/
+            this.headers.Add("X-Consumer-Username", xConsumerUsername);
+
+            RestResponse result = this.restClient.Post("threeds/instruction", toJson(instruction3DsData));
+            Console.WriteLine("RESULTADO DE INSTRUCTIONS: " + result.StatusCode + " " + result.Response);
+
+            if (!String.IsNullOrEmpty(result.Response))
+            {
+                try
+                {
+                    
+                    response3ds = JsonConvert.DeserializeObject<Model3dsResponse>(result.Response);  
+                }
+                catch (JsonReaderException j)
+                {
+                    Console.WriteLine("ERROR DE CASTEO: " + j.ToString());
+                    ErrorResponse ErrorPaymentResponse = new ErrorResponse();
+                    ErrorPaymentResponse.code = "502";
+                    ErrorPaymentResponse.error_type = "Error en recepción de mensaje";
+                    ErrorPaymentResponse.message = "No se pudo leer la respuesta";
+                    ErrorPaymentResponse.validation_errors = null;
+                    throw new PaymentResponseException(ErrorPaymentResponse.code, ErrorPaymentResponse);
+                }
+            }
+
+            if (response != null)
+            {
+                response.statusCode = result.StatusCode;
+            }
+            if (result.StatusCode != STATUS_CREATED)
+            {
+                if (isErrorResponse(result.StatusCode))
+                    throw new PaymentResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response), result.StatusCode);
+                else
+                    throw new PaymentAuth3dsResponseException(result.StatusCode + " - " + result.Response, response3ds, result.StatusCode);
+            }
+
+            return response;
+        }
+
+            protected PaymentResponse DoPayment(Payment paymentCopy)
+        {
+            PaymentResponse response = null;
+            Model3dsResponse model3ds = null;
+
+            paymentCopy.ConvertDecidirAmounts();
 
             RestResponse result = this.restClient.Post("payments", Payment.toJson(paymentCopy));
 
-            /*Console.WriteLine(toJson(result.Response));*/
+            Console.WriteLine("RESULTADO DE PAYMENT: " + result.StatusCode + " " + result.Response);
 
             if (!String.IsNullOrEmpty(result.Response))
             {
                     try
                 {
-                    response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
+                    if (paymentCopy.cardholder_auth_required)
+                    {
+                        
+                        response = JsonConvert.DeserializeObject<PaymentResponse>
+                            (result.Response);
+
+                        if (response.status == STATUS_CHALLENGE_PENDING
+                               || response.status == STATUS_FINGERPRINT_PENDING)
+                        {
+                            model3ds = JsonConvert.DeserializeObject<Model3dsResponse>
+                            (result.Response);
+                        }
+
+                       /*     if (response3ds != null)
+                        {
+                            if (response3ds.status == STATUS_CHALLENGE_PENDING 
+                                || response3ds.status == STATUS_FINGERPRINT_PENDING)
+                            {
+                                model3ds = new Model3dsResponse();
+                                model3ds.id = response3ds.id;
+                                model3ds.status = response3ds.status;
+                                model3ds.http = response3ds.http;
+                                model3ds.timeout = response3ds.timeout;
+                                model3ds.target = response3ds.target;
+
+                            }
+                        }*/
+                        /*response = JsonConvert.DeserializeObject<PaymentAuth3dsResponse>(result.Response);*/
+                        Console.WriteLine("RESULTADO DE PAYMENT CON 3DS: " + toJson(result.Response));
+                    }
+                    else
+                    {
+                        response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
+
+                    }
                     /*Console.WriteLine(toJson(response));*/
                 }
-                catch (JsonReaderException)
+                catch (JsonReaderException j)
                 {
+                    Console.WriteLine("ERROR DE CASTEO: " + j.ToString());
                     ErrorResponse ErrorPaymentResponse = new ErrorResponse();
                     ErrorPaymentResponse.code = "502";
                     ErrorPaymentResponse.error_type = "Error en recepción de mensaje";
@@ -239,8 +324,10 @@ namespace Decidir.Services
                     throw new PaymentResponseException(ErrorPaymentResponse.code, ErrorPaymentResponse );
                 }
             }
-
-            response.statusCode = result.StatusCode;
+            if (response != null) { 
+            
+                response.statusCode = result.StatusCode;
+            } 
 
             if (result.StatusCode != STATUS_CREATED)
             {
@@ -251,9 +338,39 @@ namespace Decidir.Services
                 {
 
                     if (isErrorResponse(result.StatusCode))
-                    throw new PaymentResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response),result.StatusCode);
-                else
-                    throw new PaymentResponseException(result.StatusCode + " - " + result.Response, response,result.StatusCode);
+                    {
+
+                        throw new PaymentResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response), result.StatusCode);
+                }else
+                    {
+                        if (paymentCopy.cardholder_auth_required)
+                        {
+                            if (result.StatusCode == STATUS_ACCEPTED)
+                            {
+                                throw new PaymentAuth3dsResponseException(result.StatusCode + " - " + result.Response, model3ds, result.StatusCode);
+                            } else
+                            {
+                                throw new PaymentResponseException(result.StatusCode + " - " + result.Response, response, result.StatusCode);
+                            }
+                        }
+
+                           /* if (result.StatusCode == STATUS_ACCEPTED && paymentCopy.cardholder_auth_required)
+                        {
+                            throw new PaymentAuth3dsResponseException(result.StatusCode + " - " + result.Response, model3ds, result.StatusCode);
+                        } else
+                        {
+                            if (paymentCopy.cardholder_auth_required)
+                            {
+                                throw new PaymentResponseException(result.StatusCode + " - " + result.Response, response3ds, result.StatusCode);
+                            } else
+                            {
+                                throw new PaymentResponseException(result.StatusCode + " - " + result.Response, response,result.StatusCode);
+
+                            }
+
+                        }*/
+                    }
+
                 }
             }
             

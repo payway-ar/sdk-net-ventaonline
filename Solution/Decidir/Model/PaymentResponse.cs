@@ -24,21 +24,16 @@ namespace Decidir.Model
         public string merchant_id { get; set; }
         public Dictionary<string, object> fraud_detection { get; set; }
         public int statusCode { get; set; }
-
         public string site_id { get; set; }
         public string pan { get; set; }
         public Dictionary<string, string> aggregate_data { get; set; }
-
         public CustomerData customer { get; set; }
         public string card_brand { get; set; }
         public string first_installment_expiration_date { get; set; }
-
         public string spv { get; set; }
         public string confirmed { get; set; }
         public string card_data { get; set; }
-
         public string customer_token { get; set; }
-
         public Auth3dsResponse auth_3ds_response { get; set; }
 
         public PaymentResponse()

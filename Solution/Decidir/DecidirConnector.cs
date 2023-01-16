@@ -189,6 +189,11 @@ namespace Decidir
             return this.paymentService.GetToken(token);
         }
 
+        public PaymentResponse InstructionThreeDS(string xConsumerUsername, Instruction3dsData instruction3DsData)
+        {
+            return this.paymentService.InstructionThreeDS(xConsumerUsername, instruction3DsData);
+        }
+
         private string getXSource(String grouper, String developer)
         {
             Dictionary<string, string> header = new Dictionary<string, string>();
