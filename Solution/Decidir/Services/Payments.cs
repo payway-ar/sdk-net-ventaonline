@@ -220,19 +220,18 @@ namespace Decidir.Services
         protected PaymentResponse sendInstructionThreeDS(string xConsumerUsername, Instruction3dsData instruction3DsData)
         {
             PaymentResponse response = null;
-            Model3dsResponse response3ds = new Model3dsResponse();
-
             this.headers.Add("X-Consumer-Username", xConsumerUsername);
-
+            this.restClient = new RestClient(this.endpoint, headers, CONTENT_TYPE_APP_JSON);
             RestResponse result = this.restClient.Post("threeds/instruction", toJson(instruction3DsData));
+
             Console.WriteLine("RESULTADO DE INSTRUCTIONS: " + result.StatusCode + " " + result.Response);
 
             if (!String.IsNullOrEmpty(result.Response))
             {
                 try
                 {
-                    
-                    response3ds = JsonConvert.DeserializeObject<Model3dsResponse>(result.Response);  
+
+                    response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);  
                 }
                 catch (JsonReaderException j)
                 {
@@ -255,7 +254,7 @@ namespace Decidir.Services
                 if (isErrorResponse(result.StatusCode))
                     throw new PaymentResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response), result.StatusCode);
                 else
-                    throw new PaymentAuth3dsResponseException(result.StatusCode + " - " + result.Response, response3ds, result.StatusCode);
+                    throw new PaymentResponseException(result.StatusCode + " - " + result.Response, response, result.StatusCode);
             }
 
             return response;
