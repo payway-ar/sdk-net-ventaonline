@@ -220,6 +220,7 @@ namespace Decidir.Services
         protected PaymentResponse sendInstructionThreeDS(string xConsumerUsername, Instruction3dsData instruction3DsData)
         {
             PaymentResponse response = null;
+
             this.headers.Add("X-Consumer-Username", xConsumerUsername);
             this.restClient = new RestClient(this.endpoint, headers, CONTENT_TYPE_APP_JSON);
             RestResponse result = this.restClient.Post("threeds/instruction", toJson(instruction3DsData));
@@ -230,7 +231,6 @@ namespace Decidir.Services
             {
                 try
                 {
-
                     response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);  
                 }
                 catch (JsonReaderException j)
