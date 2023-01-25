@@ -232,7 +232,6 @@ namespace Decidir.Services
             {
                 try
                 {
-
                     response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
                     if (response.status == STATUS_CHALLENGE_PENDING
                               || response.status == STATUS_FINGERPRINT_PENDING)
@@ -240,7 +239,6 @@ namespace Decidir.Services
                         model3ds = JsonConvert.DeserializeObject<Model3dsResponse>
                         (result.Response);
                     }
-
                 }
                 catch (JsonReaderException j)
                 {
