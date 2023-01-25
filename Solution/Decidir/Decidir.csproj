@@ -71,6 +71,8 @@
     <Compile Include="Model\CardTokenBsa.cs" />
     <Compile Include="Model\CyberSource\FraudDetectionBSA.cs" />
     <Compile Include="Model\GetTokenResponse.cs" />
+    <Compile Include="Model\HttpThreeds.cs" />
+    <Compile Include="Model\Instruction3dsData.cs" />
     <Compile Include="Model\RefundPaymentResponse.cs" />
     <Compile Include="Model\RefundSubPayment.cs" />
     <Compile Include="Model\RefundSubPaymentRequest.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="Model\StatusErrorReason.cs" />
     <Compile Include="Model\SubPayment.cs" />
     <Compile Include="Model\SubPaymentResponse.cs" />
+    <Compile Include="Model\TargetThreeds.cs" />
     <Compile Include="Model\TemplateValidate.cs" />
     <Compile Include="Model\Token.cs" />
     <Compile Include="Model\TokenFraudDetection.cs" />
