@@ -55,14 +55,10 @@
     <Compile Include="Constants\Ambiente.cs" />
     <Compile Include="DecidirConnector.cs" />
     <Compile Include="Exceptions\GetTokenResponseException.cs" />
-    <Compile Include="Exceptions\PaymentAuth3dsResponseException.cs" />
     <Compile Include="Exceptions\PaymentResponseException.cs" />
     <Compile Include="Exceptions\ResponseException.cs" />
     <Compile Include="Exceptions\ValidateResponseException.cs" />
-    <Compile Include="Model\Model3dsResponse.cs" />
     <Compile Include="Model\AggregateDataPayment.cs" />
-    <Compile Include="Model\Auth3dsData.cs" />
-    <Compile Include="Model\Auth3dsResponse.cs" />
     <Compile Include="Model\BatchClosureError.cs" />
     <Compile Include="Model\BatchClosureRequest.cs" />
     <Compile Include="Model\BatchClosureResponse.cs" />
