@@ -55,10 +55,14 @@
     <Compile Include="Constants\Ambiente.cs" />
     <Compile Include="DecidirConnector.cs" />
     <Compile Include="Exceptions\GetTokenResponseException.cs" />
+    <Compile Include="Exceptions\PaymentAuth3dsResponseException.cs" />
     <Compile Include="Exceptions\PaymentResponseException.cs" />
     <Compile Include="Exceptions\ResponseException.cs" />
     <Compile Include="Exceptions\ValidateResponseException.cs" />
+    <Compile Include="Model\Model3dsResponse.cs" />
     <Compile Include="Model\AggregateDataPayment.cs" />
+    <Compile Include="Model\Auth3dsData.cs" />
+    <Compile Include="Model\Auth3dsResponse.cs" />
     <Compile Include="Model\BatchClosureError.cs" />
     <Compile Include="Model\BatchClosureRequest.cs" />
     <Compile Include="Model\BatchClosureResponse.cs" />
@@ -71,6 +75,8 @@
     <Compile Include="Model\CardTokenBsa.cs" />
     <Compile Include="Model\CyberSource\FraudDetectionBSA.cs" />
     <Compile Include="Model\GetTokenResponse.cs" />
+    <Compile Include="Model\HttpThreeds.cs" />
+    <Compile Include="Model\Instruction3dsData.cs" />
     <Compile Include="Model\RefundPaymentResponse.cs" />
     <Compile Include="Model\RefundSubPayment.cs" />
     <Compile Include="Model\RefundSubPaymentRequest.cs" />
@@ -113,6 +119,7 @@
     <Compile Include="Model\StatusErrorReason.cs" />
     <Compile Include="Model\SubPayment.cs" />
     <Compile Include="Model\SubPaymentResponse.cs" />
+    <Compile Include="Model\TargetThreeds.cs" />
     <Compile Include="Model\TemplateValidate.cs" />
     <Compile Include="Model\Token.cs" />
     <Compile Include="Model\TokenFraudDetection.cs" />
