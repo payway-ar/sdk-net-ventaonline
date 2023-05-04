@@ -39,10 +39,13 @@ namespace Decidir.Services
 
         public PaymentResponse ExecutePayment(Payment payment)
         {
-            Payment paymentCopy = payment.copy();
+            /*Payment paymentCopy = payment.copy();*/
 
-            return DoPayment(paymentCopy);
+            /*return DoPayment(paymentCopy);*/
+            return DoPayment(payment);
+
         }
+
 
         public PaymentResponse InstructionThreeDS(string xConsumerUsername, Instruction3dsData instruction3DsData)
         {
