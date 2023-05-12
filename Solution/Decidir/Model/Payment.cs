@@ -28,6 +28,13 @@ namespace Decidir.Model
         public Boolean cardholder_auth_required { get; set; }
         public Auth3dsData auth_3ds_data { get; set; }
 
+        public Boolean is_tokenized_payment { get; set; }
+        public TokenCardData token_card_data { get; set; }
+        public CardData card_data { get; set; }
+
+
+
+
         public Payment()
         {
             this.sub_payments = new List<object>();
