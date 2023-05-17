@@ -18,6 +18,7 @@ namespace Decidir
         private const string request_path_payments = "/api/v2/";
         private const string request_path_validate = "/web/";
         private const string request_path_closureQA = "/api/v1/";
+        private const string request_path_internal_token = "/api/v1/transaction_gateway/";
 
 
 
@@ -25,6 +26,10 @@ namespace Decidir
         private const string endPointProduction = request_host_production + request_path_payments; //https://live.decidir.com/api/v2/;
         private const string endPointQA = request_host_qa + request_path_payments; //https://qa.decidir.com/api/v2/;
         private const string endPointQAClosure = request_host_qa + request_path_closureQA;
+
+        private const string endPointInternalTokenSandbox = request_host_sandbox + request_path_internal_token;
+        private const string endPointInternalTokenProduction = request_host_production + request_path_internal_token;
+        private const string endPointInternalTokenQA = request_host_qa + request_path_internal_token;
 
         #endregion
 
@@ -37,6 +42,8 @@ namespace Decidir
         private string merchant;
         private string grouper;
         private string developer;
+
+        private string endPointInternalToken;
 
         private HealthCheck healthCheckService;
         private Payments paymentService;
@@ -72,33 +79,31 @@ namespace Decidir
             headers.Add("Cache-Control", "no-cache");
             headers.Add("X-Source", getXSource(grouper, developer));
 
+            this.bathClosureService = new BatchClosure(this.endpoint, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
+
             if (ambiente == Ambiente.AMBIENTE_PRODUCCION)
             {
                 this.endpoint = endPointProduction;
                 this.request_host = request_host_production;
+                this.endPointInternalToken = endPointInternalTokenProduction;
             }
             else if (ambiente == Ambiente.AMBIENTE_QA)
             {
                 this.endpoint = endPointQA;
                 this.request_host = request_host_qa;
+                this.endPointInternalToken = endPointInternalTokenQA;
+                this.bathClosureService = new BatchClosure(endPointQAClosure, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
             }
             else if (ambiente == Ambiente.AMBIENTE_SANDBOX)
             {
                 this.endpoint = endPointSandbox;
                 this.request_host = request_host_sandbox;
+                this.endPointInternalToken = endPointInternalTokenSandbox;
             }
 
-            if (ambiente == Ambiente.AMBIENTE_QA)
-            {
-                this.bathClosureService = new BatchClosure(endPointQAClosure, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
-            }
-            else
-            {
-                this.bathClosureService = new BatchClosure(this.endpoint, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
-            }
-
+           
             this.healthCheckService = new HealthCheck(this.endpoint, this.headers);
-            this.paymentService = new Payments(this.endpoint, this.privateApiKey, this.headers, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
+            this.paymentService = new Payments(this.endpoint, this.endPointInternalToken, this.privateApiKey, this.headers, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
             this.userSiteService = new UserSite(this.endpoint, this.privateApiKey, this.headers);
             this.cardTokensService = new CardTokens(this.endpoint, this.privateApiKey,this.headers);
 
@@ -113,6 +118,11 @@ namespace Decidir
         public PaymentResponse Payment(Payment payment)
         {
             return this.paymentService.ExecutePayment(payment);
+        }
+
+        public GetCryptogramResponse Cryptogram(CryptogramRequest cryptogramRequest)
+        {
+            return this.paymentService.GetCryptogram(cryptogramRequest);
         }
 
         public PaymentResponse Payment(OfflinePayment payment)
@@ -187,6 +197,11 @@ namespace Decidir
         public GetTokenResponse GetToken(TokenRequest token)
         {
             return this.paymentService.GetToken(token);
+        }
+
+        public GetInternalTokenResponse GetInternalToken(InternalTokenRequest token)
+        {
+            return this.paymentService.GetInternalToken(token);
         }
 
         public PaymentResponse InstructionThreeDS(string xConsumerUsername, Instruction3dsData instruction3DsData)
