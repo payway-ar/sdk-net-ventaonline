@@ -17,9 +17,11 @@ namespace Decidir.Services
         private string request_host;
         private RestClient restClientValidate;
         private RestClient restClientGetTokenBSA;
+        private RestClient restClientGetCryptogram;
         Dictionary<string, string> headers;
+        private string endpointInternalToken;
 
-        public Payments(String endpoint, String privateApiKey, Dictionary<string, string> headers, String validateApiKey=null , String merchant=null, string request_host = null, string publicApiKey = null) : base(endpoint)
+        public Payments(String endpoint, String endpointInternalToken, String privateApiKey, Dictionary<string, string> headers, String validateApiKey=null , String merchant=null, string request_host = null, string publicApiKey = null) : base(endpoint)
         {
             this.privateApiKey = privateApiKey;
             this.validateApiKey = validateApiKey;
@@ -28,6 +30,7 @@ namespace Decidir.Services
             this.publicApiKey = publicApiKey;
             this.headers = headers;
             this.restClient = new RestClient(this.endpoint, this.headers, CONTENT_TYPE_APP_JSON);
+            this.endpointInternalToken = endpointInternalToken;
         }
 
         public PaymentResponse ExecutePayment(OfflinePayment payment)
@@ -481,6 +484,66 @@ namespace Decidir.Services
         {
             string cardTokenJson = TokenRequest.toJson(token);
             return DoGetToken(cardTokenJson);
+        }
+
+        public GetInternalTokenResponse GetInternalToken(InternalTokenRequest token)
+        {
+            return DoGetInternalToken(InternalTokenRequest.toJson(token));
+        }
+        public GetCryptogramResponse GetCryptogram(CryptogramRequest cryptogramRequest)
+        {
+            return DoGetCryptogram(toJson(cryptogramRequest));
+        }
+
+        private GetInternalTokenResponse DoGetInternalToken(string cardTokenJson)
+        {
+            GetInternalTokenResponse response = null;
+
+            this.headers["apikey"] = this.publicApiKey;
+
+            this.restClientGetTokenBSA = new RestClient(this.endpointInternalToken, this.headers, CONTENT_TYPE_APP_JSON);
+            RestResponse result = this.restClientGetTokenBSA.Post("tokens", cardTokenJson);
+
+            if (result.StatusCode == STATUS_CREATED)
+            {
+                if (!String.IsNullOrEmpty(result.Response))
+                {
+                    response = JsonConvert.DeserializeObject<GetInternalTokenResponse>(result.Response);
+                }
+            
+            } else
+            {
+                throw new GetTokenResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorInternalTokenResponse>(result.Response),result.StatusCode);
+            }
+
+            return response;
+
+        }
+
+        private GetCryptogramResponse DoGetCryptogram(string cryptogramJson)
+        {
+            GetCryptogramResponse response = null;
+
+            this.headers["apikey"] = this.privateApiKey;
+
+            this.restClientGetCryptogram = new RestClient(this.endpointInternalToken, this.headers, CONTENT_TYPE_APP_JSON);
+            RestResponse result = this.restClientGetCryptogram.Post("payments", cryptogramJson);
+
+            if (result.StatusCode == STATUS_CREATED)
+            {
+                if (!String.IsNullOrEmpty(result.Response))
+                {
+                    response = JsonConvert.DeserializeObject<GetCryptogramResponse>(result.Response);
+                }
+
+            }
+            else
+            {
+                throw new GetTokenResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorInternalTokenResponse>(result.Response), result.StatusCode);
+            }
+
+            return response;
+
         }
 
         private GetTokenResponse DoGetToken(string cardTokenJson)
