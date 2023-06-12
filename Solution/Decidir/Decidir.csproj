@@ -54,7 +54,7 @@
     <Compile Include="Clients\RestResponse.cs" />
     <Compile Include="Constants\Ambiente.cs" />
     <Compile Include="Model\CryptogramRequest.cs" />
-    <Compile Include="CustomerDataCryptogram.cs" />
+    <Compile Include="Model\CustomerDataCryptogram.cs" />
     <Compile Include="DecidirConnector.cs" />
     <Compile Include="Model\CardDataInternalToken.cs" />
     <Compile Include="Model\CyberSource\FraudDetectionCryptogram.cs" />
@@ -146,7 +146,7 @@
     <Compile Include="Services\Service.cs" />
     <Compile Include="Services\UserSite.cs" />
     <Compile Include="Model\ValidateData.cs" />
-    <Compile Include="TransactionData.cs" />
+    <Compile Include="Model\TransactionData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

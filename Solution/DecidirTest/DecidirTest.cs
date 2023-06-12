@@ -173,7 +173,7 @@ namespace DecidirTest
               CardData data = GetCardData();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
-              RefundResponse refund = new RefundResponse();
+              RefundPaymentResponse refund = new RefundPaymentResponse();
 
               try
               {
@@ -204,7 +204,7 @@ namespace DecidirTest
               DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
-              RefundResponse refund = new RefundResponse();
+              RefundPaymentResponse refund = new RefundPaymentResponse();
               DeleteRefundResponse deleteRefund = new DeleteRefundResponse();
 
               try
@@ -237,7 +237,7 @@ namespace DecidirTest
               DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
-              RefundResponse refund = new RefundResponse();
+              RefundPaymentResponse refund = new RefundPaymentResponse();
 
               try
               {
@@ -268,7 +268,7 @@ namespace DecidirTest
               CardData data = GetCardData();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
-              RefundResponse refund = new RefundResponse();
+              RefundPaymentResponse refund = new RefundPaymentResponse();
               DeleteRefundResponse deleteRefund = new DeleteRefundResponse();
 
               try
@@ -278,14 +278,14 @@ namespace DecidirTest
                   resultPaymentResponse = decidir.Payment(payment);
 
                   Assert.AreEqual(resultPaymentResponse.bin, payment.bin);
-                  Assert.AreEqual(resultPaymentResponse.amount, payment.amount * 100);
+                  Assert.AreEqual(resultPaymentResponse.amount, payment.amount);
                   Assert.AreEqual(resultPaymentResponse.site_transaction_id, payment.site_transaction_id);
 
                   //Wait for Refund
                   Thread.Sleep(5000);
                   refund = decidir.PartialRefund(resultPaymentResponse.id, 1000);
 
-                  Assert.AreEqual(1000 * 100, refund.amount);
+                  Assert.AreEqual(1000, refund.amount);
                   Assert.AreEqual("approved", refund.status);
 
                   deleteRefund = decidir.DeletePartialRefund(resultPaymentResponse.id, refund.id);

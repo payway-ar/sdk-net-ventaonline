@@ -42,9 +42,6 @@ namespace Decidir.Services
 
         public PaymentResponse ExecutePayment(Payment payment)
         {
-            /*Payment paymentCopy = payment.copy();*/
-
-            /*return DoPayment(paymentCopy);*/
             return DoPayment(payment);
 
         }
@@ -55,11 +52,11 @@ namespace Decidir.Services
             return sendInstructionThreeDS(xConsumerUsername, instruction3DsData);
         }
 
-        public CapturePaymentResponse CapturePayment(long paymentId, double amount)
+        public CapturePaymentResponse CapturePayment(long paymentId, long amount)
         {
-            int amountCapture = Convert.ToInt32(amount * 100);
+            
             CapturePaymentResponse response = null;
-            RestResponse result = this.restClient.Put(String.Format("payments/{0}", paymentId.ToString()), "{\"amount\": " + amountCapture.ToString() + " }");
+            RestResponse result = this.restClient.Put(String.Format("payments/{0}", paymentId.ToString()), "{\"amount\": " + amount.ToString() + " }");
 
             if (result.StatusCode != STATUS_NOCONTENT && result.StatusCode != STATUS_OK)
             {
@@ -123,50 +120,24 @@ namespace Decidir.Services
             return payment;
         }
 
-        public RefundResponse Refund(long paymentId)
-        {
-            RefundResponse refund = null;
-            RestResponse result = this.restClient.Post(String.Format("payments/{0}/refunds", paymentId.ToString()), "{}");
-
-            if (result.StatusCode == STATUS_CREATED && !String.IsNullOrEmpty(result.Response))
-            {
-                refund = JsonConvert.DeserializeObject<RefundResponse>(result.Response);
-            }
-            else
-            {
-                if (isErrorResponse(result.StatusCode))
-                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
-                else
-                    throw new ResponseException(result.StatusCode + " - " + result.Response);
-            }
-
-            return refund;
-        }
-
-        public RefundPaymentResponse RefundSubPayment(long paymentId, String refundSubPaymentRequest)
+        public RefundPaymentResponse Refund(long paymentId, string refundBody)
         {
             RefundPaymentResponse refund = null;
+            RestResponse result = this.restClient.Post(String.Format("payments/{0}/refunds", paymentId.ToString()), refundBody);
 
-
-            RestResponse result = this.restClient.Post(String.Format("payments/{0}/refunds", paymentId.ToString()),  refundSubPaymentRequest);
-            
             if (result.StatusCode == STATUS_CREATED && !String.IsNullOrEmpty(result.Response))
             {
                 refund = JsonConvert.DeserializeObject<RefundPaymentResponse>(result.Response);
             }
             else
             {
-                if (isErrorResponse(result.StatusCode))
-                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
-                else
-                    throw new ResponseException(result.StatusCode + " - " + result.Response);
+                throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
             }
 
             return refund;
-
         }
 
-        public DeleteRefundResponse DeleteRefund(long paymentId, long refundId)
+        public DeleteRefundResponse DeleteRefund(long paymentId, long? refundId)
         {
             DeleteRefundResponse refund = null;
             RestResponse result = this.restClient.Delete(String.Format("payments/{0}/refunds/{1}", paymentId.ToString(), refundId.ToString()));
@@ -186,39 +157,7 @@ namespace Decidir.Services
             return refund;
         }
 
-        public RefundResponse PartialRefund(long paymentId, double amount)
-        {
-            RefundResponse refund = null;
-            PartialRefund partialRefund = new PartialRefund();
-
-            try
-            {
-                partialRefund.amount = Convert.ToInt64(amount * 100);
-            }
-            catch (Exception ex)
-            {
-                throw new ResponseException(ex.Message);
-            }
-
-
-            RestResponse result = this.restClient.Post(String.Format("payments/{0}/refunds", paymentId.ToString()), Model.PartialRefund.toJson(partialRefund));
-
-            if (result.StatusCode == STATUS_CREATED && !String.IsNullOrEmpty(result.Response))
-            {
-                refund = JsonConvert.DeserializeObject<RefundResponse>(result.Response);
-            }
-            else
-            {
-                if (isErrorResponse(result.StatusCode))
-                    throw new ResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
-                else
-                    throw new ResponseException(result.StatusCode + " - " + result.Response);
-            }
-
-            return refund;
-        }
-
-        public DeleteRefundResponse DeletePartialRefund(long paymentId, long refundId)
+        public DeleteRefundResponse DeletePartialRefund(long paymentId, long? refundId)
         {
             return DeleteRefund(paymentId, refundId);
         }
@@ -282,8 +221,6 @@ namespace Decidir.Services
             PaymentResponse response = null;
             Model3dsResponse model3ds = null;
 
-            paymentCopy.ConvertDecidirAmounts();
-
             RestResponse result = this.restClient.Post("payments", Payment.toJson(paymentCopy));
 
             Console.WriteLine("RESULTADO DE PAYMENT: " + result.StatusCode + " " + result.Response);
@@ -304,30 +241,12 @@ namespace Decidir.Services
                             model3ds = JsonConvert.DeserializeObject<Model3dsResponse>
                             (result.Response);
                         }
-
-                       /*     if (response3ds != null)
-                        {
-                            if (response3ds.status == STATUS_CHALLENGE_PENDING 
-                                || response3ds.status == STATUS_FINGERPRINT_PENDING)
-                            {
-                                model3ds = new Model3dsResponse();
-                                model3ds.id = response3ds.id;
-                                model3ds.status = response3ds.status;
-                                model3ds.http = response3ds.http;
-                                model3ds.timeout = response3ds.timeout;
-                                model3ds.target = response3ds.target;
-
-                            }
-                        }*/
-                        /*response = JsonConvert.DeserializeObject<PaymentAuth3dsResponse>(result.Response);*/
-                        Console.WriteLine("RESULTADO DE PAYMENT CON 3DS: " + toJson(result.Response));
                     }
                     else
                     {
                         response = JsonConvert.DeserializeObject<PaymentResponse>(result.Response);
 
                     }
-                    /*Console.WriteLine(toJson(response));*/
                 }
                 catch (JsonReaderException j)
                 {
@@ -369,22 +288,6 @@ namespace Decidir.Services
                                 throw new PaymentResponseException(result.StatusCode + " - " + result.Response, response, result.StatusCode);
                             }
                         }
-
-                           /* if (result.StatusCode == STATUS_ACCEPTED && paymentCopy.cardholder_auth_required)
-                        {
-                            throw new PaymentAuth3dsResponseException(result.StatusCode + " - " + result.Response, model3ds, result.StatusCode);
-                        } else
-                        {
-                            if (paymentCopy.cardholder_auth_required)
-                            {
-                                throw new PaymentResponseException(result.StatusCode + " - " + result.Response, response3ds, result.StatusCode);
-                            } else
-                            {
-                                throw new PaymentResponseException(result.StatusCode + " - " + result.Response, response,result.StatusCode);
-
-                            }
-
-                        }*/
                     }
 
                 }
