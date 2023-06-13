@@ -34,7 +34,7 @@ namespace DecidirExample.Controllers
         }
 
         [HttpPost]
-        public ActionResult RefundSubPayment(int ambienteId, string privateApiKey, string publicApiKey, long paymentId,string refundSubPaymentRequest , string request_host, string request_path)
+        public ActionResult RefundSubPayment(int ambienteId, string privateApiKey, string publicApiKey, long paymentId,RefundSubPaymentRequest refundSubPaymentRequest , string request_host, string request_path)
         {
             DecidirConnector decidir = GetDecidirConnector(ambienteId, privateApiKey, publicApiKey, request_host, request_path);
 
@@ -58,17 +58,17 @@ namespace DecidirExample.Controllers
         {
             DecidirConnector decidir = GetDecidirConnector(ambienteId, privateApiKey, publicApiKey, request_host, request_path);
 
-            DeleteRefundResponse respuesta = decidir.DeleteRefund(paymentId, refundId);
+            RefundResponse respuesta = decidir.DeleteRefund(paymentId, refundId);
 
             return Json(respuesta);
         }
 
         [HttpPost]
-        public ActionResult PartialRefund(int ambienteId, string privateApiKey, string publicApiKey, long paymentId, double amount, string request_host, string request_path)
+        public ActionResult PartialRefund(int ambienteId, string privateApiKey, string publicApiKey, long paymentId, RefundAmount amount, string request_host, string request_path)
         {
             DecidirConnector decidir = GetDecidirConnector(ambienteId, privateApiKey, publicApiKey, request_host, request_path);
 
-            RefundResponse respuesta = decidir.PartialRefund(paymentId, amount);
+            RefundPaymentResponse respuesta = decidir.PartialRefund(paymentId, amount);
 
             return Json(respuesta);
         }
@@ -78,7 +78,7 @@ namespace DecidirExample.Controllers
         {
             DecidirConnector decidir = GetDecidirConnector(ambienteId, privateApiKey, publicApiKey, request_host, request_path);
 
-            DeleteRefundResponse respuesta = decidir.DeletePartialRefund(paymentId, refundId);
+            RefundResponse respuesta = decidir.DeletePartialRefund(paymentId, refundId);
 
             return Json(respuesta);
         }

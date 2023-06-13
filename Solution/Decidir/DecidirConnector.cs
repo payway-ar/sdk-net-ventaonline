@@ -152,7 +152,7 @@ namespace Decidir
             return this.paymentService.Refund(paymentId, emptyObject);
         }
 
-        public RefundPaymentResponse RefundSubPayment(long paymentId, List<RefundSubPayment> refundSubPaymentRequest)
+        public RefundPaymentResponse RefundSubPayment(long paymentId, RefundSubPaymentRequest refundSubPaymentRequest)
         {
             return this.paymentService.Refund(paymentId, this.ObjectToJson(refundSubPaymentRequest));    
         }
@@ -162,17 +162,17 @@ namespace Decidir
             return this.bathClosureService.BatchClosureActive(batchClosure);
         }
 
-        public DeleteRefundResponse DeleteRefund(long paymentId, long? refundId)
+        public RefundResponse DeleteRefund(long paymentId, long? refundId)
         {
             return this.paymentService.DeleteRefund(paymentId, refundId);
         }
 
-        public RefundPaymentResponse PartialRefund(long paymentId, long amount)
+        public RefundPaymentResponse PartialRefund(long paymentId, RefundAmount amount)
         {
             return this.paymentService.Refund(paymentId, this.ObjectToJson(amount));
         }
 
-        public DeleteRefundResponse DeletePartialRefund(long paymentId, long? refundId)
+        public RefundResponse DeletePartialRefund(long paymentId, long? refundId)
         {
             return this.paymentService.DeletePartialRefund(paymentId, refundId);
         }

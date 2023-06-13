@@ -205,7 +205,7 @@ namespace DecidirTest
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
               RefundPaymentResponse refund = new RefundPaymentResponse();
-              DeleteRefundResponse deleteRefund = new DeleteRefundResponse();
+              RefundResponse deleteRefund = new RefundResponse();
 
               try
               {
@@ -250,7 +250,9 @@ namespace DecidirTest
 
                   //Wait for Refund
                   Thread.Sleep(5000);
-                  refund = decidir.PartialRefund(resultPaymentResponse.id, 1000);
+                RefundAmount refundAmount = new RefundAmount();
+                refundAmount.amount = 1000;
+                refund = decidir.PartialRefund(resultPaymentResponse.id, refundAmount);
 
                   Assert.AreEqual(1000 * 100, refund.amount);
                   Assert.AreEqual("approved", refund.status);
@@ -269,7 +271,7 @@ namespace DecidirTest
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
               RefundPaymentResponse refund = new RefundPaymentResponse();
-              DeleteRefundResponse deleteRefund = new DeleteRefundResponse();
+              RefundResponse deleteRefund = new RefundResponse();
 
               try
               {
@@ -283,7 +285,9 @@ namespace DecidirTest
 
                   //Wait for Refund
                   Thread.Sleep(5000);
-                  refund = decidir.PartialRefund(resultPaymentResponse.id, 1000);
+                RefundAmount refundAmount = new RefundAmount();
+                refundAmount.amount = 1000;
+                refund = decidir.PartialRefund(resultPaymentResponse.id, refundAmount);
 
                   Assert.AreEqual(1000, refund.amount);
                   Assert.AreEqual("approved", refund.status);

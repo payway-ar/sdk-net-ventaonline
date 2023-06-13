@@ -137,14 +137,14 @@ namespace Decidir.Services
             return refund;
         }
 
-        public DeleteRefundResponse DeleteRefund(long paymentId, long? refundId)
+        public RefundResponse DeleteRefund(long paymentId, long? refundId)
         {
-            DeleteRefundResponse refund = null;
+            RefundResponse refund = null;
             RestResponse result = this.restClient.Delete(String.Format("payments/{0}/refunds/{1}", paymentId.ToString(), refundId.ToString()));
 
             if (result.StatusCode == STATUS_OK && !String.IsNullOrEmpty(result.Response))
             {
-                refund = JsonConvert.DeserializeObject<DeleteRefundResponse>(result.Response);
+                refund = JsonConvert.DeserializeObject<RefundResponse>(result.Response);
             }
             else
             {
@@ -157,7 +157,7 @@ namespace Decidir.Services
             return refund;
         }
 
-        public DeleteRefundResponse DeletePartialRefund(long paymentId, long? refundId)
+        public RefundResponse DeletePartialRefund(long paymentId, long? refundId)
         {
             return DeleteRefund(paymentId, refundId);
         }
