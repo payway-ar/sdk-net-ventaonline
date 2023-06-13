@@ -7,7 +7,8 @@ namespace Decidir.Exceptions
     public class GetTokenResponseException : Exception
     {
         private string v;
-        private ErrorResponse errorResponse;
+        public ErrorResponse errorResponse { get; set; }
+
         protected GetTokenResponse getTokenResponse;
         public ErrorInternalTokenResponse getInternalTokenResponse { get; set; }
         public int statusCode { get; set; }
