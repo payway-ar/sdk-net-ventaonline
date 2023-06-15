@@ -2,6 +2,15 @@
 Payway SDK .Net
 ===============
 
+# Aclaración
+### A partir de la version 2.0 el campo amount de todos los pagos y operaciones son de tipo Long, se consideran los 2 ultimos digitos como la parte decimal del importe.
+
+|Monto| Ejemplo SDK |
+| ------------ | ------------ |
+| $1250,45 | 125045 |
+| $1.500.250,50 | 150025050  |
+| $3000,00 | 300000 |
+
 Modulo para conexión con gateway de pago Payway
 
   + [Introducción](#introduccion)
@@ -17,6 +26,8 @@ Modulo para conexión con gateway de pago Payway
     + [Operatoria del Gateway](#operatoria)
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
+      + [Ejecución del pago PCI Tokenizado](#payment-pci-tokenizado)
+      + [Ejecución de pago simple con 3ds](#payment-simple-3ds)
       + [Ejecución del Pago Offline](#offlinepayment)
       + [Formulario de Pago](#getvalidateform)
       + [Listado de Pagos](#getallpayments)
@@ -251,7 +262,7 @@ HealthCheckResponse response = decidir.HealthCheck();
 Una vez generado y almacenado el token de pago, se deberá ejecutar la solicitud de pago más el token previamente generado.
 Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el site_transaction_id.
 
-*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos.
+*Aclaracion* : amount es un campo Long, los últimos dos números se considerarán como decimales.
 
 ```C#
 string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
@@ -284,6 +295,133 @@ catch (ResponseException)
 
 [<sub>Volver a inicio</sub>](#inicio)
 
+<a name="payment-pci-tokenizado"></a>
+### Ejecución del pago PCI Tokenizado
+
+```C#
+string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
+string publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+
+//Para el ambiente de desarrollo
+DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
+
+Payment payment = new Payment();
+
+payment.site_transaction_id = "[ID DE LA TRANSACCIÓN]";
+payment.payment_method_id = 1;
+payment.amount = 2000;
+payment.currency = "ARS";
+payment.installments = 1;
+payment.description = "";
+payment.payment_type = "single";
+payment.establishment_name = "single";
+
+CardData card_data = new CardData();
+card_data.card_holder_name: "Luis Perez",
+card_data.card_expiration_month: "02",
+card_data.card_expiration_year: "23",
+card_data.card_number: "4517613063087082",
+card_data.security_code="444"
+
+CardHolderIdentification card_holder_identification = new CardHolderIdentification();
+card_holder_identification.number: "35080911",
+card_holder_identification.type: "dni"
+
+card_data.card_holder_identification = card_holder_identification;
+
+payment.card_data = card_data;
+
+AggregateDataPayment aaggregate_data = new AggregateDataPayment();
+aagregate_data.indicator: "1";
+aagregate_data.identification_number: "30598910045";
+aagregate_data.bill_to_pay: "Decidir_Test";
+aagregate_data.bill_to_refund: "Decidir_Test";
+aagregate_data.merchant_name: "DECIDIR";
+aagregate_data.street: "Lavarden";
+aagregate_data.number: "247";
+aagregate_data.postal_code: "C1437FBE";
+aagregate_data.category: "05044";
+aagregate_data.channel: "005";
+aagregate_data.geographic_code: "C1437";
+aagregate_data.city: "Ciudad de Buenos Aires";
+aagregate_data.merchant_id: "decidir_Agregador";
+aagregate_data.province: "Buenos Aires";
+aagregate_data.country: "Argentina";
+aagregate_data.merchant_email: "qa@decidir.com";
+aagregate_data.merchant_phone: "+541135211111";
+
+payment.aggregate_data = aaggregate_data;
+
+TokenCardData token_card_data = new TokenCardData();
+
+token_card_data.token= "4540730005109054",
+token_card_data.eci= "05",
+token_card_data.cryptogram= "cryptogram_123467890"
+
+payment.token_card_data = paymentRequest.token_card_data;
+
+payment.is_tokenized_payment: true;
+
+try
+{
+    PaymentResponse resultPaymentResponse = decidir.Payment(payment);
+}
+catch (ResponseException){}
+catch (PaymentResponseException){}
+```
+
+
+<a name="payment-simple-3ds"></a>
+
+### Ejecución de pago simple con 3ds
+En este caso se necesita agregar el flag "cardholder_auth_required" en true y se le debe pasar el objeto "auth_3ds_data". 
+
+```C#
+string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
+string publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+
+//Para el ambiente de desarrollo
+DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
+
+Payment payment = new Payment();
+
+payment.site_transaction_id = "[ID DE LA TRANSACCIÓN]";
+payment.payment_method_id = 1;
+payment.token = "[TOKEN DE PAGO]";
+payment.bin = "450799";
+payment.amount = 2000;
+payment.currency = "ARS";
+payment.installments = 1;
+payment.description = "";
+payment.payment_type = "single";
+payment.establishment_name = "single";
+
+payment.cardholder_auth_required =true;
+
+Auth3dsData auth_3ds_data = new Auth3dsData ();
+
+auth_3ds_data.device_type= "BROWSER";
+auth_3ds_data.accept_header= "application/json";
+auth_3ds_data.user_agent= "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101";
+auth_3ds_data.ip= "1.12.123.255";
+auth_3ds_data.java_enabled= true;
+auth_3ds_data.language= "es";
+auth_3ds_data.color_depth= "32";
+auth_3ds_data.screen_height= 500;
+auth_3ds_data.screen_width= 4;
+auth_3ds_data.time_zone_offset= 570;
+
+payment.auth_3ds_data = auth_3ds_data;
+
+try
+{
+    PaymentResponse resultPaymentResponse = decidir.Payment(payment);
+}
+catch (ResponseException){}
+catch (PaymentResponseException){}
+catch (PaymentAuth3dsResponseException){}
+```
+
 <a name="offlinepayment"></a>
 
 
@@ -303,7 +441,7 @@ Además del token de pago y los parámetros propios de la transacción, el comer
 ![imagen de sdks](./docs/img/me-pmc.jpg)</br>
 
 
-*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos.
+*Aclaracion* : amount es un campo Long, los últimos dos números se considerarán como decimales.
 
 ```C#
 string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
@@ -517,7 +655,7 @@ long refundId = 0;
 //Para el ambiente de desarrollo
 DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
 
-DeleteRefundResponse deleteRefund = decidir.DeleteRefund(paymentId, refundId);
+RefundResponse deleteRefund = decidir.DeleteRefund(paymentId, refundId);
 ```
 
 [<sub>Volver a inicio</sub>](#inicio)
@@ -532,12 +670,13 @@ Mediante este recurso, se genera una solicitud de devolución parcial de un pago
 string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
 string publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
 long paymentId = 0;
-double refundId = 10.55;
+RefundAmount refundAmount = new RefundAmount();
+refundAmount.amount = 1050;
 
 //Para el ambiente de desarrollo
 DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
 
-RefundResponse refund = decidir.PartialRefund(paymentId, refundId);
+RefundPaymentResponse refund = decidir.PartialRefund(paymentId, refundAmount);
 ```
 
 [<sub>Volver a inicio</sub>](#inicio)
@@ -557,7 +696,7 @@ long refundId = 0;
 //Para el ambiente de desarrollo
 DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
 
-DeleteRefundResponse deleteRefund = decidir.DeletePartialRefund(paymentId, refundId);
+RefundResponse deleteRefund = decidir.DeletePartialRefund(paymentId, refundId);
 ```
 
 [<sub>Volver a inicio</sub>](#inicio)
@@ -791,7 +930,7 @@ retail.bill_to.street2 = "Mexico 123"; //Complemento del domicilio. (piso, depar
 
 //purchase_totals
 retail.purchase_totals.currency = "ARS"; //Moneda. MANDATORIO.
-retail.purchase_totals.amount = 2000 * 100; //Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO. (Ejemplos:$125,38-> 125.38 $12-> 12 o 12.00)
+retail.purchase_totals.amount = 2000;
 
 //customer_in_site
 retail.customer_in_site.days_in_site = 243;
@@ -826,9 +965,9 @@ item.code = "estoesunapruebadecs";
 item.description = "Prueba de CyberSource";
 item.name = "CyberSource";
 item.sku = "prueba";
-item.total_amount = 2000 * 100;
+item.total_amount = 2000;
 item.quantity = 1;
-item.unit_price = 2000 * 100;
+item.unit_price = 2000;
 retail.retail_transaction_data.items.Add(item);
 
 for (int i = 17; i < 35; i++)
@@ -896,7 +1035,7 @@ ticketing.bill_to.street2 = "Mexico 123";
 
 //purchase_totals
 ticketing.purchase_totals.currency = "ARS";
-ticketing.purchase_totals.amount = 2000 * 100;
+ticketing.purchase_totals.amount = 2000;
 
 //customer_in_site
 ticketing.customer_in_site.days_in_site = 243;
@@ -916,9 +1055,9 @@ item.code = "estoesunapruebadecs";
 item.description = "Prueba de CyberSource";
 item.name = "CyberSource";
 item.sku = "prueba";
-item.total_amount = 2000 * 100;
+item.total_amount = 2000;
 item.quantity = 1;
-item.unit_price = 2000 * 100;
+item.unit_price = 2000;
 ticketing.ticketing_transaction_data.items.Add(item);
 
 ticketing.csmdds.Add(new Csmdds() { code = 12, description = "MDD12" });
@@ -988,7 +1127,7 @@ digitalGoods.bill_to.street2 = "Mexico 123";
 
 //purchase_totals
 digitalGoods.purchase_totals.currency = "ARS";
-digitalGoods.purchase_totals.amount = 2000 * 100;
+digitalGoods.purchase_totals.amount = 2000;
 
 //customer_in_site
 digitalGoods.customer_in_site.days_in_site = 243;
@@ -1010,9 +1149,9 @@ item.code = "estoesunapruebadecs";
 item.description = "Prueba de CyberSource";
 item.name = "CyberSource";
 item.sku = "prueba";
-item.total_amount = 2000 * 100;
+item.total_amount = 2000;
 item.quantity = 1;
-item.unit_price = 2000 * 100;
+item.unit_price = 2000;
 digitalGoods.digital_goods_transaction_data.items.Add(item);
 
 for (int i = 17; i < 35; i++)
@@ -1080,7 +1219,7 @@ services.bill_to.street2 = "Mexico 123";
 
 //purchase_totals
 services.purchase_totals.currency = "ARS";
-services.purchase_totals.amount = 2000 * 100;
+services.purchase_totals.amount = 2000;
 
 //customer_in_site
 services.customer_in_site.days_in_site = 243;
@@ -1104,9 +1243,9 @@ item.code = "estoesunapruebadecs";
 item.description = "Prueba de CyberSource";
 item.name = "CyberSource";
 item.sku = "prueba";
-item.total_amount = 2000 * 100;
+item.total_amount = 2000;
 item.quantity = 1;
-item.unit_price = 2000 * 100;
+item.unit_price = 2000;
 services.services_transaction_data.items.Add(item);
 
 for (int i = 17; i < 35; i++)
@@ -1171,7 +1310,7 @@ travel.bill_to.street2 = "Mexico 123";
 
 //purchase_totals
 travel.purchase_totals.currency = "ARS";
-travel.purchase_totals.amount = 2000 * 100;
+travel.purchase_totals.amount = 2000;
 
 //customer_in_site
 travel.customer_in_site.days_in_site = 243;
