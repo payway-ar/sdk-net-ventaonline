@@ -54,7 +54,7 @@
     <Compile Include="Clients\RestResponse.cs" />
     <Compile Include="Constants\Ambiente.cs" />
     <Compile Include="Model\CryptogramRequest.cs" />
-    <Compile Include="CustomerDataCryptogram.cs" />
+    <Compile Include="Model\CustomerDataCryptogram.cs" />
     <Compile Include="DecidirConnector.cs" />
     <Compile Include="Model\CardDataInternalToken.cs" />
     <Compile Include="Model\CyberSource\FraudDetectionCryptogram.cs" />
@@ -85,6 +85,7 @@
     <Compile Include="Model\GetTokenResponse.cs" />
     <Compile Include="Model\HttpThreeds.cs" />
     <Compile Include="Model\Instruction3dsData.cs" />
+    <Compile Include="Model\RefundAmount.cs" />
     <Compile Include="Model\RefundPaymentResponse.cs" />
     <Compile Include="Model\RefundSubPayment.cs" />
     <Compile Include="Model\RefundSubPaymentRequest.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="Model\CyberSource\Passengers.cs" />
     <Compile Include="Model\CyberSource\DecisionManagerTravel.cs" />
     <Compile Include="Model\CyberSource\DepartureDate.cs" />
-    <Compile Include="Model\DeleteRefundResponse.cs" />
     <Compile Include="Model\CyberSource\Csmdds.cs" />
     <Compile Include="Model\CyberSource\Customer.cs" />
     <Compile Include="Model\CyberSource\FraudDetection.cs" />
@@ -146,7 +146,7 @@
     <Compile Include="Services\Service.cs" />
     <Compile Include="Services\UserSite.cs" />
     <Compile Include="Model\ValidateData.cs" />
-    <Compile Include="TransactionData.cs" />
+    <Compile Include="Model\TransactionData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

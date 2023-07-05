@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace Decidir
+namespace Decidir.Model
+
 {
     public class TransactionData
     {

@@ -31,6 +31,8 @@ namespace Decidir
         private const string endPointInternalTokenProduction = request_host_production + request_path_internal_token;
         private const string endPointInternalTokenQA = request_host_qa + request_path_internal_token;
 
+        private const string emptyObject = "{}";
+
         #endregion
 
         private string privateApiKey;
@@ -130,7 +132,7 @@ namespace Decidir
             return this.paymentService.ExecutePayment(payment);
         }
 
-        public CapturePaymentResponse CapturePayment(long paymentId, double amount)
+        public CapturePaymentResponse CapturePayment(long paymentId, long amount)
         {
             return this.paymentService.CapturePayment(paymentId, amount);
         }
@@ -145,14 +147,14 @@ namespace Decidir
             return this.paymentService.GetPaymentInfo(paymentId);
         }
 
-        public RefundResponse Refund(long paymentId)
+        public RefundPaymentResponse Refund(long paymentId)
         {
-            return this.paymentService.Refund(paymentId);
+            return this.paymentService.Refund(paymentId, emptyObject);
         }
 
-        public RefundPaymentResponse RefundSubPayment(long paymentId, string refundSubPaymentRequest)
+        public RefundPaymentResponse RefundSubPayment(long paymentId, RefundSubPaymentRequest refundSubPaymentRequest)
         {
-            return this.paymentService.RefundSubPayment(paymentId, refundSubPaymentRequest);    
+            return this.paymentService.Refund(paymentId, this.ObjectToJson(refundSubPaymentRequest));    
         }
 
         public BatchClosureResponse BatchClosure(string batchClosure)
@@ -160,17 +162,17 @@ namespace Decidir
             return this.bathClosureService.BatchClosureActive(batchClosure);
         }
 
-        public DeleteRefundResponse DeleteRefund(long paymentId, long refundId)
+        public RefundResponse DeleteRefund(long paymentId, long? refundId)
         {
             return this.paymentService.DeleteRefund(paymentId, refundId);
         }
 
-        public RefundResponse PartialRefund(long paymentId, double amount)
+        public RefundPaymentResponse PartialRefund(long paymentId, RefundAmount amount)
         {
-            return this.paymentService.PartialRefund(paymentId, amount);
+            return this.paymentService.Refund(paymentId, this.ObjectToJson(amount));
         }
 
-        public DeleteRefundResponse DeletePartialRefund(long paymentId, long refundId)
+        public RefundResponse DeletePartialRefund(long paymentId, long? refundId)
         {
             return this.paymentService.DeletePartialRefund(paymentId, refundId);
         }
@@ -224,6 +226,11 @@ namespace Decidir
             byte[] headerJsonBytes = System.Text.Encoding.UTF8.GetBytes(headerJson);
 
             return System.Convert.ToBase64String(headerJsonBytes);
+        }
+
+        private String ObjectToJson(Object obj)
+        {
+            return JsonConvert.SerializeObject(obj, Newtonsoft.Json.Formatting.None);
         }
 
     }

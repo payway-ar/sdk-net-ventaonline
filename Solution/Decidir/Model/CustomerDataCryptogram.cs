@@ -1,4 +1,5 @@
-﻿namespace Decidir
+﻿namespace Decidir.Model
+
 {
     public class CustomerDataCryptogram
     {
