@@ -66,7 +66,7 @@ namespace DecidirTest
             //Para el ambiente de desarrollo
             DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
 
-            RefundResponse refund = decidir.Refund(paymentId);
+            RefundPaymentResponse refund = decidir.Refund(paymentId);
 
         }
 
@@ -81,7 +81,7 @@ namespace DecidirTest
             //Para el ambiente de desarrollo
             DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
 
-            DeleteRefundResponse deleteRefund = decidir.DeleteRefund(paymentId, refundId);
+            RefundResponse deleteRefund = decidir.DeleteRefund(paymentId, refundId);
         }
 
         [TestMethod]
@@ -90,12 +90,13 @@ namespace DecidirTest
             string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
             string publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
             long paymentId = 0;
-            double refundId = 10.55;
+            RefundAmount refundAmount = new RefundAmount();
+            refundAmount.amount = 1055;
 
             //Para el ambiente de desarrollo
             DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
 
-            RefundResponse refund = decidir.PartialRefund(paymentId, refundId);
+            RefundPaymentResponse refund = decidir.PartialRefund(paymentId, refundAmount);
         }
     }
 }

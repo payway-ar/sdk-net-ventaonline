@@ -25,6 +25,16 @@ namespace Decidir.Model
         public AggregateDataPayment aggregate_data { get; set; }
         public CardTokenBsa card_token_bsa { get; set; }
 
+        public Boolean cardholder_auth_required { get; set; }
+        public Auth3dsData auth_3ds_data { get; set; }
+
+        public Boolean is_tokenized_payment { get; set; }
+        public TokenCardData token_card_data { get; set; }
+        public CardData card_data { get; set; }
+
+
+
+
         public Payment()
         {
             this.sub_payments = new List<object>();
@@ -58,6 +68,8 @@ namespace Decidir.Model
             payment.fraud_detection = this.fraud_detection;
             payment.site_id = this.site_id;
             payment.aggregate_data = this.aggregate_data;
+            payment.cardholder_auth_required = this.cardholder_auth_required;
+            payment.auth_3ds_data = this.auth_3ds_data;
 
             foreach (object o in this.sub_payments)
                 payment.sub_payments.Add(o);

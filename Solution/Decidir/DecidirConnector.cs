@@ -18,6 +18,7 @@ namespace Decidir
         private const string request_path_payments = "/api/v2/";
         private const string request_path_validate = "/web/";
         private const string request_path_closureQA = "/api/v1/";
+        private const string request_path_internal_token = "/api/v1/transaction_gateway/";
 
 
 
@@ -25,6 +26,12 @@ namespace Decidir
         private const string endPointProduction = request_host_production + request_path_payments; //https://live.decidir.com/api/v2/;
         private const string endPointQA = request_host_qa + request_path_payments; //https://qa.decidir.com/api/v2/;
         private const string endPointQAClosure = request_host_qa + request_path_closureQA;
+
+        private const string endPointInternalTokenSandbox = request_host_sandbox + request_path_internal_token;
+        private const string endPointInternalTokenProduction = request_host_production + request_path_internal_token;
+        private const string endPointInternalTokenQA = request_host_qa + request_path_internal_token;
+
+        private const string emptyObject = "{}";
 
         #endregion
 
@@ -38,6 +45,8 @@ namespace Decidir
         private string grouper;
         private string developer;
 
+        private string endPointInternalToken;
+
         private HealthCheck healthCheckService;
         private Payments paymentService;
         private UserSite userSiteService;
@@ -46,12 +55,12 @@ namespace Decidir
 
         private Dictionary<string, string> headers;
 
-        public DecidirConnector(int ambiente, string privateApiKey, string publicApiKey, string validateApiKey = null, string merchant = null, string grouper = null, string developer = null)
+        public DecidirConnector(int ambiente, string privateApiKey, string publicApiKey, string validateApiKey = null, string merchant = null, string grouper = "", string developer = "")
         {
             init(ambiente, privateApiKey, publicApiKey, validateApiKey, merchant, grouper, developer);
         }
 
-        public DecidirConnector(string request_host, string request_path, string privateApiKey, string publicApiKey, string validateApiKey = null, string merchant = null, string grouper = null, string developer = null)
+        public DecidirConnector(string request_host, string request_path, string privateApiKey, string publicApiKey, string validateApiKey = null, string merchant = null, string grouper = "", string developer = "")
         {
             this.request_host = request_host;
             this.endpoint = request_host + request_path;
@@ -72,33 +81,31 @@ namespace Decidir
             headers.Add("Cache-Control", "no-cache");
             headers.Add("X-Source", getXSource(grouper, developer));
 
+            this.bathClosureService = new BatchClosure(this.endpoint, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
+
             if (ambiente == Ambiente.AMBIENTE_PRODUCCION)
             {
                 this.endpoint = endPointProduction;
                 this.request_host = request_host_production;
+                this.endPointInternalToken = endPointInternalTokenProduction;
             }
             else if (ambiente == Ambiente.AMBIENTE_QA)
             {
                 this.endpoint = endPointQA;
                 this.request_host = request_host_qa;
+                this.endPointInternalToken = endPointInternalTokenQA;
+                this.bathClosureService = new BatchClosure(endPointQAClosure, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
             }
             else if (ambiente == Ambiente.AMBIENTE_SANDBOX)
             {
                 this.endpoint = endPointSandbox;
                 this.request_host = request_host_sandbox;
+                this.endPointInternalToken = endPointInternalTokenSandbox;
             }
 
-            if (ambiente == Ambiente.AMBIENTE_QA)
-            {
-                this.bathClosureService = new BatchClosure(endPointQAClosure, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
-            }
-            else
-            {
-                this.bathClosureService = new BatchClosure(this.endpoint, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
-            }
-
+           
             this.healthCheckService = new HealthCheck(this.endpoint, this.headers);
-            this.paymentService = new Payments(this.endpoint, this.privateApiKey, this.headers, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
+            this.paymentService = new Payments(this.endpoint, this.endPointInternalToken, this.privateApiKey, this.headers, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
             this.userSiteService = new UserSite(this.endpoint, this.privateApiKey, this.headers);
             this.cardTokensService = new CardTokens(this.endpoint, this.privateApiKey,this.headers);
 
@@ -115,12 +122,17 @@ namespace Decidir
             return this.paymentService.ExecutePayment(payment);
         }
 
+        public GetCryptogramResponse Cryptogram(CryptogramRequest cryptogramRequest)
+        {
+            return this.paymentService.GetCryptogram(cryptogramRequest);
+        }
+
         public PaymentResponse Payment(OfflinePayment payment)
         {
             return this.paymentService.ExecutePayment(payment);
         }
 
-        public CapturePaymentResponse CapturePayment(long paymentId, double amount)
+        public CapturePaymentResponse CapturePayment(long paymentId, long amount)
         {
             return this.paymentService.CapturePayment(paymentId, amount);
         }
@@ -135,14 +147,14 @@ namespace Decidir
             return this.paymentService.GetPaymentInfo(paymentId);
         }
 
-        public RefundResponse Refund(long paymentId)
+        public RefundPaymentResponse Refund(long paymentId)
         {
-            return this.paymentService.Refund(paymentId);
+            return this.paymentService.Refund(paymentId, emptyObject);
         }
 
-        public RefundPaymentResponse RefundSubPayment(long paymentId, string refundSubPaymentRequest)
+        public RefundPaymentResponse RefundSubPayment(long paymentId, RefundSubPaymentRequest refundSubPaymentRequest)
         {
-            return this.paymentService.RefundSubPayment(paymentId, refundSubPaymentRequest);    
+            return this.paymentService.Refund(paymentId, this.ObjectToJson(refundSubPaymentRequest));    
         }
 
         public BatchClosureResponse BatchClosure(string batchClosure)
@@ -150,17 +162,17 @@ namespace Decidir
             return this.bathClosureService.BatchClosureActive(batchClosure);
         }
 
-        public DeleteRefundResponse DeleteRefund(long paymentId, long refundId)
+        public RefundResponse DeleteRefund(long paymentId, long? refundId)
         {
             return this.paymentService.DeleteRefund(paymentId, refundId);
         }
 
-        public RefundResponse PartialRefund(long paymentId, double amount)
+        public RefundPaymentResponse PartialRefund(long paymentId, RefundAmount amount)
         {
-            return this.paymentService.PartialRefund(paymentId, amount);
+            return this.paymentService.Refund(paymentId, this.ObjectToJson(amount));
         }
 
-        public DeleteRefundResponse DeletePartialRefund(long paymentId, long refundId)
+        public RefundResponse DeletePartialRefund(long paymentId, long? refundId)
         {
             return this.paymentService.DeletePartialRefund(paymentId, refundId);
         }
@@ -189,6 +201,16 @@ namespace Decidir
             return this.paymentService.GetToken(token);
         }
 
+        public GetInternalTokenResponse GetInternalToken(InternalTokenRequest token)
+        {
+            return this.paymentService.GetInternalToken(token);
+        }
+
+        public PaymentResponse InstructionThreeDS(string xConsumerUsername, Instruction3dsData instruction3DsData)
+        {
+            return this.paymentService.InstructionThreeDS(xConsumerUsername, instruction3DsData);
+        }
+
         private string getXSource(String grouper, String developer)
         {
             Dictionary<string, string> header = new Dictionary<string, string>();
@@ -204,6 +226,11 @@ namespace Decidir
             byte[] headerJsonBytes = System.Text.Encoding.UTF8.GetBytes(headerJson);
 
             return System.Convert.ToBase64String(headerJsonBytes);
+        }
+
+        private String ObjectToJson(Object obj)
+        {
+            return JsonConvert.SerializeObject(obj, Newtonsoft.Json.Formatting.None);
         }
 
     }

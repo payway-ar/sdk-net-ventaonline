@@ -12,7 +12,11 @@ namespace Decidir.Services
         protected const string METHOD_GET = "GET";
         protected const int STATUS_OK = 200;
         protected const int STATUS_CREATED = 201;
+        protected const int STATUS_ACCEPTED = 202;
         protected const int STATUS_NOCONTENT = 204;
+        protected const int STATUS_ERROR = 500;
+        protected const string STATUS_CHALLENGE_PENDING = "CHALLENGE PENDING";
+        protected const string STATUS_FINGERPRINT_PENDING = "FINGERPRINT PENDING";
 
         public Service(string endpoint)
         {
