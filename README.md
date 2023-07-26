@@ -26,6 +26,7 @@ Modulo para conexión con gateway de pago Payway
     + [Operatoria del Gateway](#operatoria)
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
+      + [Ejecución del pago PCI](#pci)
       + [Ejecución del pago PCI Tokenizado](#payment-pci-tokenizado)
       + [Ejecución de pago simple con 3ds](#payment-simple-3ds)
       + [Ejecución del Pago Offline](#offlinepayment)
@@ -295,6 +296,74 @@ catch (ResponseException)
 
 [<sub>Volver a inicio</sub>](#inicio)
 
+<a name="pci"></a>
+### Ejecución del pago PCI
+
+```C#
+string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
+string publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
+
+//Para el ambiente de desarrollo
+DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey);
+
+Payment payment = new Payment();
+
+payment.site_transaction_id = "[ID DE LA TRANSACCIÓN]";
+payment.payment_method_id = 1;
+payment.amount = 2000;
+payment.currency = "ARS";
+payment.installments = 1;
+payment.description = "";
+payment.payment_type = "single";
+payment.establishment_name = "single";
+
+CardData card_data = new CardData();
+card_data.card_holder_name: "Luis Perez",
+card_data.card_expiration_month: "02",
+card_data.card_expiration_year: "23",
+card_data.card_number: "4517613063087082",
+card_data.security_code="444"
+
+CardHolderIdentification card_holder_identification = new CardHolderIdentification();
+card_holder_identification.number: "35080911",
+card_holder_identification.type: "dni"
+
+card_data.card_holder_identification = card_holder_identification;
+
+payment.card_data = card_data;
+
+AggregateDataPayment aaggregate_data = new AggregateDataPayment();
+aagregate_data.indicator: "1";
+aagregate_data.identification_number: "30598910045";
+aagregate_data.bill_to_pay: "Decidir_Test";
+aagregate_data.bill_to_refund: "Decidir_Test";
+aagregate_data.merchant_name: "DECIDIR";
+aagregate_data.street: "Lavarden";
+aagregate_data.number: "247";
+aagregate_data.postal_code: "C1437FBE";
+aagregate_data.category: "05044";
+aagregate_data.channel: "005";
+aagregate_data.geographic_code: "C1437";
+aagregate_data.city: "Ciudad de Buenos Aires";
+aagregate_data.merchant_id: "decidir_Agregador";
+aagregate_data.province: "Buenos Aires";
+aagregate_data.country: "Argentina";
+aagregate_data.merchant_email: "qa@decidir.com";
+aagregate_data.merchant_phone: "+541135211111";
+
+payment.aggregate_data = aaggregate_data;
+
+
+try
+{
+    PaymentResponse resultPaymentResponse = decidir.Payment(payment);
+}
+catch (ResponseException){}
+catch (PaymentResponseException){}
+```
+
+[<sub>Volver a inicio</sub>](#inicio)
+
 <a name="payment-pci-tokenizado"></a>
 ### Ejecución del pago PCI Tokenizado
 
@@ -370,6 +439,7 @@ catch (ResponseException){}
 catch (PaymentResponseException){}
 ```
 
+[<sub>Volver a inicio</sub>](#inicio)
 
 <a name="payment-simple-3ds"></a>
 
