@@ -53,6 +53,11 @@
     <Compile Include="Clients\RestClient.cs" />
     <Compile Include="Clients\RestResponse.cs" />
     <Compile Include="Constants\Ambiente.cs" />
+    <Compile Include="Exceptions\CheckoutResponseException.cs" />
+    <Compile Include="Model\CheckoutGenerateHashResponse.cs" />
+    <Compile Include="Model\CheckoutProductModel.cs" />
+    <Compile Include="Model\CheckoutRequest.cs" />
+    <Compile Include="Model\ErrorCheckoutResponse.cs" />
     <Compile Include="Model\CryptogramRequest.cs" />
     <Compile Include="Model\CustomerDataCryptogram.cs" />
     <Compile Include="DecidirConnector.cs" />
@@ -140,6 +145,8 @@
     <Compile Include="Services\BatchClosureService.cs" />
     <Compile Include="Services\CardTokens.cs" />
     <Compile Include="Model\GetCryptogramResponse.cs" />
+    <Compile Include="Model\CheckoutResponse.cs" />
+    <Compile Include="Services\CheckoutService.cs" />
     <Compile Include="Services\HealthCheck.cs" />
     <Compile Include="Model\InternalTokenRequest.cs" />
     <Compile Include="Services\Payments.cs" />
@@ -149,6 +156,7 @@
     <Compile Include="Model\TransactionData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
