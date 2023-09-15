@@ -53,12 +53,24 @@
     <Compile Include="Clients\RestClient.cs" />
     <Compile Include="Clients\RestResponse.cs" />
     <Compile Include="Constants\Ambiente.cs" />
+    <Compile Include="Model\CryptogramRequest.cs" />
+    <Compile Include="Model\CustomerDataCryptogram.cs" />
     <Compile Include="DecidirConnector.cs" />
+    <Compile Include="Model\CardDataInternalToken.cs" />
+    <Compile Include="Model\CyberSource\FraudDetectionCryptogram.cs" />
+    <Compile Include="Model\DescriptionError.cs" />
+    <Compile Include="Model\ErrorInternalTokenResponse.cs" />
+    <Compile Include="Model\GetInternalTokenResponse.cs" />
     <Compile Include="Exceptions\GetTokenResponseException.cs" />
+    <Compile Include="Exceptions\PaymentAuth3dsResponseException.cs" />
     <Compile Include="Exceptions\PaymentResponseException.cs" />
     <Compile Include="Exceptions\ResponseException.cs" />
     <Compile Include="Exceptions\ValidateResponseException.cs" />
+    <Compile Include="Model\CardData.cs" />
+    <Compile Include="Model\Model3dsResponse.cs" />
     <Compile Include="Model\AggregateDataPayment.cs" />
+    <Compile Include="Model\Auth3dsData.cs" />
+    <Compile Include="Model\Auth3dsResponse.cs" />
     <Compile Include="Model\BatchClosureError.cs" />
     <Compile Include="Model\BatchClosureRequest.cs" />
     <Compile Include="Model\BatchClosureResponse.cs" />
@@ -71,6 +83,9 @@
     <Compile Include="Model\CardTokenBsa.cs" />
     <Compile Include="Model\CyberSource\FraudDetectionBSA.cs" />
     <Compile Include="Model\GetTokenResponse.cs" />
+    <Compile Include="Model\HttpThreeds.cs" />
+    <Compile Include="Model\Instruction3dsData.cs" />
+    <Compile Include="Model\RefundAmount.cs" />
     <Compile Include="Model\RefundPaymentResponse.cs" />
     <Compile Include="Model\RefundSubPayment.cs" />
     <Compile Include="Model\RefundSubPaymentRequest.cs" />
@@ -93,7 +108,6 @@
     <Compile Include="Model\CyberSource\Passengers.cs" />
     <Compile Include="Model\CyberSource\DecisionManagerTravel.cs" />
     <Compile Include="Model\CyberSource\DepartureDate.cs" />
-    <Compile Include="Model\DeleteRefundResponse.cs" />
     <Compile Include="Model\CyberSource\Csmdds.cs" />
     <Compile Include="Model\CyberSource\Customer.cs" />
     <Compile Include="Model\CyberSource\FraudDetection.cs" />
@@ -113,8 +127,10 @@
     <Compile Include="Model\StatusErrorReason.cs" />
     <Compile Include="Model\SubPayment.cs" />
     <Compile Include="Model\SubPaymentResponse.cs" />
+    <Compile Include="Model\TargetThreeds.cs" />
     <Compile Include="Model\TemplateValidate.cs" />
     <Compile Include="Model\Token.cs" />
+    <Compile Include="Model\TokenCardData.cs" />
     <Compile Include="Model\TokenFraudDetection.cs" />
     <Compile Include="Model\TokenRequest.cs" />
     <Compile Include="Model\ValidateCustomer.cs" />
@@ -123,11 +139,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BatchClosureService.cs" />
     <Compile Include="Services\CardTokens.cs" />
+    <Compile Include="Model\GetCryptogramResponse.cs" />
     <Compile Include="Services\HealthCheck.cs" />
+    <Compile Include="Model\InternalTokenRequest.cs" />
     <Compile Include="Services\Payments.cs" />
     <Compile Include="Services\Service.cs" />
     <Compile Include="Services\UserSite.cs" />
     <Compile Include="Model\ValidateData.cs" />
+    <Compile Include="Model\TransactionData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

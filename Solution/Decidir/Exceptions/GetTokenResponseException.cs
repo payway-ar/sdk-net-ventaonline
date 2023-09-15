@@ -7,8 +7,11 @@ namespace Decidir.Exceptions
     public class GetTokenResponseException : Exception
     {
         private string v;
-        private ErrorResponse errorResponse;
+        public ErrorResponse errorResponse { get; set; }
+
         protected GetTokenResponse getTokenResponse;
+        public ErrorInternalTokenResponse getInternalTokenResponse { get; set; }
+        public int statusCode { get; set; }
 
         public GetTokenResponseException()
         {
@@ -21,6 +24,12 @@ namespace Decidir.Exceptions
         public GetTokenResponseException(String message, GetTokenResponse getTokenResponse) : base(message)
         {
             this.getTokenResponse = getTokenResponse;
+        }
+
+        public GetTokenResponseException(String message, ErrorInternalTokenResponse getTokenResponse, int statusCode) : base(message)
+        {
+            this.getInternalTokenResponse = getTokenResponse;
+            this.statusCode = statusCode;
         }
 
 

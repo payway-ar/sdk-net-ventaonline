@@ -6,11 +6,10 @@ namespace Decidir.Model.CyberSource
     {
         public string complete_route { get; set; }
         public string journey_type { get; set; }
-        public List<DepartureDate> departureDate { get; set; }
+        public DepartureDate departure_date { get; set; }
 
         public DecisionManagerTravel()
         {
-        	this.departureDate = new List<DepartureDate>();
         }
     }
 }
