@@ -23,6 +23,7 @@ namespace Decidir.Model
         public string redirect_url { get; set; }
 
         public string notifications_url { get; set; }
+
         public long? life_time { get; set; }
 
         public int? id_payment_method { get; set; }
