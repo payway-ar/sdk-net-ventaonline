@@ -28,6 +28,8 @@ namespace Decidir.Model
 
         public int? id_payment_method { get; set; }
 
+        public string public_apikey { get; set; }
+
         public static string toJson(Object payment)
         {
             return JsonConvert.SerializeObject(payment, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings
