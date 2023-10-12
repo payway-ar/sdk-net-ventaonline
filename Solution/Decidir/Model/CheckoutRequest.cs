@@ -5,7 +5,6 @@ namespace Decidir.Model
 {
     public class CheckoutRequest
     {
-        public string id { get; set; }
         public string origin_platform { get; set; }
         public string payment_description { get; set; }
         public CheckoutProductModel[] products { get; set; }
