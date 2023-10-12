@@ -5,7 +5,6 @@ namespace Decidir.Model
 {
     public class CheckoutRequest
     {
-        public string id { get; set; }
         public string origin_platform { get; set; }
         public string payment_description { get; set; }
         public CheckoutProductModel[] products { get; set; }
@@ -27,6 +26,8 @@ namespace Decidir.Model
         public long? life_time { get; set; }
 
         public int? id_payment_method { get; set; }
+
+        public string public_apikey { get; set; }
 
         public static string toJson(Object payment)
         {
