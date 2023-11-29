@@ -93,7 +93,7 @@ namespace Decidir
             headers.Add("Cache-Control", "no-cache");
             headers.Add("X-Source", getXSource(grouper, developer));
 
-            this.bathClosureService = new BatchClosure(this.endpoint, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
+            
 
             switch (ambiente)
             {
@@ -121,6 +121,7 @@ namespace Decidir
                     this.request_host = request_host_desa;
                     this.endPointInternalToken = endPointInternalTokenDesa;
                     this.endPointCheckout = endPointCheckoutDesa;
+                    this.bathClosureService = new BatchClosure(endPointDesaClosure, this.privateApiKey, this.validateApiKey, this.merchant, this.request_host, this.publicApiKey);
                     break;
             }
            
