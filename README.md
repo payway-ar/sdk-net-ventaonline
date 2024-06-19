@@ -638,15 +638,22 @@ pago es distribuido por monto, ya que si es por porcentaje toma los configurados
 
 ```
 
-#### Formulario renderizado
+### Formulario Renderizado
 
-Al obtener el hash se puede generar el formulario a partir de la url: *https://api.decidir.com/web/form?hash=46711cd8-81f8-4228-96cc-ac3e90c75622*.
+Utiliza el siguiente enlace para generar dinámicamente un formulario a partir de un hash específico:
+
+ *https://api.decidir.com/web/forms/46711cd8-81f8-4228-96cc-ac3e90c75622?apikey=d29308290389203dsds981293865*
+
+**Composición:**
+
+*https:{ruta-ambiente-payway}/web/forms/{hash-generado}?apikey={apikey-publica}*
+
+Este enlace compone la URL para acceder al formulario, donde `{hash}` es el hash que tuvimos como respuesta y sirve para renderizar el formulario y `{apikey-publica}` es la clave pública requerida para la autenticación.
+
+Este enlace te llevará al formulario específico basado en el hash generado.
+
 
 ![Formulario de pago](docs/img/form_renderizado.jpg)</br>
-
-[<sub>Volver a inicio</sub>](#inicio)
-
-
 
 <a name="getallpayments"></a>
 
