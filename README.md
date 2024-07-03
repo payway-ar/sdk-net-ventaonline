@@ -642,7 +642,10 @@ pago es distribuido por monto, ya que si es por porcentaje toma los configurados
 
 Utiliza el siguiente enlace para generar dinámicamente un formulario a partir de un hash específico:
 
- *https://api.decidir.com/web/forms/46711cd8-81f8-4228-96cc-ac3e90c75622?apikey=d29308290389203dsds981293865*
+ - Ambiente Developers (Sandbox) ->  *https://developers.decidir.com/web/forms/4daa07cf-40b8-42ba-b2af-38c26ada763f?apikey=9pX3bRdGqZfV7JhY6Nk2L1oM4sT5wI8e*
+ - Ambiente Productivo -> *https://ventasonline.payway.com.ar/web/forms/83bbf463-950f-4af4-9a0c-eb651cef0cp4?apikey=9pX3bRdGqZfV7JhY6Nk2L1oM4sT5wI8e*
+
+ ⚠️  **A tener en cuenta:** Cada ambiente tiene su propia API key (ya sea para desarrollo o producción) y estas no deben usarse fuera de su respectivo ambiente. ⚠️
 
 **Composición:**
 
