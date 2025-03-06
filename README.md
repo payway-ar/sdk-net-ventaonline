@@ -565,7 +565,7 @@ Este servicio permite integrar en el comercio un formulario de pago. Utiliza el 
 |customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
 |customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
 |payment.amount  | Monto de la compra  | SI | Numérico |   |
-|payment.currency  | Tipo de moneda  | NO | Letras |   |
+|payment.currency  | Tipo de moneda  | NO | Letras | "ARS" o "USD"  |
 |payment.payment_method_id  | Id del medio de pago  | SI | Númerico |   |
 |payment.bin  | Primeros 6 dígitos de la tarjeta  | NO | Númerico |   |
 |payment.installments  | Cantidad de cuotas  | SI | Númerico |   |
