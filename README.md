@@ -1491,7 +1491,6 @@ https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-imp
 | AR$ | Pesos Argentinos | ARS |
 | U$S | Dólares Americanos | USD | 
 
-**NOTA** Si bien la API RESTful de Payway admite compras en Dólares Americanos, la legislación argentina sólo permite transacciones en Pesos Argentinos. Es por esto que Payway recomienda que todas las transacciones se cursen en dicha moneda.
 
 [<sub>Volver a inicio</sub>](#inicio)
 
