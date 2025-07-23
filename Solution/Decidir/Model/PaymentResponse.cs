@@ -35,6 +35,7 @@ namespace Decidir.Model
         public string card_data { get; set; }
         public string customer_token { get; set; }
         public Auth3dsResponse auth_3ds_response { get; set; }
+        public string tid { get; set; }
 
         public PaymentResponse()
         {
