@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using Decidir.Model.CyberSource;
 
 namespace Decidir.Model
 {
@@ -22,11 +23,11 @@ namespace Decidir.Model
         public StatusDetails status_details { get; set; }
         public string date { get; set; }
         public string merchant_id { get; set; }
-        public Dictionary<string, object> fraud_detection { get; set; }
+        public FraudDetectionResponse fraud_detection { get; set; }
         public int statusCode { get; set; }
         public string site_id { get; set; }
         public string pan { get; set; }
-        public Dictionary<string, string> aggregate_data { get; set; }
+        public AggregateDataPayment aggregate_data {  get; set; }
         public CustomerData customer { get; set; }
         public string card_brand { get; set; }
         public string first_installment_expiration_date { get; set; }
@@ -40,8 +41,7 @@ namespace Decidir.Model
         public PaymentResponse()
         {
             this.sub_payments = new List<SubPaymentResponse>();
-            this.fraud_detection = new Dictionary<string, object>();
-            this.aggregate_data = new Dictionary<string, string>();
+            this.fraud_detection = new FraudDetectionResponse();
             this.status_details = new StatusDetails();
         }
     }

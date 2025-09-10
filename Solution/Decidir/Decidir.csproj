@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Decidir</RootNamespace>
     <AssemblyName>Decidir</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SccProjectName>SAK</SccProjectName>
@@ -116,6 +116,10 @@
     <Compile Include="Model\CyberSource\Csmdds.cs" />
     <Compile Include="Model\CyberSource\Customer.cs" />
     <Compile Include="Model\CyberSource\FraudDetection.cs" />
+	  <Compile Include="Model\CyberSource\FraudDetectionResponse.cs" />
+	  <Compile Include="Model\CyberSource\FraudDetectionStatus.cs" />
+	  <Compile Include="Model\CyberSource\Review.cs" />
+	  <Compile Include="Model\CyberSource\ReviewComments.cs" />
     <Compile Include="Model\ErrorResponse.cs" />
     <Compile Include="Model\ErrorValidationResponse.cs" />
     <Compile Include="Model\GetAllCardTokensResponse.cs" />
@@ -156,7 +160,7 @@
     <Compile Include="Model\TransactionData.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

@@ -6,5 +6,6 @@
         public const int AMBIENTE_PRODUCCION = 1;
         public const int AMBIENTE_QA = 2;
         public const int AMBIENTE_DESA = 3;
+        public const int AMBIENTE_HOMO = 4;
     }
 }
