@@ -17,7 +17,14 @@
         public string merchant_id { get; set; }
         public string province { get; set; }
         public string country { get; set; }
+        public string product { get; set; }
+        public string origin_country { get; set; }
+        public string merchant_url { get; set; }
+        public string aggregator_name { get; set; }
+        public string gateway_id { get; set; }
+        public bool enabled { get; set; }
         public string merchant_email { get; set; }
         public string merchant_phone { get; set; }
+
     }
 }

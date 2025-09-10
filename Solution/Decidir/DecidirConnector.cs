@@ -14,8 +14,8 @@ namespace Decidir
 
         private const string request_host_sandbox = "https://developers.decidir.com";
         private const string request_host_production = "https://live.decidir.com";
-        private const string request_host_qa = "https://qa.decidir.com";
-        private const string request_host_desa = "https://dev.decidir.com";
+        private const string request_host_qa = "http://decidir.payway-qa.tanzu.intra";
+        private const string request_host_desa = "http://decidir.payway-dev.tanzu.intra";
         private const string request_path_payments = "/api/v2/";
         private const string request_path_validate = "/web/";
         private const string request_path_closureQA = "/api/v1/";
