@@ -9,5 +9,6 @@ namespace Decidir.Model.CyberSource
         public string reason_code { get; set; }
         public string description { get; set; }
         public Review review { get; set; }
+        public ErrorType details { get; set; }
     }
 }
