@@ -531,6 +531,11 @@ aagregate_data.province: "Buenos Aires";
 aagregate_data.country: "Argentina";
 aagregate_data.merchant_email: "qa@decidir.com";
 aagregate_data.merchant_phone: "+541135211111";
+aggregateData.product: "producto_x";
+aggregateData.origin_country: "032";
+aggregateData.merchant_url: "http://merchant-url";
+aggregateData.aggregator_name: "payfact";
+aggregateData.gateway_id: "payway";
 
 payment.aggregate_data = aaggregate_data;
 
