@@ -7,4 +7,36 @@
         public const int AMBIENTE_QA = 2;
         public const int AMBIENTE_DESA = 3;
     }
+    public enum EAmbiente
+    {
+        NA = -1,
+        SANDBOX = 0,
+        PRD = 1,
+        QA = 2,
+        DESA = 3
+    }
+    public static class Utils
+    {
+        public static int GetAmbiente(this EAmbiente environment)
+        {
+            switch (environment)
+            {
+                case EAmbiente.NA:
+                    return -1;
+                case EAmbiente.SANDBOX:
+                    return Ambiente.AMBIENTE_SANDBOX;
+                case EAmbiente.PRD:
+                    return Ambiente.AMBIENTE_PRODUCCION;
+                case EAmbiente.QA:
+                    return Ambiente.AMBIENTE_QA;
+                case EAmbiente.DESA:
+                    return Ambiente.AMBIENTE_DESA;
+                default:
+                    return -1;
+
+            }
+        }
+    }
+
+  
 }

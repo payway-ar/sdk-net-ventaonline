@@ -3,6 +3,7 @@ using System;
 
 namespace Decidir.Model
 {
+    [Serializable]
     public class HealthCheckResponse
     {
         public string name { get; set; }

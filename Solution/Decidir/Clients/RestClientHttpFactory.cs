@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Decidir.Constants;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -18,6 +19,7 @@ namespace Decidir.Clients
     }
     internal sealed class RestClientHttpFactory : IRestClient
     {
+        private static readonly Encoding _encoding = Encoding.GetEncoding("iso-8859-1");
         private readonly string _endpoint;
         private readonly Dictionary<string, string> headers;
         private string _contentType;
@@ -46,35 +48,29 @@ namespace Decidir.Clients
         }
         private HttpClient CreateClient(string uri)
         {
-            var client = _httpClientFactory.CreateClient();
-
+            var client = _httpClientFactory.CreateClient(DecidirAbstractConnectionSettings.DecidirHttpClientFactoryClientName);
             client.BaseAddress = new Uri(uri);
-            client.DefaultRequestHeaders.Clear();
-
             if (headers != null && headers.Any())
             {
-                foreach (string key in this.headers.Keys)
+                foreach (string key in headers.Keys)
                 {
                     client.DefaultRequestHeaders.Add(key, this.headers[key]);
                 }
             }
-
             return client;
         }
         private StringContent GetStringContent(string data)
         {
-            return new StringContent(data, Encoding.GetEncoding("iso-8859-1"), string.IsNullOrEmpty(_contentType) ? CONTENT_TYPE_APP_JSON : _contentType);
+            return new StringContent(data, _encoding, string.IsNullOrEmpty(_contentType) ? CONTENT_TYPE_APP_JSON : _contentType);
         }
 
 
         public void AddHeaders(Dictionary<string, string> headers)
         {
-            if (headers != null)
+            if (headers is null) { return; }
+            foreach (var key in headers.Keys)
             {
-                foreach (var key in headers.Keys)
-                {
-                    this.headers.Add(key, headers[key]);
-                }
+                this.headers.Add(key, headers[key]);
             }
         }
 
@@ -116,12 +112,9 @@ namespace Decidir.Clients
                         default:
                             throw new NotSupportedException($"El método HTTP {httpMethod} no es soportado.");
                     }
-
-                    response.EnsureSuccessStatusCode();
                     var resultstr = await response.Content.ReadAsStringAsync();
 
                     result.StatusCode = (int)response.StatusCode;
-
 
                     if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created
                         && response.StatusCode != HttpStatusCode.NoContent && response.StatusCode != HttpStatusCode.Accepted)
@@ -167,8 +160,6 @@ namespace Decidir.Clients
         {
             return await DoRequest(EHttpMethod.DELETE, url, null, cancellationToken);   
         }
-
-     
         public async Task<RestResponse> PutAsync(string url, string data = null, CancellationToken cancellationToken = default)
         {
             return await DoRequest(EHttpMethod.PUT, url, data, cancellationToken);  

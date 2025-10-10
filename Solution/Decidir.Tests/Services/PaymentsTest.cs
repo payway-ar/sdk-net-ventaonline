@@ -4,6 +4,7 @@ using Decidir.Model;
 using Decidir.Constants;
 using System;
 using Decidir.Model.CyberSource;
+using Decidir.Tests;
 
 namespace DecidirTest.Services
 {
@@ -13,14 +14,14 @@ namespace DecidirTest.Services
         [TestMethod]
         public void GetAllPaymentsTest()
         {
-            DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+            DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, Configuration.PrivateKey, Configuration.PublicKey);
             GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
 
             try
             {
-                pagos = decidir.GetAllPayments(null, null, null, "00030118");
+                pagos = decidir.GetAllPayments(0, 10, "93007223", null);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Assert.AreEqual(true, false);
             }
@@ -31,7 +32,7 @@ namespace DecidirTest.Services
         [TestMethod]
         public void PaymentCSRetailTest()
         {
-            DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+            DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, Configuration.PrivateKey, Configuration.PublicKey);
             Payment data = new Payment();
             string paymentJson;
 
@@ -61,7 +62,7 @@ namespace DecidirTest.Services
         [TestMethod]
         public void PaymentCSDigitalGoodsTest()
         {
-            DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+            DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, Configuration.PrivateKey, Configuration.PublicKey);
             Payment data = new Payment();
             string paymentJson;
 
@@ -91,7 +92,7 @@ namespace DecidirTest.Services
         [TestMethod]
         public void PaymentCSTicketingTest()
         {
-            DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+            DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, Configuration.PrivateKey, Configuration.PublicKey);
             Payment data = new Payment();
             string paymentJson;
 

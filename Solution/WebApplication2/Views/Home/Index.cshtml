@@ -43,12 +43,12 @@
             case "UAT":
                 decidir = new Decidir('https://developers-ventasonline.payway.com.ar/api/v2', true);
                 decidir.setPublishableKey('M5uUE5FilmeiXbaiTAjjY0CMd07zZHXW');
-                decidir.setUpAgro($formAgro, 184, amount);
+               // decidir.setUpAgro($formAgro, 184, amount);
                 break;
             case "PRO":
                 decidir = new Decidir('https://live.decidir.com/api/v2', false);
                 decidir.setPublishableKey('c035848c2d7d417c8803cfe258a3864c');
-                decidir.setUpAgro($formAgro, 184, amount);
+                //decidir.setUpAgro($formAgro, 184, amount);
                 break;
             default:
                 return false;

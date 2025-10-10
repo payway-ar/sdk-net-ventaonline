@@ -2,7 +2,7 @@
 using Decidir.Exceptions;
 using Decidir.Model;
 using Decidir.Model.CyberSource;
-
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Decidir.Tests
 {
     [TestClass]
@@ -15,7 +15,7 @@ namespace Decidir.Tests
         [TestMethod]
         public void PaymentTest()
         {
-            DecidirConnector decidir = new DecidirConnector(request_host, request_path, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+            DecidirConnector decidir = new DecidirConnector(request_host, request_path, Configuration.PrivateKey, Configuration.PublicKey);
             PaymentResponse resultPaymentResponse = new PaymentResponse();
             GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
 
@@ -47,7 +47,7 @@ namespace Decidir.Tests
           [TestMethod]
           public void GetPaymentInfoTest()
           {
-              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, Configuration.PrivateKey, Configuration.PublicKey);
               CardData data = GetCardData();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               PaymentResponse paymentInfoResponse = new PaymentResponse();
@@ -78,7 +78,7 @@ namespace Decidir.Tests
           [TestMethod]
           public void PaymentCSRetailTest()
           {
-              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, Configuration.PrivateKey, Configuration.PublicKey);
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
 
@@ -106,7 +106,7 @@ namespace Decidir.Tests
           [TestMethod]
           public void PaymentCSDigitalGoodsTest()
           {
-              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, Configuration.PrivateKey, Configuration.PublicKey);
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
 
@@ -134,7 +134,7 @@ namespace Decidir.Tests
           [TestMethod]
           public void PaymentCSTicketingTest()
           {
-              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, Configuration.PrivateKey, Configuration.PublicKey);
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
 
@@ -162,7 +162,7 @@ namespace Decidir.Tests
           [TestMethod]
           public void RefundTest()
           {
-              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, Configuration.PrivateKey, Configuration.PublicKey);
               CardData data = GetCardData();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
@@ -194,7 +194,7 @@ namespace Decidir.Tests
           [TestMethod]
           public void AnulacionRefundTest()
           {
-              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, Configuration.PrivateKey, Configuration.PublicKey);
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
               RefundPaymentResponse refund = new RefundPaymentResponse();
@@ -227,7 +227,7 @@ namespace Decidir.Tests
           [TestMethod]
           public void PartialRefundTest()
           {
-              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, Configuration.PrivateKey, Configuration.PublicKey);
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();
               RefundPaymentResponse refund = new RefundPaymentResponse();
@@ -259,7 +259,7 @@ namespace Decidir.Tests
           [TestMethod]
           public void AnulacionPartialRefundTest()
           {
-              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, "566f2c897b5e4bfaa0ec2452f5d67f13", "b192e4cb99564b84bf5db5550112adea");
+              DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, Configuration.PrivateKey, Configuration.PublicKey);
               CardData data = GetCardData();
               PaymentResponse resultPaymentResponse = new PaymentResponse();
               GetAllPaymentsResponse pagos = new GetAllPaymentsResponse();

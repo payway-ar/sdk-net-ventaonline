@@ -1,7 +1,7 @@
 ﻿using System;
 using Decidir.Model;
 using Newtonsoft.Json;
-
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Decidir.Tests
 {
     internal class CardData

@@ -1,5 +1,5 @@
 ﻿using Decidir.Model;
-
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Decidir.Tests.Model
 {
     [TestClass]

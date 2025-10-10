@@ -3,7 +3,6 @@ using Decidir.Constants;
 using Decidir.Model;
 using Decidir.Model.CyberSource;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
@@ -16,7 +15,7 @@ namespace WebApplication2.Controllers
             _httpClientFactory = httpClientFactory;
         }
         [HttpPost]
-        public IActionResult PerformPayment()
+        public async Task<IActionResult> PerformPayment()
         {
             int ambiente = Ambiente.AMBIENTE_SANDBOX;
             DecidirConnector decidir = null;
@@ -30,7 +29,7 @@ namespace WebApplication2.Controllers
                     privatekey = "815898d1f3f14e718446f341f5f699e7";
                     publickey = "c035848c2d7d417c8803cfe258a3864c";
                     siteid = "93005849";
-                    decidir = new DecidirConnector(_httpClientFactory, ambiente, privatekey, publickey);
+                    decidir = new DecidirConnector(ambiente, privatekey, publickey);
                     payment = GetPaymentPRO(siteid);    
                     break;
 
@@ -38,25 +37,25 @@ namespace WebApplication2.Controllers
                     privatekey = "QqteObli0eb9429AvP2MAPKkUoSz8r3V";
                     publickey = "M5uUE5FilmeiXbaiTAjjY0CMd07zZHXW";
                     siteid = "93007223";
-                    decidir = new DecidirConnector(_httpClientFactory, ambiente, privatekey, publickey, "", "", "", "");
+                    decidir = new DecidirConnector(ambiente, privatekey, publickey, "", "", "", "");
                     payment = GetPaymentUAT(siteid);
                     break;
 
             }
 
-            HealthCheckResponse healthCheckResponse = decidir.HealthCheck();
+            HealthCheckResponse healthCheckResponse = await decidir.HealthCheckAsync(CancellationToken.None);
 
 
-            //Para el ambiente de desarrollo
+            //Para el Ambiente de desarrollo
 
             string lastfourdigits = Request.Form["last4digits"];
             
             try
             {
                 
-                var response = decidir.Payment(payment);
+                var response = await decidir.PaymentAsync(payment, CancellationToken.None);
 
-                return Ok(response);
+                return Ok(new { Payment = response });
 
             }
             catch (Exception ex)
@@ -82,7 +81,7 @@ namespace WebApplication2.Controllers
             payment.description = "NUTKUT PRUEBA";
             payment.payment_type = "single";
             payment.establishment_name = "NUTPORT**CODFACTURA";
-
+            
             var address = new Address
             {
                 email = "llermanos@hotmail.com",
@@ -122,7 +121,7 @@ namespace WebApplication2.Controllers
                     ship_to = address,
                     tax_voucher_required = false
                 },
-
+                
                 csmdds = new List<Csmdds>
                 {
                      new Csmdds{ code=18, description="Compra Online" }
