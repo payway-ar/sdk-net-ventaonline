@@ -116,7 +116,12 @@
     <Compile Include="Model\CyberSource\Csmdds.cs" />
     <Compile Include="Model\CyberSource\Customer.cs" />
     <Compile Include="Model\CyberSource\FraudDetection.cs" />
-    <Compile Include="Model\ErrorResponse.cs" />
+	  <Compile Include="Model\CyberSource\FraudDetectionResponse.cs" />
+	  <Compile Include="Model\CyberSource\FraudDetectionStatus.cs" />
+	  <Compile Include="Model\CyberSource\Review.cs" />
+	  <Compile Include="Model\CyberSource\ReviewComments.cs" />
+	  <Compile Include="Model\CardDataFD.cs" />
+	  <Compile Include="Model\ErrorResponse.cs" />
     <Compile Include="Model\ErrorValidationResponse.cs" />
     <Compile Include="Model\GetAllCardTokensResponse.cs" />
     <Compile Include="Model\GetAllPaymentsResponse.cs" />
@@ -154,9 +159,12 @@
     <Compile Include="Services\UserSite.cs" />
     <Compile Include="Model\ValidateData.cs" />
     <Compile Include="Model\TransactionData.cs" />
+	<Compile Include="Model\ErrorType.cs" />
+	<Compile Include="Model\ValidationError.cs" />
+	  
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
