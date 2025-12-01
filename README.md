@@ -683,7 +683,7 @@ Este servicio permite integrar en el comercio un formulario de pago. Utiliza el 
 |customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
 |customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
 |payment.amount  | Monto de la compra  | SI | Numérico |   |
-|payment.currency  | Tipo de moneda  | NO | Letras |   |
+|payment.currency  | Tipo de moneda  | NO | Letras | "ARS" o "USD"  |
 |payment.payment_method_id  | Id del medio de pago  | SI | Númerico |   |
 |payment.bin  | Primeros 6 dígitos de la tarjeta  | NO | Númerico |   |
 |payment.installments  | Cantidad de cuotas  | SI | Númerico |   |
@@ -1609,7 +1609,6 @@ https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-imp
 | AR$ | Pesos Argentinos | ARS |
 | U$S | Dólares Americanos | USD | 
 
-**NOTA** Si bien la API RESTful de Payway admite compras en Dólares Americanos, la legislación argentina sólo permite transacciones en Pesos Argentinos. Es por esto que Payway recomienda que todas las transacciones se cursen en dicha moneda.
 
 [<sub>Volver a inicio</sub>](#inicio)
 
