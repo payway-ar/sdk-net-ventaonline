@@ -25,6 +25,7 @@
         public bool enabled { get; set; }
         public string merchant_email { get; set; }
         public string merchant_phone { get; set; }
+        public string seller_id { get; set; }
 
     }
 }
