@@ -27,9 +27,10 @@ Modulo para conexión con gateway de pago Payway
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
       + [Campo TID](#payment-TID)
+      + [Ejecución del pago comercio agregador](#payment-agregator)
       + [Ejecución del pago PCI](#pci)
       + [Ejecución del pago PCI Tokenizado](#payment-pci-tokenizado)
-      + [Ejecución de pago simple con 3ds](#payment-simple-3ds)
+      + [Ejecución de pago simple con 3DS](#payment-simple-3ds)
       + [Ejecución del Pago Offline](#offlinepayment)
       + [Formulario de Pago](#getvalidateform)
       + [Listado de Pagos](#getallpayments)
@@ -192,7 +193,7 @@ La versi&oacute;n implementada de la SDK, esta testeada para versiones desde .ne
 
 ### Manual de Integración
 
-Se encuentra disponible la documentación **[Manual de Integración Payway](https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios utilizando la presente SDK.
+Se encuentra disponible la documentación **[Manual de Integración Payway](https://documentacion-ventasonline.payway.com.ar/docs/sdk-s/wcbxzncsdl0va-alcance#manual-de-integraci%c3%b3n)** para su consulta online, en este detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios utilizando la presente SDK.
 
 [<sub>Volver a inicio</sub>](#inicio)
 
@@ -409,6 +410,39 @@ Solo se retorna en transacciones aprobadas por las marcas.
 ```
 [<sub>Volver a inicio</sub>](#Inicio)
 
+<a name="payment-agregator"></a>
+
+### Ejecución de pago de comercio agregador
+
+El objeto `aggregate_data` se utiliza para informar los datos del sub-comercio dentro de una operación realizada por un **comercio agregador**.
+
+| Campo                   | Tipo    | Obligatorio | Descripción                                                                 | Observaciones |
+|-------------------------|---------|-------------|------------------------------------------------------------------------------|---------------|
+| product                 | string  | Condicional | Producto asociado a la transacción                                          | — |
+| origin_country          | string  | Condicional | País de origen del comercio (código numérico)                               | Ej: `"032"` |
+| merchant_id             | string  | Condicional | Identificador del comercio                                                  | — |
+| merchant_url            | string  | Condicional | URL del comercio                                                             | — |
+| aggregator_name         | string  | Condicional | Nombre del agregador                                                         | Ej: `"payfact"` |
+| gateway_id              | string  | Condicional | Identificador del gateway asociado                                          | Ej: `"payway"` |
+| indicator               | string  | Condicional | Indicador del tipo de operación                                             | — |
+| identification_number  | string  | Condicional | Número de identificación fiscal del comercio                                | Cuit / RUT |
+| bill_to_pay             | string  | Condicional | Referencia de la factura a pagar                                             | — |
+| bill_to_refund          | string  | Condicional | Referencia de la factura a devolver                                          | — |
+| merchant_name           | string  | Condicional | Nombre comercial del sub-comercio                                           | — |
+| street                  | string  | Condicional | Calle del comercio                                                           | — |
+| number                  | string  | Condicional | Número de dirección                                                         | — |
+| postal_code             | string  | Condicional | Código postal                                                                | — |
+| category                | string  | Condicional | Categoría del comercio                                                      | Código MCC |
+| channel                 | string  | Condicional | Canal de venta                                                               | Ej: `"005"` ecommerce |
+| geographic_code         | string  | Condicional | Código geográfico                                                            | — |
+| city                    | string  | Condicional | Ciudad                                                                       | — |
+| province                | string  | Condicional | Provincia                                                                    | — |
+| country                 | string  | Condicional | País                                                                         | Ej: `"Argentina"` |
+| merchant_email          | string  | Condicional | Email del comercio                                                           | — |
+| merchant_phone          | string  | Condicional | Teléfono del comercio                                                        | — |
+| seller_id               | string  | **Solo Amex** | **Identificador del vendedor asignado por American Express**                | **Se envía únicamente cuando `payment_method_id` es Amex** |
+
+
 <a name="pci"></a>
 ### Ejecución del pago PCI
 
@@ -459,10 +493,16 @@ aagregate_data.channel: "005";
 aagregate_data.geographic_code: "C1437";
 aagregate_data.city: "Ciudad de Buenos Aires";
 aagregate_data.merchant_id: "decidir_Agregador";
-aagregate_data.province: "Buenos Aires";
-aagregate_data.country: "Argentina";
+aagregate_data.province: "B";
+aagregate_data.country: "ARG";
 aagregate_data.merchant_email: "qa@decidir.com";
 aagregate_data.merchant_phone: "+541135211111";
+aagregate_data.product: "producto_x";
+aagregate_data.origin_country: "032";
+aagregate_data.merchant_url: "http://merchant-url";
+aagregate_data.aggregator_name: "payfact";
+aagregate_data.gateway_id: "payway";
+aagregate_data.seller_id: "seller_123";
 
 payment.aggregate_data = aaggregate_data;
 
@@ -527,8 +567,8 @@ aagregate_data.channel: "005";
 aagregate_data.geographic_code: "C1437";
 aagregate_data.city: "Ciudad de Buenos Aires";
 aagregate_data.merchant_id: "decidir_Agregador";
-aagregate_data.province: "Buenos Aires";
-aagregate_data.country: "Argentina";
+aagregate_data.province: "B";
+aagregate_data.country: "ARG";
 aagregate_data.merchant_email: "qa@decidir.com";
 aagregate_data.merchant_phone: "+541135211111";
 aggregateData.product: "producto_x";
@@ -536,6 +576,7 @@ aggregateData.origin_country: "032";
 aggregateData.merchant_url: "http://merchant-url";
 aggregateData.aggregator_name: "payfact";
 aggregateData.gateway_id: "payway";
+aggregateData.seller_id: "seller_123";
 
 payment.aggregate_data = aaggregate_data;
 
@@ -561,7 +602,7 @@ catch (PaymentResponseException){}
 
 <a name="payment-simple-3ds"></a>
 
-### Ejecución de pago simple con 3ds
+### Ejecución de pago simple con 3DS
 En este caso se necesita agregar el flag "cardholder_auth_required" en true y se le debe pasar el objeto "auth_3ds_data". 
 
 ```C#
@@ -1590,19 +1631,21 @@ resultPaymentResponse = decidir.Payment(payment);
 
 ## Tablas de Referencia
 
+
 <a name="codigos-de-medios-de-pago"></a>
 
 ### Códigos de Medios de pago
 
-https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-implementador/medios-de-pago-disponibles
+[Medios de pago disponibles](https://documentacion-ventasonline.payway.com.ar/docs/gateway/3jw3eiapx1jwu-medios-de-pago#medios-de-pago-disponibles)
 
-1. Visa Debito no acepta devoluciones parciales en ecommerce.
+1. Visa Debito no acepta devoluciones parciales en e-commerce.
 
-[<sub>Volver a inicio</sub>](#inicio)
+[Volver al inicio](#Inicio)
 
 <a name="divisasa"></a>
+### Divisas Aceptadas 
 
-### Divisas Aceptadas
+[Medios de pago con Divisas Aceptadas](https://documentacion-ventasonline.payway.com.ar/docs/gateway/3jw3eiapx1jwu-medios-de-pago#divisas-aceptadas)
 
 | Divisa | Descripción | Código API
 ---------|-------------|--------
@@ -1615,6 +1658,8 @@ https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-imp
 <a name="provincias"></a>
 
 ### Provincias
+
+[Códigos de Provincia para Cybersource](https://documentacion-ventasonline.payway.com.ar/docs/gateway/vwd3zic062ibr-manejo-de-errores-cyber-source#c%c3%b3digos-de-provincias-para-cybersource)
 
 | Provincia | Código |
 |----------|-------------|
