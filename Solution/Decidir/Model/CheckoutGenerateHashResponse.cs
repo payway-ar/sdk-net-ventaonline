@@ -7,7 +7,6 @@ namespace Decidir.Model
 {
     public class CheckoutGenerateHashResponse
     {
-        public string payment_id { get; set; }
-        public string status { get; set; }
+        public string payment_link { get; set; }
     }
 }

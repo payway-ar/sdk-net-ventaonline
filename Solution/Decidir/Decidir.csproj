@@ -54,6 +54,7 @@
     <Compile Include="Clients\RestResponse.cs" />
     <Compile Include="Constants\Ambiente.cs" />
     <Compile Include="Exceptions\CheckoutResponseException.cs" />
+	<Compile Include="Model\CheckoutFraudDetectionDataRequest.cs" />
     <Compile Include="Model\CheckoutGenerateHashResponse.cs" />
     <Compile Include="Model\CheckoutProductModel.cs" />
     <Compile Include="Model\CheckoutRequest.cs" />

@@ -28,7 +28,7 @@ namespace Decidir.Services
             CheckoutResponse checkoutResponse = new CheckoutResponse();
             this.Headers["apikey"] = this.PrivateApiKey;
             this.RestClientCheckout = new RestClient(this.EndPointCheckout, this.Headers, CONTENT_TYPE_APP_JSON);
-            RestResponse result = this.RestClientCheckout.Post("payments/link", CheckoutRequest.toJson(checkoutRequest));
+            RestResponse result = this.RestClientCheckout.Post("link", CheckoutRequest.toJson(checkoutRequest));
 
             Console.WriteLine("RESULTADO DE GENERACION DE LINK: " + result.StatusCode + " " + result.Response);
 

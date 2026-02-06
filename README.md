@@ -712,110 +712,77 @@ catch (ResponseException)
 
 <a name="getvalidateform"></a>
 
-Este servicio permite integrar en el comercio un formulario de pago. Utiliza el recurso "validate" para obtener un hash a partir de los datos de la operacion, luego este hash sera utilizado al momento de llamar al recurso "form" el cual devolvera el formulario renderizado propio para cada comercio listo para ser utilizado y completar el flujo de pago.
+Este servicio permite integrar un formulario de pago en el comercio. Primero, utiliza el recurso **checkoutHash** para generar un hash basado en los datos de la operación. Luego, este hash se emplea al invocar el recurso payments/link, el cual devuelve un enlace personalizado para el formulario de pago del comercio, listo para ser utilizado y completar el flujo de pago.
 
-![Caso2](docs/img/validate_caso2.png)</br>
+Una vez generado el link de pago, el formulario se visualiza accediendo a las siguientes URLs según el ambiente configurado en el SDK:
 
-|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-|site.id  | Merchant  | Condicional | Numérico de 20 digitos   | id: "12365436"  |
-|site.template.id  | Id de formulario de pago, el id es unico para cada comercio y es generado previamente por Payway | SI | Numérico de 20 digitos  |   |
-|site.transaction_id  | Numero de operación  | SI | Alfanumérico  de 40 digitos |   |
-|customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
-|customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
-|payment.amount  | Monto de la compra  | SI | Numérico |   |
-|payment.currency  | Tipo de moneda  | NO | Letras | "ARS" o "USD"  |
-|payment.payment_method_id  | Id del medio de pago  | SI | Númerico |   |
-|payment.bin  | Primeros 6 dígitos de la tarjeta  | NO | Númerico |   |
-|payment.installments  | Cantidad de cuotas  | SI | Númerico |   |
-|payment.payment_type  | Indica si es simple o distribuida  | SI | Valores posibles: "single", "distributed" |   |
-|payment.sub_payments  | Se utiliza para pagos distribuidos. Informa los subpayments  | Es requerido si el
-pago es distribuido por monto, ya que si es por porcentaje toma los configurados desde Adm Sites (SAC) | NA |   |
-|success_url  | Url a donde se rediccionará una vez que el usuario finalice la operación desde la página de feedback  | SI | Númerico |   |
-|cancel_url  | Url donde se rediccionará si el cliente quiere cancelar el formulario  | SI | NA |   |
-|redirect_url  | Url en la cual se enviaran los datos de la operación una vez finalizada la misma para que el comercio pueda capturarlos y mostrarlos como lo desee  | Es requerido en los casos donde no informe el campo "success_url" | NA |   |
+- **Sandbox**: `https://developers.decidir.com/web/checkout/{payment_id}`
+- **Producción**: `https://ventasonline.payway.com.ar/web/checkout/{payment_id}`
+
+Donde `{payment_id}` corresponde al identificador del pago devuelto por la API al crear el link de pago.
+
+## Aclaraciones
+
+> ⚠️  Los siguientes campos aplican **exclusivamente para comercios del rubro RETAIL**.   ⚠️ 
 
 
+| Campo                 | Descripción                                                                                  | Obligatorio       | Restricciones                                            | Ejemplo                          |
+|-----------------------|----------------------------------------------------------------------------------------------|-------------------|---------------------------------------------------------|----------------------------------|
+| origin_platform       | Plataforma de origen desde la cual se realiza la operación                                   | Sí                | Alfanumérico                                            | "SDK-Node"                       |
+| payment_description   | Descripción del pago                                                                         | No                | Alfanumérico                                            | "TEST"                           |
+| currency              | Tipo de moneda                                                                               | Sí                | Letras                                                  | "ARS" / "USD"                    |
+| total_price           | Precio total de la operación                                                                 | Sí                | Numérico                                                | 39.98                            |
+| site                  | Identificador único del comercio                                                             | Sí                | Numérico                                                | "00097002"                       |
+| success_url           | URL a la que se redirige cuando se completa la operación con éxito. Es requerida si **no** se envía `redirect_url` | Sí | URL válida                                   | "https://www.lanacion.com/"      |
+| redirect_url          | URL a la que se redirige con los datos de la operación finalizada. Es requerida si **no** se envía `success_url` | No | URL válida                                   | "https://www.infobae.com/"       |
+| cancel_url            | URL a la que se redirige si el cliente cancela el formulario                                 | Sí                | URL válida                                              | "https://www.clarin.com/"        |
+| notifications_url     | URL donde se enviarán notificaciones relacionadas con la operación                           | Sí                | URL válida                                              | "https://www.mitienda.com/notificaciones" |
+| template_id           | Identificador de la plantilla del formulario de pago                                         | Sí                | Numérico (**1 = sin Cybersource**, **2 = con Cybersource**) | 1                                |
+| installments          | Cantidad de cuotas posibles                                                                  | Sí                | Array de números                                        | [1]                              |
+| id_payment_method     | Identificador del método de pago a utilizar (opcional; por defecto incluye todos los métodos) | No               | Numérico                                                | 31                               |
+| plan_gobierno         | Indica si se utiliza un plan de financiamiento de cuotas (por ejemplo: Plan Ahora, MiPyME, etc.) | Sí            | Valores posibles: `true`, `false`                      | false                            |
+| public_apikey         | Clave pública de autenticación                                                               | Sí                | Alfanumérico                                            | "YKcWXjI2aoSnp60urwLd6TbLYNuybcWC" |
+
+### CONSIDERACIONES: 
+
+> ⚠️ **IMPORTANTE – `template_id` y uso de Cybersource**
+> - `template_id = 1` → Checkout estándar **sin Cybersource** (transacción sin control de fraude Cybersource).
+> - `template_id = 2` → Checkout **con Cybersource habilitado** (misma operatoria, pero con evaluación antifraude).
+>
+> Asegúrate de seleccionar el `template_id` correcto según el flujo configurado para tu comercio.
+
+#### Ejemplo
+Los campos payment_description y products son mutuamente excluyentes. No deben enviarse juntos en la misma request. Si ambos son enviados, la solicitud será rechazada.
 ```C#
+            var request = new CheckoutRequest
+            {
+                origin_platform = "SDK-NET",
+                payment_description = "Remera",
+                currency = "ARS",
+                total_price = 2500.49,
+                site = "12345678",
+                success_url = "https://www.mitienda.com/compra-exitosa",
+                redirect_url = "https://www.mitienda.com/datos-operacion",
+                cancel_url = "https://www.mitienda.com/cancelacion",
+                notifications_url = "https://www.mitienda.com/notificaciones",
+                template_id = 1,
+                installments = new[] { 3 },
+                id_payment_method = 1,
+                plan_gobierno = false,
+                public_apikey = "e9cdb99fff374b5f91da4480c8dca741",
 
-//Para esta funcion es necesario enviar junto al public y private key el "form_key".
- /****************  VALIDATE *******************/
-    ValidateCustomer validateCustomer = new ValidateCustomer();
-    validateCustomer.email = "user@mail.com";
-    validateCustomer.id = "user@mail.com";
-    SiteInfo site = new SiteInfo();
-    TemplateValidate template =new TemplateValidate();
-    template.id = 5;
-    site.transaction_id = "1";
-    site.template = template;
+            };
+      
+            string privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
 
+            //Para el ambiente SANDBOX
+            DecidirConnector decidir = new DecidirConnector(ambiente, privateApikey, "", null, null, "grouper-sdk-net", "developer-sdk-net");
 
-    ValidateData validateData = new ValidateData();
-    validateData.site = site;
-    validateData.customer = validateCustomer;
-
-    ValidatePayment validatePayment = new ValidatePayment();
-    validatePayment.amount = 500;
-    validatePayment.currency = "ARS";
-    validatePayment.payment_method_id = 1;
-    validatePayment.bin = "45979";
-    validatePayment.installments = 4;
-    validatePayment.payment_type = "single";
-    validatePayment.sub_payments = new List<object>();
-
-    validateData.payment = validatePayment;
-
-
-    validateData.success_url = "https://shop.swatch.com/es_ar/";
-    validateData.redirect_url = null;  // si success_url esta vacio redirect_url es requerido
-    validateData.cancel_url = "https://swatch.com/api/result";
-    // En este ejemplo se utiliza el vertical Travel el cual debe ser completado con sus respectivos campos 
-    TravelFraudDetection travel = new TravelFraudDetection();
-    validateData.fraud_detection = retail; 
-
-    String privateApiKey = "92b71cf711ca41f78362a7134f87ff65";
-    String publicApiKey = "e9cdb99fff374b5f91da4480c8dca741";
-    String validateApiKey = "5cde7e72ea1e430db94d436543523744";
-    String merchant = "00020621";
-
-    //Para el ambiente de desarrollo
-    DecidirConnector decidir = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, privateApiKey, publicApiKey, validateApiKey, merchant);
-
-    //validateData.fraud_detection = new Dictionary<string, object>(); // travel;
-    ValidateResponse ValidateResponse = decidir.Validate(validateData);
+            CheckoutResponseDto response = decidir.CheckoutHash(checkoutRequest);
+    })
 
 ```
 
-#### Respuesta servicio validate
-
-```C#
-
-{
-"statusCode":201,
-"hash":"a1652d02-ba6e-427e-833f-b686efeed29f"
-}
-
-```
-
-### Formulario Renderizado
-
-Utiliza el siguiente enlace para generar dinámicamente un formulario a partir de un hash específico:
-
- - Ambiente Developers (Sandbox) ->  *https://developers.decidir.com/web/forms/4daa07cf-40b8-42ba-b2af-38c26ada763f?apikey=9pX3bRdGqZfV7JhY6Nk2L1oM4sT5wI8e*
- - Ambiente Productivo -> *https://ventasonline.payway.com.ar/web/forms/83bbf463-950f-4af4-9a0c-eb651cef0cp4?apikey=9pX3bRdGqZfV7JhY6Nk2L1oM4sT5wI8e*
-
- ⚠️  **A tener en cuenta:** Cada ambiente tiene su propia API key (ya sea para desarrollo o producción) y estas no deben usarse fuera de su respectivo ambiente. ⚠️
-
-**Composición:**
-
-*https:{ruta-ambiente-payway}/web/forms/{hash-generado}?apikey={apikey-publica}*
-
-Este enlace compone la URL para acceder al formulario, donde `{hash}` es el hash que tuvimos como respuesta y sirve para renderizar el formulario y `{apikey-publica}` es la clave pública requerida para la autenticación.
-
-Este enlace te llevará al formulario específico basado en el hash generado.
-
-
-![Formulario de pago](docs/img/form_renderizado.jpg)</br>
 
 [<sub>Volver a inicio</sub>](#inicio)
 

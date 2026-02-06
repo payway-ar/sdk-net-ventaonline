@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Decidir.Model;
 
 namespace Decidir.Model
 {
@@ -28,6 +29,15 @@ namespace Decidir.Model
         public int? id_payment_method { get; set; }
 
         public string public_apikey { get; set; }
+
+        public string establishment_number { get; set; }
+
+        public string cuit {  get; set; }
+
+        public string currency {  get; set; }
+
+        public CheckoutFraudDetectionDataRequest fraud_detection {  get; set; }
+
 
         public static string toJson(Object payment)
         {

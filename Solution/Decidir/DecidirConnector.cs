@@ -13,21 +13,21 @@ namespace Decidir
         public const string versionDecidir = "1.4.8";
 
         private const string request_host_sandbox = "https://developers.decidir.com";
-        private const string request_host_production = "https://live.decidir.com";
+        private const string request_host_production = "https://ventasonline.payway.com.ar";
         private const string request_host_qa = "http://decidir.payway-qa.tanzu.intra";
         private const string request_host_desa = "http://decidir.payway-dev.tanzu.intra";
         private const string request_path_payments = "/api/v2/";
         private const string request_path_validate = "/web/";
         private const string request_path_closureQA = "/api/v1/";
         private const string request_path_internal_token = "/api/v1/transaction_gateway/";
-        private const string request_path_checkout_production = "/api/checkout/";
-        private const string request_path_checkout_sandbox = "/api/checkout/";
-        private const string request_path_checkout_qa = "/api/orchestrator/checkout/";
+        private const string request_path_checkout_production = "/api/v1/checkout-payment-button/";
+        private const string request_path_checkout_sandbox = "/api/v1/checkout-payment-button/";
+        private const string request_path_checkout_qa = "/api/v1/checkout-payment-button/";
 
         private const string endPointSandbox = request_host_sandbox + request_path_payments; // https://developers.decidir.com/api/v2/;
         private const string endPointProduction = request_host_production + request_path_payments; //https://live.decidir.com/api/v2/;
         private const string endPointQA = request_host_qa + request_path_payments; //https://qa.decidir.com/api/v2/;
-        private const string endPointDesa = request_host_desa + request_path_payments; //https://dev.decidir.com/api/v2/;
+        private const string endPointDesa = request_host_desa + request_path_payments; //https://decidir.payway-dev.tanzu.intra/api/;
         private const string endPointQAClosure = request_host_qa + request_path_closureQA;
         private const string endPointDesaClosure = request_host_desa + request_path_closureQA;
 
