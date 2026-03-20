@@ -20,12 +20,12 @@ El flujo de una transacción a través de las **sdks** consta de dos pasos, la *
 ## Soporte de Integración
 
 **Payway** ofrece un servicio de Soporte 24x7 con el siguiente alcance:
- • Lunes a Viernes de 9 a 18 horas: Soporte Técnico, Atención Comercial y Soporte Transaccional.
- • Fuera de Horario Laboral: Control de Red.
+ + Lunes a Viernes de 9 a 18 horas: Soporte Técnico, Atención Comercial y Soporte Transaccional.
+ + Fuera de Horario Laboral: Control de Red.
  ### CANALES DE ATENCIÓN
- • Teléfono: +54 11 4379 3460 
- • Implementaciones: integraciones-ventasonline@payway.com.ar 
- • Control de Red: controldered@payway.com.ar (en caso de disrupción transaccional)
+ + Teléfono: +54 11 4379 3460 
+ + Implementaciones: integraciones-ventasonline@payway.com.ar 
+ + Control de Red: controldered@payway.com.ar (en caso de disrupción transaccional)
 
-## Consult&aacute;n la documentaci&oacute;n
+## Consult&aacute; la documentaci&oacute;n
 NET - API Doc ->  [sdk NET API Doc](https://documentacion-ventasonline.payway.com.ar/docs/sdk-s/wcbxzncsdl0va-alcance)
