@@ -9,9 +9,11 @@ namespace Decidir
     public class DecidirConnectorFactory
     {
         public readonly IDecidirConnector Connector;
+        public readonly DecidirConfig Config;
         public DecidirConnectorFactory(IHttpClientFactory httpClientFactory, DecidirConfig config)
         {
-            Connector = new DecidirConnector(httpClientFactory, config.AmbienteId, config.PrivateKey, config.PublicKey);
+            Config = config;
+            Connector = new DecidirConnector(httpClientFactory, Config.AmbienteId, Config.PrivateKey, Config.PublicKey);
         }
     }
 }

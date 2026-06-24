@@ -14,7 +14,8 @@
         SANDBOX = 0,
         PRD = 1,
         QA = 2,
-        DESA = 3
+        DESA = 3,
+        HOMO = 4,
     }
     public static class Utils
     {
@@ -32,12 +33,13 @@
                     return Ambiente.AMBIENTE_QA;
                 case EAmbiente.DESA:
                     return Ambiente.AMBIENTE_DESA;
+                case EAmbiente.HOMO:
+                    return Ambiente.AMBIENTE_HOMO;
                 default:
                     return -1;
 
             }
         }
     }
-
-  
+      
 }
