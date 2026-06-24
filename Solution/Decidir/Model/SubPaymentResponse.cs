@@ -9,5 +9,6 @@
         public string card_authorization_code { get; set; }
         public long? subpayment_id { get; set; }
         public string status { get; set; }
+        public string tid { get; set; }
     }
 }

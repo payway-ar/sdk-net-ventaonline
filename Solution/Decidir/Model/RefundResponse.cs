@@ -8,5 +8,6 @@
         public string status { get; set; }
 
         public StatusDetails status_details { get; set; }
+        public string tid { get; set; }
     }
 }
