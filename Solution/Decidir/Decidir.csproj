@@ -66,6 +66,7 @@
     <Compile Include="Model\DescriptionError.cs" />
     <Compile Include="Model\ErrorInternalTokenResponse.cs" />
     <Compile Include="Model\GetInternalTokenResponse.cs" />
+    <Compile Include="Model\ExternalPaymentData.cs"/>
     <Compile Include="Exceptions\GetTokenResponseException.cs" />
     <Compile Include="Exceptions\PaymentAuth3dsResponseException.cs" />
     <Compile Include="Exceptions\PaymentResponseException.cs" />
