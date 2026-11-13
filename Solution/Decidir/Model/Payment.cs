@@ -32,7 +32,7 @@ namespace Decidir.Model
         public TokenCardData token_card_data { get; set; }
         public CardData card_data { get; set; }
 
-
+        public ExternalPaymentData external_payment_data { get; set; }
 
 
         public Payment()
@@ -70,6 +70,8 @@ namespace Decidir.Model
             payment.aggregate_data = this.aggregate_data;
             payment.cardholder_auth_required = this.cardholder_auth_required;
             payment.auth_3ds_data = this.auth_3ds_data;
+
+            payment.external_payment_data = this.external_payment_data;
 
             foreach (object o in this.sub_payments)
                 payment.sub_payments.Add(o);
