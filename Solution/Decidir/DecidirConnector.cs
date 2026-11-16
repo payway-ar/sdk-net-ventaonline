@@ -236,6 +236,12 @@ namespace Decidir
             return this.checkoutService.CheckoutHash(CheckoutRequest);
         }
 
+        public CheckoutHistoryResponse CheckoutHistory(HistoryRequest historyRequest)
+        {
+            return this.checkoutService.GetHistory(historyRequest);
+        }
+
+
         private string getXSource(String grouper, String developer)
         {
             Dictionary<string, string> header = new Dictionary<string, string>();
