@@ -241,6 +241,10 @@ namespace Decidir
             return this.checkoutService.GetHistory(historyRequest);
         }
 
+        public List<TransactionDto> CheckoutHistory(String chargeId)
+        {
+            return this.checkoutService.GetTransactionHistory(chargeId);
+        }
 
         private string getXSource(String grouper, String developer)
         {

@@ -155,4 +155,58 @@ namespace Decidir.Services
 
             return string.Join("&", queryParams);
         }
+
+        public List<TransactionDto> GetTransactionHistory(string chargeId)
+        {
+            List<TransactionDto> transactionHistoryResponse = new List<TransactionDto>();
+            this.Headers["apikey"] = this.PrivateApiKey;
+            this.RestClientCheckout = new RestClient(this.EndPointCheckout, this.Headers, CONTENT_TYPE_APP_JSON);
+
+            string endpoint = string.IsNullOrEmpty(chargeId)
+                ? "transaction/history"
+                : "transaction/history?charge_id=" + Uri.EscapeDataString(chargeId);
+
+            RestResponse result = this.RestClientCheckout.Get(endpoint);
+
+            Console.WriteLine("RESULTADO DE CONSULTA DE HISTORIAL DE TRANSACCIONES: " + result.StatusCode + " " + result.Response);
+
+            if (!String.IsNullOrEmpty(result.Response))
+            {
+                if (result.StatusCode != STATUS_OK)
+                {
+                    if (result.StatusCode == STATUS_ERROR)
+                    {
+                        throw new CheckoutHistoryException(
+                            result.StatusCode + " - " + result.Response,
+                            JsonConvert.DeserializeObject<CheckoutHistoryError>(result.Response),
+                            result.StatusCode);
+                    }
+                    else if (isErrorResponse(result.StatusCode))
+                    {
+                        throw new CheckoutHistoryException(
+                            result.StatusCode.ToString(),
+                            JsonConvert.DeserializeObject<CheckoutHistoryError>(result.Response),
+                            result.StatusCode);
+                    }
+                }
+
+                try
+                {
+                    transactionHistoryResponse = JsonConvert.DeserializeObject<List<TransactionDto>>(result.Response);
+                }
+                catch (JsonReaderException j)
+                {
+                    Console.WriteLine("ERROR DE CASTEO: " + j.ToString());
+                    ErrorResponse ErrorPaymentResponse = new ErrorResponse();
+                    ErrorPaymentResponse.code = "502";
+                    ErrorPaymentResponse.error_type = "Error en recepción de mensaje";
+                    ErrorPaymentResponse.message = "No se pudo leer la respuesta";
+                    ErrorPaymentResponse.validation_errors = null;
+                    throw new Exception(ErrorPaymentResponse.code);
+                }
+            }
+
+            return transactionHistoryResponse;
+        }
+
 }
