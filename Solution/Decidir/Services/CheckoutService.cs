@@ -156,15 +156,15 @@ namespace Decidir.Services
             return string.Join("&", queryParams);
         }
 
-        public List<TransactionDto> GetTransactionHistory(string chargeId)
+        public List<TransactionDto> GetTransactionHistory(TransactionHistoryRequest transactionHistoryRequest)
         {
             List<TransactionDto> transactionHistoryResponse = new List<TransactionDto>();
             this.Headers["apikey"] = this.PrivateApiKey;
             this.RestClientCheckout = new RestClient(this.EndPointCheckout, this.Headers, CONTENT_TYPE_APP_JSON);
 
-            string endpoint = string.IsNullOrEmpty(chargeId)
+            string endpoint = string.IsNullOrEmpty(transactionHistoryRequest)
                 ? "transaction/history"
-                : "transaction/history?charge_id=" + Uri.EscapeDataString(chargeId);
+                : "transaction/history?charge_id=" + Uri.EscapeDataString(transactionHistoryRequest);
 
             RestResponse result = this.RestClientCheckout.Get(endpoint);
 

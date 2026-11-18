@@ -161,7 +161,12 @@
     <Compile Include="Model\TransactionData.cs" />
 	<Compile Include="Model\ErrorType.cs" />
 	<Compile Include="Model\ValidationError.cs" />
-	  
+	<Compile Include="Model\Checkout\History\ButtonDto.cs" />
+	<Compile Include="Model\Checkout\History\HistoryRequest.cs" />
+	<Compile Include="Model\Checkout\History\HistoryResponse.cs" />
+	<Compile Include="Model\Checkout\TransactionHistory\TransactionDto.cs" />
+	<Compile Include="Model\Checkout\TransactionHistory\TransactionHistoryRequest.cs" />
+	<Compile Include="Model\Checkout\TransactionHistory\TransactionHistoryResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     

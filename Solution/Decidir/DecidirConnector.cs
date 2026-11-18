@@ -236,14 +236,14 @@ namespace Decidir
             return this.checkoutService.CheckoutHash(CheckoutRequest);
         }
 
-        public CheckoutHistoryResponse CheckoutHistory(HistoryRequest historyRequest)
+        public HistoryResponse CheckoutHistory(HistoryRequest historyRequest)
         {
             return this.checkoutService.GetHistory(historyRequest);
         }
 
-        public List<TransactionDto> CheckoutHistory(String chargeId)
+        public List<TransactionDto> CheckoutHistory(TransactionHistoryRequest transactionHistoryRequest)
         {
-            return this.checkoutService.GetTransactionHistory(chargeId);
+            return this.checkoutService.GetTransactionHistory(transactionHistoryRequest);
         }
 
         private string getXSource(String grouper, String developer)
