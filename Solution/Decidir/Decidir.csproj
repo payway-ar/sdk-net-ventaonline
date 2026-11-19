@@ -167,6 +167,8 @@
 	<Compile Include="Model\Checkout\TransactionHistory\TransactionDto.cs" />
 	<Compile Include="Model\Checkout\TransactionHistory\TransactionHistoryRequest.cs" />
 	<Compile Include="Model\Checkout\TransactionHistory\TransactionHistoryResponse.cs" />
+	<Compile Include="Exceptions\CheckoutHistoryException.cs" />
+	<Compile Include="Model\CheckoutHistoryError.cs" />
   </ItemGroup>
   <ItemGroup>
     
